@@ -1,6 +1,6 @@
-# Core Media Admin Frontend
+# Core Media Group Website
 
-A robust, production-ready Next.js 16 (App Router) administration dashboard architecture.
+A robust, production-ready Next.js 16 (App Router) website.
 
 ## Tech Stack
 
