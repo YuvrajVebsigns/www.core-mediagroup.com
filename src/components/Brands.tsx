@@ -8,7 +8,8 @@ import useScrollAnimation from '@/hooks/useScrollAnimation';
 export default function Brands() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isPausedRef = useRef(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activePage, setActivePage] = useState(0);
+  const cardsPerPage = 3;
 
   const headerRef = useScrollAnimation<HTMLDivElement>({
     animationClass: 'animate-fade-in-left',
@@ -82,15 +83,28 @@ export default function Brands() {
   ];
 
   const scrollLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -350, behavior: 'smooth' });
-    }
+    scrollToPage(activePage - 1);
   };
 
   const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 350, behavior: 'smooth' });
-    }
+    scrollToPage(activePage + 1);
+  };
+
+  const getPageCount = () => Math.ceil(testimonials.length / cardsPerPage);
+
+  const scrollToPage = (pageIndex: number) => {
+    const el = sliderRef.current;
+    if (!el) return;
+
+    const maxPage = getPageCount() - 1;
+    const nextPage = Math.max(0, Math.min(pageIndex, maxPage));
+    const targetIndex = nextPage * cardsPerPage;
+    const child = el.children[targetIndex] as HTMLElement;
+
+    if (!child) return;
+
+    el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
+    setActivePage(nextPage);
   };
 
   useEffect(() => {
@@ -98,17 +112,17 @@ export default function Brands() {
       if (isPausedRef.current) return;
       if (!sliderRef.current) return;
 
-      const maxScroll = sliderRef.current.scrollWidth - sliderRef.current.clientWidth;
+      const maxPage = getPageCount() - 1;
 
-      if (sliderRef.current.scrollLeft >= maxScroll - 10) {
-        sliderRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      if (activePage >= maxPage) {
+        scrollToPage(0);
       } else {
-        sliderRef.current.scrollBy({ left: 350, behavior: 'smooth' });
+        scrollToPage(activePage + 1);
       }
     }, 4500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [activePage]);
 
   useEffect(() => {
     const el = sliderRef.current;
@@ -119,18 +133,22 @@ export default function Brands() {
       if (!children.length) return;
 
       const scrollLeftPos = el.scrollLeft;
-      let nearest = 0;
+      let nearestPage = 0;
       let nearestDist = Infinity;
 
-      children.forEach((child, idx) => {
+      for (let page = 0; page < getPageCount(); page += 1) {
+        const targetIndex = page * cardsPerPage;
+        const child = children[targetIndex];
+        if (!child) continue;
+
         const dist = Math.abs(child.offsetLeft - scrollLeftPos);
         if (dist < nearestDist) {
           nearestDist = dist;
-          nearest = idx;
+          nearestPage = page;
         }
-      });
+      }
 
-      setActiveIndex(nearest);
+      setActivePage(nearestPage);
     };
 
     el.addEventListener('scroll', onScroll);
@@ -143,11 +161,11 @@ export default function Brands() {
     const el = sliderRef.current;
     if (!el) return;
 
-    const child = el.children[idx] as HTMLElement;
+    const child = el.children[idx * cardsPerPage] as HTMLElement;
     if (!child) return;
 
     el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
-    setActiveIndex(idx);
+    setActivePage(idx);
   };
 
   return (
@@ -208,10 +226,10 @@ export default function Brands() {
           </div>
 
           <div className="dialogue-dots">
-            {testimonials.map((_, idx) => (
+            {Array.from({ length: getPageCount() }).map((_, idx) => (
               <button
                 key={idx}
-                className={idx === activeIndex ? 'dialogue-dot active' : 'dialogue-dot'}
+                className={idx === activePage ? 'dialogue-dot active' : 'dialogue-dot'}
                 onClick={() => scrollToIndex(idx)}
               />
             ))}

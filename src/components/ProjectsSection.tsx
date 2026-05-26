@@ -256,25 +256,30 @@ export default function ProjectsSection() {
         </div>
 
         <div className="project-grid">
-          {customEvents.map((item, index) => (
-            <div
-              key={index}
-              className="project-card"
-              ref={index === 0 ? customLeftRef : customRightRef}
-            >
-              <div className="project-image-wrap">
-                <Image src={item.image} alt={item.title} fill className="project-image" />
-              </div>
+          {customEvents.map((item, index) => {
+            const slug = item.title
+              .toLowerCase()
+              .replace(/\s+/g, '-')
+              .replace(/[^a-z0-9-]/g, '');
 
-              <div className="project-overlay">
-                <span className="project-category">{item.category}</span>
+            return (
+              <Link key={index} href={`/events/${slug}`}>
+                <div className="project-card" ref={index === 0 ? customLeftRef : customRightRef}>
+                  <div className="project-image-wrap">
+                    <Image src={item.image} alt={item.title} fill className="project-image" />
+                  </div>
 
-                <div className="project-content">
-                  <h3>{item.title}</h3>
+                  <div className="project-overlay">
+                    <span className="project-category">{item.category}</span>
+
+                    <div className="project-content">
+                      <h3>{item.title}</h3>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </Link>
+            );
+          })}
         </div>
 
         {/* VIDEO SECTION */}

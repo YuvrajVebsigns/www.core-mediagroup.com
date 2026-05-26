@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 
 export default function ContactSection() {
   return (
-    <section className="contact-section">
+    <section className="contact-section" id="contact-section">
       <div className="contact-container">
         {/* LEFT SIDE */}
         <div className="contact-map-area">

@@ -158,13 +158,23 @@ export default function OurDialogues() {
         </div>
 
         {/* Bottom action - More Dialogues button placed below cards */}
-        <div className="project-top-bar" style={{ marginTop: 28 }}>
+        {/* <div className="project-top-bar" style={{ marginTop: 28 }}>
           <div />
           <Link href="/dialoges" className="projects-btn">
             <span>More Dialogues</span>
             <div className="projects-btn-icon">
               <ArrowUpRight size={16} />
             </div>
+          </Link>
+        </div> */}
+
+        <div className="blogs-more">
+          <Link href="/blog" className="blogs-more-btn">
+            <span>More Dialogues</span>
+
+            <span className="blogs-more-icon">
+              <ArrowUpRight size={16} />
+            </span>
           </Link>
         </div>
 

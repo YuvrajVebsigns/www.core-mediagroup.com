@@ -9,7 +9,7 @@ export async function GET() {
       category: 'Showreel',
       author: 'CORE Media',
       date: '10 MAY',
-      image: '/assets/blogs/blog-1.webp',
+      // image: '/assets/blogs/blog-1.webp',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     },
     {
@@ -19,7 +19,7 @@ export async function GET() {
       category: 'BTS',
       author: 'CORE Media',
       date: '22 APR',
-      image: '/assets/blogs/blog-3.webp',
+      // image: '/assets/blogs/blog-3.webp',
       videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
     },
     {

@@ -9,7 +9,6 @@ import FAQSection from '@/components/FAQSection';
 import ContactSection from '@/components/ContactSection';
 import BlogsSection from '@/components/BlogsSection';
 import DialoguesSection from '@/components/DialoguesSection';
-import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
@@ -26,7 +25,6 @@ export default function Home() {
       <ContactSection />
       <BlogsSection />
       <DialoguesSection />
-      <Footer />
       {/* </div> */}
     </main>
   );

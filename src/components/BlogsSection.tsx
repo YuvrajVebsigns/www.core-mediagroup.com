@@ -32,35 +32,35 @@ export default function BlogsSection() {
   const blogs = [
     {
       id: 1,
-      slug: 'innovative-solutions',
-      title: 'Innovative Solutions for every Business Success.',
+      slug: 'bfsi-ai-cloud-digital-transformation',
+      title: 'BFSI Leaders Drive Digital Transformation with AI & Cloud',
       category: 'Business',
       author: 'Ellinien Loma',
       date: '28',
       month: 'FEB',
-      image: '/assets/blogs/blog-1.webp',
+      image: '/assets/blogs/blog-1.png',
     },
 
     {
       id: 2,
       slug: 'digital-transformation',
-      title: 'Harnessing Digital Transform a Roadmap Businesses.',
+      title: 'Infrastructure Modernization and Virtual Workloads On Cloud.',
       category: 'Business',
       author: 'Ellinien Loma',
       date: '28',
       month: 'FEB',
-      image: '/assets/blogs/blog-1.webp',
+      image: '/assets/blogs/blog-2.png',
     },
 
     {
       id: 3,
-      slug: 'change-management',
-      title: 'Mastering Change Management Lessons for Businesses.',
+      slug: 'healthcare-ai-hybrid-cloud',
+      title: 'Healthcare Firms Accelerate AI & Hybrid Cloud Adoption',
       category: 'Business',
       author: 'Ellinien Loma',
       date: '28',
       month: 'FEB',
-      image: '/assets/blogs/blog-3.webp',
+      image: '/assets/blogs/blog-3.png',
     },
   ];
 

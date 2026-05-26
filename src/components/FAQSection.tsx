@@ -67,11 +67,13 @@ export default function FAQSection() {
                   Free Call?
                 </h3>
 
-                <div className="faq-call-icon">
-                  <Phone size={20} />
-                </div>
+                <div className="faq-call-row">
+                  <div className="faq-call-icon">
+                    <Phone size={18} />
+                  </div>
 
-                <a href="tel:18884521505">1-888-452-1505</a>
+                  <a href="tel:18884521505">9970876727</a>
+                </div>
               </div>
             </div>
           </div>

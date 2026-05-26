@@ -2,12 +2,35 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, Menu, ChevronDown, ArrowUpRight } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openServices = () => {
+    if (servicesCloseTimer.current) {
+      clearTimeout(servicesCloseTimer.current);
+      servicesCloseTimer.current = null;
+    }
+
+    setServicesOpen(true);
+  };
+
+  const closeServices = () => {
+    if (servicesCloseTimer.current) {
+      clearTimeout(servicesCloseTimer.current);
+    }
+
+    servicesCloseTimer.current = setTimeout(() => {
+      setServicesOpen(false);
+      servicesCloseTimer.current = null;
+    }, 140);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,11 +48,19 @@ export default function Navbar() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+
+      if (servicesCloseTimer.current) {
+        clearTimeout(servicesCloseTimer.current);
+      }
+    };
   }, [lastScrollY]);
 
   return (
-    <header className={`navbar ${isHidden ? 'navbar-hide' : ''}`}>
+    <header
+      className={`navbar ${isHidden ? 'navbar-hide' : ''} ${mobileOpen ? 'mobile-open' : ''}`}
+    >
       <div className="navbar-container">
         {/* Logo */}
         <Link href="/" className="navbar-logo">
@@ -37,21 +68,21 @@ export default function Navbar() {
         </Link>
 
         {/* Nav Links */}
-        <nav className="navbar-menu">
+        <nav className={`navbar-menu ${mobileOpen ? 'open' : ''}`}>
           <Link href="/" className="nav-link active">
             Home
           </Link>
 
-          <div className="nav-dropdown">
-            <button className="nav-link">
+          {/* <div className="nav-dropdown"> */}
+          {/* <button className="nav-link">
               Pages
               <ChevronDown size={16} />
-            </button>
-            {/* Mega panel */}
-            <div className="mega-panel">
-              <div className="mega-inner">
-                {/* COLUMN 1 */}
-                <div className="mega-column">
+            </button> */}
+          {/* Mega panel */}
+          {/* <div className="mega-panel">
+              <div className="mega-inner"> */}
+          {/* COLUMN 1 */}
+          {/* <div className="mega-column">
                   <h4>Main Pages</h4>
 
                   <ul>
@@ -68,10 +99,10 @@ export default function Navbar() {
                       <a href="#">Contact</a>
                     </li>
                   </ul>
-                </div>
+                </div> */}
 
-                {/* COLUMN 2 */}
-                <div className="mega-column">
+          {/* COLUMN 2 */}
+          {/* <div className="mega-column">
                   <h4>Other Pages</h4>
 
                   <ul>
@@ -86,10 +117,10 @@ export default function Navbar() {
                       <a href="#">Term & conditions</a>
                     </li>
                   </ul>
-                </div>
+                </div> */}
 
-                {/* RIGHT RED CARD */}
-                <div className="mega-right-card">
+          {/* RIGHT RED CARD */}
+          {/* <div className="mega-right-card">
                   <div className="mega-card-inner">
                     <div>
                       <div className="mega-blog-tag">Latest Blog</div>
@@ -109,43 +140,64 @@ export default function Navbar() {
                       Get in touch
                     </a>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                </div> */}
+          {/* </div>
+            </div> */}
+          {/* </div> */}
 
-          <div className="nav-dropdown">
-            <button className="nav-link">
+          <div
+            className={`nav-dropdown ${servicesOpen ? 'open' : ''}`}
+            onMouseEnter={openServices}
+            onMouseLeave={closeServices}
+          >
+            <button
+              type="button"
+              className="nav-link"
+              aria-expanded={servicesOpen}
+              onClick={openServices}
+            >
               Services
               <ChevronDown size={16} />
             </button>
             {/* Mega panel for Services */}
-            <div className="mega-panel">
+            <div className="mega-panel" onMouseEnter={openServices} onMouseLeave={closeServices}>
               <div className="mega-column">
                 {/* <h4>Our Services</h4> */}
                 <ul>
-                  <li>
-                    <Link href="/services/survey" className="mega-item">
+                  {/* <li>
+                    <Link href="/survey" className="mega-item">
                       <span className="mega-icon" aria-hidden />
                       <span>Survey</span>
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
-                    <Link href="/services/video" className="mega-item">
+                    <Link
+                      href="/videos"
+                      className="mega-item"
+                      onClick={() => setServicesOpen(false)}
+                    >
                       <span className="mega-icon" aria-hidden />
                       <span>Video</span>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/events" className="mega-item">
+                    <Link
+                      href="/events"
+                      className="mega-item"
+                      onClick={() => setServicesOpen(false)}
+                    >
                       <span className="mega-icon" aria-hidden />
-                      <span>Bespoke Events</span>
+                      <span> Events</span>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/social" className="mega-item">
+                    <Link
+                      href="/dialoges"
+                      className="mega-item"
+                      onClick={() => setServicesOpen(false)}
+                    >
                       <span className="mega-icon" aria-hidden />
-                      <span>Social Media</span>
+                      <span>Dialogues</span>
                     </Link>
                   </li>
                 </ul>
@@ -153,14 +205,16 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Link href="/blog" className="nav-link">
+          <Link href="/blog" className="nav-link" onClick={() => setMobileOpen(false)}>
             Blog
           </Link>
-          <Link href="/register" className="nav-link">
+          <Link href="/register" className="nav-link" onClick={() => setMobileOpen(false)}>
             Register
           </Link>
-
-          <Link href="/contact" className="nav-link">
+          <Link href="/nominate" className="nav-link" onClick={() => setMobileOpen(false)}>
+            Nominate
+          </Link>
+          <Link href="/#contact-section" className="nav-link" onClick={() => setMobileOpen(false)}>
             Contact
           </Link>
         </nav>
@@ -168,9 +222,9 @@ export default function Navbar() {
         {/* Right Side */}
         <div className="navbar-actions">
           {/* Search */}
-          <button className="search-btn">
+          {/* <button className="search-btn">
             <Search size={20} strokeWidth={2} />
-          </button>
+          </button> */}
 
           {/* CTA */}
           <Link href="/contact" className="talk-btn">
@@ -182,8 +236,13 @@ export default function Navbar() {
           </Link>
 
           {/* Mobile Menu */}
-          <button className="menu-btn">
-            <Menu size={34} strokeWidth={2} />
+          <button
+            className={`menu-btn ${mobileOpen ? 'open' : ''}`}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((s) => !s)}
+          >
+            {mobileOpen ? <X size={22} strokeWidth={2} /> : <Menu size={22} strokeWidth={2} />}
           </button>
         </div>
       </div>
