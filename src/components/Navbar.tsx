@@ -209,7 +209,7 @@ export default function Navbar() {
             Blog
           </Link>
           <Link href="/register" className="nav-link" onClick={() => setMobileOpen(false)}>
-            Register
+            Registration
           </Link>
           <Link href="/nominate" className="nav-link" onClick={() => setMobileOpen(false)}>
             Nominate

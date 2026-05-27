@@ -21,9 +21,12 @@ export default function RegisterPage() {
   const [selectedEvent, setSelectedEvent] = useState<number | ''>('');
   const [status, setStatus] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; email?: string; selectedEvent?: string }>(
-    {},
-  );
+
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    selectedEvent?: string;
+  }>({});
 
   useEffect(() => {
     fetch('/api/events')
@@ -38,10 +41,20 @@ export default function RegisterPage() {
     e.preventDefault();
 
     const nextErrors: typeof errors = {};
-    if (!name.trim()) nextErrors.name = 'Name is required.';
-    if (!email.trim()) nextErrors.email = 'Email is required.';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) nextErrors.email = 'Enter a valid email.';
-    if (!selectedEvent) nextErrors.selectedEvent = 'Please select an event.';
+
+    if (!name.trim()) {
+      nextErrors.name = 'Name is required.';
+    }
+
+    if (!email.trim()) {
+      nextErrors.email = 'Email is required.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      nextErrors.email = 'Enter a valid email.';
+    }
+
+    if (!selectedEvent) {
+      nextErrors.selectedEvent = 'Please select an event.';
+    }
 
     setErrors(nextErrors);
 
@@ -56,14 +69,23 @@ export default function RegisterPage() {
     try {
       const res = await fetch('/api/register', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, organization, eventId: selectedEvent }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          organization,
+          eventId: selectedEvent,
+        }),
       });
 
       const json = await res.json();
 
       if (res.ok) {
         setStatus('Registration successful — thank you!');
+
         setName('');
         setEmail('');
         setPhone('');
@@ -81,77 +103,94 @@ export default function RegisterPage() {
   }
 
   return (
-    <section className="project-section">
-      <div className="project-container">
-        <div style={{ maxWidth: 720, margin: '0 auto' }}>
-          <br />
-          <br />
-          <h2 className="project-title">Event Registration</h2>
+    <section className="registration-section">
+      <div className="registration-container">
+        <div className="registration-wrapper">
+          <h2 className="registration-title">Event Registration</h2>
 
-          <form onSubmit={handleSubmit} className="register-form">
-            <label>
+          <form onSubmit={handleSubmit} className="registration-form">
+            {/* NAME */}
+            <label className="registration-label">
               Name*
-              <br />
               <input
+                type="text"
+                placeholder="Full name"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
-                  if (errors.name) setErrors({ ...errors, name: undefined });
+
+                  if (errors.name) {
+                    setErrors({
+                      ...errors,
+                      name: undefined,
+                    });
+                  }
                 }}
-                type="text"
-                placeholder="Full name"
               />
-              {errors.name && <div style={{ color: '#a40000', marginTop: 6 }}>{errors.name}</div>}
+              {errors.name && <div className="registration-error">{errors.name}</div>}
             </label>
 
-            <label>
+            {/* EMAIL */}
+            <label className="registration-label">
               Email*
-              <br />
               <input
+                type="email"
+                placeholder="your@company.com"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
-                  if (errors.email) setErrors({ ...errors, email: undefined });
+
+                  if (errors.email) {
+                    setErrors({
+                      ...errors,
+                      email: undefined,
+                    });
+                  }
                 }}
-                type="email"
-                placeholder="your@company.com"
               />
-              {errors.email && <div style={{ color: '#a40000', marginTop: 6 }}>{errors.email}</div>}
+              {errors.email && <div className="registration-error">{errors.email}</div>}
             </label>
 
-            <label>
+            {/* PHONE */}
+            <label className="registration-label">
               Phone
-              <br />
               <input
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
                 type="tel"
                 placeholder="+1 555 555 5555"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
               />
             </label>
 
-            <label>
+            {/* ORGANIZATION */}
+            <label className="registration-label">
               Organization
-              <br />
               <input
-                value={organization}
-                onChange={(e) => setOrganization(e.target.value)}
                 type="text"
                 placeholder="Company name"
+                value={organization}
+                onChange={(e) => setOrganization(e.target.value)}
               />
             </label>
 
-            <label>
+            {/* EVENT */}
+            <label className="registration-label">
               Select Event*
-              <br />
               <select
                 value={selectedEvent}
                 onChange={(e) => {
                   setSelectedEvent(e.target.value ? Number(e.target.value) : '');
-                  if (errors.selectedEvent) setErrors({ ...errors, selectedEvent: undefined });
+
+                  if (errors.selectedEvent) {
+                    setErrors({
+                      ...errors,
+                      selectedEvent: undefined,
+                    });
+                  }
                 }}
               >
                 <option value="">-- Select an event --</option>
+
                 {events.map((ev) => (
                   <option key={ev.id} value={ev.id}>
                     {ev.title}
@@ -159,14 +198,15 @@ export default function RegisterPage() {
                 ))}
               </select>
               {errors.selectedEvent && (
-                <div style={{ color: '#a40000', marginTop: 6 }}>{errors.selectedEvent}</div>
+                <div className="registration-error">{errors.selectedEvent}</div>
               )}
             </label>
 
-            <div style={{ marginTop: 18 }}>
+            {/* BUTTON */}
+            <div className="registration-button-wrap">
               <button
                 type="submit"
-                className="projects-btn"
+                className="registration-btn"
                 disabled={
                   loading ||
                   !!errors.name ||
@@ -181,40 +221,11 @@ export default function RegisterPage() {
               </button>
             </div>
 
-            {status && <p style={{ marginTop: 12 }}>{status}</p>}
+            {/* STATUS */}
+            {status && <p className="registration-status">{status}</p>}
           </form>
         </div>
       </div>
-
-      <style jsx>{`
-        .register-form label {
-          display: block;
-          margin-bottom: 12px;
-        }
-
-        .register-form input,
-        .register-form select {
-          width: 100%;
-          padding: 10px 12px;
-          border-radius: 8px;
-          border: 1px solid #ddd;
-          margin-top: 6px;
-        }
-
-        .projects-btn {
-          background: #a40000;
-          color: white;
-          padding: 10px 18px;
-          border-radius: 8px;
-          border: none;
-          cursor: pointer;
-        }
-
-        .projects-btn[disabled] {
-          opacity: 0.6;
-          cursor: default;
-        }
-      `}</style>
     </section>
   );
 }

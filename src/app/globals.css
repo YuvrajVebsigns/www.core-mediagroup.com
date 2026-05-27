@@ -2976,7 +2976,7 @@ main {
   height: 38px;
   border-radius: 50%;
   background: #a40000;
-  color: white;
+  color: #ffffff;
 
   display: flex;
   align-items: center;
@@ -3005,19 +3005,15 @@ main {
 
 .project-card {
   position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 24px;
   overflow: hidden;
-  min-height: 450px;
-  background: #ddd;
-}
-
-.videos-full-card {
-  height: 320px;
-  /* min-height: 320px; */
   background: #000;
 }
 
 /* Link wrapper */
+
 .project-grid > a {
   display: block;
   color: inherit;
@@ -3043,54 +3039,76 @@ main {
 .project-card:hover .project-image {
   transform: scale(1.08);
 }
+
 /* =========================================================
    VIDEO
 ========================================================= */
 
 .project-video-wrap {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   z-index: 1;
+  background: #000;
 }
 
 .project-video-wrap iframe {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   border: none;
-  pointer-events: auto;
+  display: block;
+}
+
+/* =========================================================
+   FULL VIDEO CARD
+========================================================= */
+
+.videos-full-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  border-radius: 24px;
 }
 
 .videos-full-card .project-video-wrap {
   position: absolute;
   inset: 0;
+  width: 100%;
   height: 100%;
 }
 
-.videos-full-card .project-video-wrap iframe {
-  position: absolute;
-  inset: 0;
-  display: block;
-}
+/* =========================================================
+   PLAY BUTTON
+========================================================= */
 
-/* Play button overlay that sits above the iframe but is small and clickable */
 .project-video-wrap .play-btn {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 4;
+
   width: 72px;
   height: 72px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 999px;
+
   background: rgba(180, 0, 0, 0.9);
+
   box-shadow: 0 8px 30px rgba(164, 0, 0, 0.25);
-  color: #fff;
+
+  color: #ffffff;
   text-decoration: none;
-  pointer-events: auto;
 }
 
 .project-video-wrap .play-btn .play-icon {
@@ -3106,6 +3124,7 @@ main {
 .project-overlay {
   position: absolute;
   inset: 0;
+  z-index: 2;
 
   display: flex;
   flex-direction: column;
@@ -3113,21 +3132,20 @@ main {
 
   padding: 30px;
 
-  /* lighter overlay so videos remain visible and feel interactive */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.08), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.12), transparent);
 
-  /* keep default pointer-events off so iframe remains interactive */
   pointer-events: none;
-  z-index: 2;
 }
 
-/* allow interactive elements inside overlay (links/buttons) to receive pointer events */
 .project-overlay a,
 .project-overlay button {
   pointer-events: auto;
 }
 
-/* Red-themed variant for videos page */
+/* =========================================================
+   RED THEME
+========================================================= */
+
 .red-theme .project-overlay {
   background: linear-gradient(to top, rgba(164, 0, 0, 0.62), rgba(164, 0, 0, 0.08), transparent);
 }
@@ -3146,7 +3164,7 @@ main {
 
   background: rgba(255, 255, 255, 0.18);
 
-  color: white;
+  color: #ffffff;
 
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -3162,7 +3180,7 @@ main {
 .project-content h3 {
   font-size: 30px;
   line-height: 1.2;
-  color: white;
+  color: #ffffff;
   font-weight: 700;
 }
 
@@ -3173,10 +3191,6 @@ main {
 @media (max-width: 992px) {
   .project-title {
     font-size: 46px;
-  }
-
-  .project-card {
-    min-height: 380px;
   }
 
   .project-content h3 {
@@ -3213,8 +3227,8 @@ main {
   }
 
   .project-card {
-    min-height: 300px;
     border-radius: 18px;
+    aspect-ratio: 16 / 10;
   }
 
   .project-overlay {
@@ -3233,6 +3247,11 @@ main {
     width: 34px;
     height: 34px;
   }
+
+  .project-video-wrap .play-btn {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 /* =========================================================
@@ -3245,7 +3264,7 @@ main {
   }
 
   .project-card {
-    min-height: 250px;
+    aspect-ratio: 16 / 11;
   }
 
   .project-content h3 {
@@ -3254,6 +3273,15 @@ main {
 
   .project-category {
     font-size: 10px;
+  }
+
+  .project-overlay {
+    padding: 16px;
+  }
+
+  .project-video-wrap .play-btn {
+    width: 56px;
+    height: 56px;
   }
 }
 
@@ -5133,6 +5161,704 @@ main {
   }
 }
 
+/* =========================
+   REGISTRATION SECTION
+========================= */
+
+.registration-section {
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #c4adad 0%, #f3ebeb 40%, #f9f3f3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative blur circles */
+
+.registration-section::before,
+.registration-section::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.registration-section::before {
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.12);
+  top: -120px;
+  left: -100px;
+}
+
+.registration-section::after {
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.08);
+  bottom: -120px;
+  right: -100px;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.registration-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.registration-wrapper {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  margin-top: 30px;
+}
+
+/* =========================
+   TITLE
+========================= */
+
+.registration-title {
+  font-size: 42px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #363434;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.registration-subtitle {
+  text-align: center;
+  color: rgba(53, 51, 51, 0.8);
+  font-size: 15px;
+  margin-bottom: 35px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.registration-form {
+  width: 100%;
+  padding: 38px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.14);
+  /* border-color: #9d1111; */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #9d1111;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  margin-top: 10px;
+}
+
+/* =========================
+   LABEL
+========================= */
+
+.registration-label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #585555;
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.registration-form input,
+.registration-form select {
+  width: 100%;
+  height: 56px;
+  margin-top: 10px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  outline: none;
+  font-size: 15px;
+  color: #2f2e2e;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.registration-form input::placeholder {
+  color: #8f8f8f;
+}
+
+.registration-form input:focus,
+.registration-form select:focus {
+  background: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.2),
+    0 8px 20px rgba(31, 31, 31, 0.12);
+  transform: translateY(-1px);
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.registration-error {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffd6d6;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.registration-button-wrap {
+  margin-top: 28px;
+}
+
+.registration-btn {
+  width: 100%;
+  height: 58px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #b40000 0%, #9d1111 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
+  box-shadow: 0 10px 25px #b40000;
+}
+
+.registration-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 35px #9d1111;
+}
+
+.registration-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background-color: #b40000;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.registration-status {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .registration-section {
+    padding: 70px 16px;
+  }
+
+  .registration-title {
+    font-size: 34px;
+  }
+
+  .registration-subtitle {
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .registration-form {
+    padding: 24px;
+    border-radius: 22px;
+  }
+
+  .registration-form input,
+  .registration-form select {
+    height: 52px;
+    font-size: 14px;
+  }
+
+  .registration-btn {
+    height: 54px;
+    font-size: 14px;
+  }
+}
+
+/* =========================================
+   NOMINATE PAGE
+========================================= */
+
+.nominate-page-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px 20px;
+  background: linear-gradient(135deg, #d7cccc 0%, #f3ebeb 40%, #f9f3f3 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative blur circles */
+
+.nominate-page-container::before,
+.nominate-page-container::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+}
+
+.nominate-page-container::before {
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.12);
+  top: -120px;
+  left: -100px;
+}
+
+.nominate-page-container::after {
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.08);
+  bottom: -120px;
+  right: -100px;
+}
+
+/* =========================================
+   CONTAINER
+========================================= */
+
+.nominate-page-content {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  margin-top: 20px;
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.nominate-page-content h1 {
+  font-size: 25px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #242424;
+  margin-bottom: 24px;
+}
+
+.nominate-page-content h3 {
+  font-size: 16px;
+  line-height: 0.9;
+  font-weight: 700;
+  color: #363434;
+  margin-top: 30px;
+  margin-bottom: 14px;
+}
+
+.nominate-page-content p,
+.nominate-page-content li {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #555555;
+}
+
+.nominate-page-content ol {
+  padding-left: 22px;
+  margin-bottom: 18px;
+}
+
+/* =========================================
+   CARD WRAPPER
+========================================= */
+
+.nominate-wrapper {
+  margin-top: 50px;
+  width: 600;
+  align-items: center;
+  margin-left: 6cm;
+}
+
+/* =========================================
+   CARD
+========================================= */
+
+.nominate-card {
+  width: 100%;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #9d1111;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.nominate-card-header {
+  padding: 22px 30px;
+  background: linear-gradient(90deg, #b40000 0%, #9d1111 100%);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.nominate-card-body {
+  padding: 40px;
+}
+
+.nominate-sub {
+  margin-bottom: 30px;
+  color: rgba(53, 51, 51, 0.8);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   FORM
+========================================= */
+
+.nominate-form {
+  width: 100%;
+}
+
+.nominate-fieldset {
+  border: none;
+  padding: 0;
+  margin-bottom: 40px;
+}
+
+.nominate-legend {
+  font-size: 22px;
+  font-weight: 700;
+  color: #363434;
+  margin-bottom: 20px;
+}
+
+.nominate-label {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #585555;
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.nominate-input-field {
+  width: 100%;
+  height: 56px;
+  margin-top: 10px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  outline: none;
+  font-size: 15px;
+  color: #2f2e2e;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.nominate-input-field::placeholder {
+  color: #8f8f8f;
+}
+
+.nominate-input-field:focus {
+  background: #ffffff;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.2),
+    0 8px 20px rgba(31, 31, 31, 0.12);
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   CIO BLOCK
+========================================= */
+
+.nominate-cio-block {
+  padding: 24px;
+  margin-bottom: 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(157, 17, 17, 0.2);
+}
+
+.nominate-cio-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.nominate-cio-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #363434;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.nominate-btn {
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.nominate-btn:hover {
+  transform: translateY(-2px);
+}
+
+.nominate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nominate-btn-primary {
+  height: 58px;
+  padding: 0 36px;
+  background: linear-gradient(90deg, #b40000 0%, #9d1111 100%);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 25px rgba(180, 0, 0, 0.3);
+}
+
+.nominate-btn-primary:hover {
+  box-shadow: 0 16px 35px rgba(157, 17, 17, 0.35);
+}
+
+.nominate-btn-add {
+  height: 54px;
+  padding: 0 28px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #9d1111;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.nominate-btn-add:hover {
+  background: #ffffff;
+}
+
+.nominate-remove-btn {
+  background: transparent;
+  border: none;
+  color: #a40000;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* =========================================
+   ADD BUTTON WRAP
+========================================= */
+
+.nominate-add-wrap {
+  margin-top: 10px;
+}
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+.nominate-submit-row {
+  margin-left: 12cm;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nominate-submit {
+  width: fit-content;
+}
+
+.nominate-submit-note {
+  margin-left: -5.1cm;
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* =========================================
+   SUCCESS SECTION
+========================================= */
+
+.nominate-success-section {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(16px);
+  border: 1px solid #9d1111;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.nominate-success-section h1 {
+  font-size: 38px;
+  line-height: 1.2;
+  color: #363434;
+  margin-bottom: 20px;
+}
+
+.nominate-success-section p {
+  color: #555555;
+  line-height: 1.8;
+  margin-bottom: 14px;
+}
+
+.nominate-success-section a {
+  color: #9d1111;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .nominate-page-container {
+    padding: 70px 16px;
+  }
+
+  .nominate-page-content {
+    width: 100%;
+  }
+
+  .nominate-page-content h1 {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+
+  .nominate-page-content h3 {
+    font-size: 22px;
+  }
+
+  .nominate-wrapper {
+    margin-top: 40px;
+    width: 100%;
+    margin-left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nominate-card {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 22px;
+  }
+
+  .nominate-card-body {
+    padding: 24px;
+  }
+
+  .nominate-card-header {
+    padding: 18px 22px;
+    font-size: 18px;
+  }
+
+  .nominate-input-field {
+    height: 52px;
+    font-size: 14px;
+  }
+
+  .nominate-label {
+    font-size: 13px;
+  }
+
+  .nominate-btn-primary {
+    width: 100%;
+  }
+
+  .nominate-submit {
+    width: 100%;
+  }
+
+  .nominate-submit-row {
+    width: 100%;
+  }
+
+  .nominate-cio-block {
+    padding: 18px;
+  }
+
+  .nominate-cio-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .nominate-success-section {
+    width: 100%;
+    padding: 28px 22px;
+    border-radius: 22;
+  }
+
+  .nominate-submit-row {
+    align-items: flex-start;
+  }
+
+  .nominate-submit {
+    width: auto;
+    min-width: 180px;
+    align-self: flex-start;
+  }
+
+  .nominate-submit-note {
+    text-align: left;
+    margin-right: 31cm;
+    margin-left: -30cm;
+  }
+}
+
 /* =========================================================
    PRELOADER
 ========================================================= */
@@ -5411,6 +6137,7 @@ main {
     display: flex;
     justify-content: center;
     margin-top: 18px;
+    margin-right: 30cm;
   }
 
   .nominate-card {
@@ -5421,6 +6148,7 @@ main {
     box-shadow: 0 12px 30px rgba(16, 16, 16, 0.06);
     border: 1px solid rgba(164, 0, 0, 0.06);
     overflow: hidden;
+    margin-right: 31cm;
   }
 
   .nominate-card-header {

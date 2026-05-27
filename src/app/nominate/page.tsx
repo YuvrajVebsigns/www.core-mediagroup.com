@@ -27,7 +27,17 @@ export default function NominatePage() {
 
   const addCio = () => {
     if (cios.length >= maxCios) return;
-    setCios((s) => [...s, { category: '', name: '', company: '', email: '', mobile: '' }]);
+
+    setCios((s) => [
+      ...s,
+      {
+        category: '',
+        name: '',
+        company: '',
+        email: '',
+        mobile: '',
+      },
+    ]);
   };
 
   const removeCio = (idx: number) => {
@@ -35,7 +45,16 @@ export default function NominatePage() {
   };
 
   const updateCio = (idx: number, key: keyof CIOEntry, value: string) => {
-    setCios((s) => s.map((c, i) => (i === idx ? { ...c, [key]: value } : c)));
+    setCios((s) =>
+      s.map((c, i) =>
+        i === idx
+          ? {
+              ...c,
+              [key]: value,
+            }
+          : c,
+      ),
+    );
   };
 
   const validate = () => {
@@ -49,8 +68,9 @@ export default function NominatePage() {
     }
 
     for (const c of cios) {
-      if (!c.name.trim() || !c.company.trim() || !c.email.trim() || !c.category.trim())
+      if (!c.name.trim() || !c.company.trim() || !c.email.trim() || !c.category.trim()) {
         return false;
+      }
     }
 
     return true;
@@ -64,15 +84,15 @@ export default function NominatePage() {
       return;
     }
 
-    // For now, simulate submission. Replace with API call if needed.
     setSubmitted(true);
   };
 
   if (submitted) {
     return (
-      <main className="page-container">
-        <section style={{ padding: '48px 24px' }}>
+      <main className="nominate-page-container">
+        <section className="nominate-success-section">
           <h1>CIO Power List 2026 — Nomination Received</h1>
+
           <p>
             Thank you. Your nomination has been recorded. You will receive a confirmation email
             shortly and the nominated CIO(s) will be notified as described.
@@ -87,9 +107,9 @@ export default function NominatePage() {
   }
 
   return (
-    <main className="page-container">
-      <section style={{ padding: '48px 24px', maxWidth: 980, margin: '0 auto' }}>
-        <h1>CIO Power List 2026 — Nominate the Nation’s Most Influential Technology Leaders</h1>
+    <main className="nominate-page-container">
+      <section className="nominate-page-content">
+        <h1>CIO Power List 2026: Nominate the Nation’s Most Influential Technology Leaders</h1>
 
         <p>
           Your nomination plays a vital role in recognizing CIOs for the exemplary impact they have
@@ -98,19 +118,24 @@ export default function NominatePage() {
         </p>
 
         <h3>Categories</h3>
+
         <p>
           CIOs may be nominated under either of the following categories:{' '}
           <strong>Business Icon</strong> or <strong>Technology Icon</strong>.
         </p>
 
         <h3>Nomination Process &amp; Confirmation</h3>
+
         <p>
           Once you submit your nomination, an automated process will trigger three confirmation
           emails:
         </p>
+
         <ol>
           <li>To the CIO Power List (CORE Media) team, sharing the nomination details.</li>
+
           <li>To you, acknowledging and summarizing all your nominations.</li>
+
           <li>
             To each nominated CIO, informing them that they have been nominated by you for CIO Power
             List 2026.
@@ -118,12 +143,15 @@ export default function NominatePage() {
         </ol>
 
         <h3>Note</h3>
+
         <ol>
           <li>
             All nominations are treated with strict confidentiality and will not be shared or
             displayed on any private or public forums.
           </li>
+
           <li>CIOs are welcome to nominate themselves.</li>
+
           <li>
             For ICT vendors, there is no commercial or sponsorship obligation associated with
             nominating CIOs for the CIO Power List 2026.
@@ -133,6 +161,7 @@ export default function NominatePage() {
         <div className="nominate-wrapper">
           <div className="nominate-card">
             <div className="nominate-card-header">NOMINATION FORM</div>
+
             <div className="nominate-card-body">
               <p className="nominate-sub">
                 You can nominate up to 10 Influential CIOs by clicking on the &quot;Add CIO&quot;
@@ -140,158 +169,146 @@ export default function NominatePage() {
               </p>
 
               <form id="nominate-form" onSubmit={handleSubmit} className="nominate-form">
-                <fieldset style={{ border: 'none', padding: 0, marginBottom: 18 }}>
-                  <legend style={{ fontWeight: 700 }}>Nominator details</legend>
+                <fieldset className="nominate-fieldset">
+                  <legend className="nominate-legend">Nominator details</legend>
 
-                  <label style={{ display: 'block', marginBottom: 8 }}>
+                  <label className="nominate-label">
                     Name of the Nominator *
                     <input
                       value={nominatorName}
                       onChange={(e) => setNominatorName(e.target.value)}
                       required
-                      className="input-field"
+                      className="nominate-input-field"
                     />
                   </label>
 
-                  <label style={{ display: 'block', marginBottom: 8 }}>
+                  <label className="nominate-label">
                     Name of the Nominator&apos;s Company *
                     <input
                       value={nominatorCompany}
                       onChange={(e) => setNominatorCompany(e.target.value)}
                       required
-                      className="input-field"
+                      className="nominate-input-field"
                     />
                   </label>
 
-                  <label style={{ display: 'block', marginBottom: 8 }}>
+                  <label className="nominate-label">
                     Nominator City *
                     <input
                       value={nominatorCity}
                       onChange={(e) => setNominatorCity(e.target.value)}
                       placeholder="eg. Mumbai"
                       required
-                      className="input-field"
+                      className="nominate-input-field"
                     />
                   </label>
 
-                  <label style={{ display: 'block', marginBottom: 8 }}>
+                  <label className="nominate-label">
                     Nominator Contact No
                     <input
                       value={nominatorContact}
                       onChange={(e) => setNominatorContact(e.target.value)}
                       placeholder="+91 9XXXXXXXXX"
-                      className="input-field"
+                      className="nominate-input-field"
                     />
                   </label>
 
-                  <label style={{ display: 'block', marginBottom: 18 }}>
+                  <label className="nominate-label">
                     Nominator Email ID *
                     <input
                       value={nominatorEmail}
                       onChange={(e) => setNominatorEmail(e.target.value)}
                       placeholder="abc@abc.com"
                       required
-                      className="input-field"
+                      className="nominate-input-field"
                     />
                   </label>
                 </fieldset>
 
-                <fieldset style={{ border: 'none', padding: 0 }}>
-                  <legend style={{ fontWeight: 700 }}>CIO nominations (up to {maxCios})</legend>
+                <fieldset className="nominate-fieldset">
+                  <legend className="nominate-legend">CIO nominations (up to {maxCios})</legend>
 
                   {cios.map((c, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        border: '1px solid #eee',
-                        padding: 12,
-                        marginBottom: 12,
-                        borderRadius: 8,
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          marginBottom: 8,
-                        }}
-                      >
-                        <strong>CIO {idx + 1}</strong>
+                    <div key={idx} className="nominate-cio-block">
+                      <div className="nominate-cio-top">
+                        <strong className="nominate-cio-title">CIO {idx + 1}</strong>
+
                         {cios.length > 1 && (
                           <button
                             type="button"
                             onClick={() => removeCio(idx)}
-                            style={{ color: '#a40000' }}
+                            className="nominate-remove-btn"
                           >
                             Remove
                           </button>
                         )}
                       </div>
 
-                      <label style={{ display: 'block', marginBottom: 8 }}>
+                      <label className="nominate-label">
                         Nominated CIO by Category *
                         <select
                           value={c.category}
                           onChange={(e) => updateCio(idx, 'category', e.target.value)}
                           required
-                          className="input-field"
+                          className="nominate-input-field"
                         >
                           <option value="">- Select Category -</option>
+
                           <option value="Business Icon">Business Icon</option>
+
                           <option value="Technology Icon">Technology Icon</option>
                         </select>
                       </label>
 
-                      <label style={{ display: 'block', marginBottom: 8 }}>
+                      <label className="nominate-label">
                         CIO Contact Name *
                         <input
                           value={c.name}
                           onChange={(e) => updateCio(idx, 'name', e.target.value)}
                           required
-                          className="input-field"
+                          className="nominate-input-field"
                         />
                       </label>
 
-                      <label style={{ display: 'block', marginBottom: 8 }}>
+                      <label className="nominate-label">
                         CIO Company Name *
                         <input
                           value={c.company}
                           onChange={(e) => updateCio(idx, 'company', e.target.value)}
                           required
-                          className="input-field"
+                          className="nominate-input-field"
                         />
                       </label>
 
-                      <label style={{ display: 'block', marginBottom: 8 }}>
+                      <label className="nominate-label">
                         Contact Email *
                         <input
                           value={c.email}
                           onChange={(e) => updateCio(idx, 'email', e.target.value)}
                           required
-                          className="input-field"
+                          className="nominate-input-field"
                         />
                       </label>
 
-                      <label style={{ display: 'block', marginBottom: 8 }}>
+                      <label className="nominate-label">
                         Mobile No.
                         <input
                           value={c.mobile}
                           onChange={(e) => updateCio(idx, 'mobile', e.target.value)}
                           placeholder="+91 9XXXXXXXXX"
-                          className="input-field"
+                          className="nominate-input-field"
                         />
                       </label>
                     </div>
                   ))}
                 </fieldset>
 
-                <div style={{ marginBottom: 18 }}>
+                <div className="nominate-add-wrap">
                   <button
                     type="button"
                     onClick={addCio}
                     disabled={cios.length >= maxCios}
-                    className="btn btn-add"
+                    className="nominate-btn nominate-btn-add"
                   >
                     + Add CIO
                   </button>
@@ -300,11 +317,12 @@ export default function NominatePage() {
             </div>
           </div>
         </div>
+
         <div className="nominate-submit-row">
           <button
             type="submit"
             form="nominate-form"
-            className="btn btn-primary nominate-submit"
+            className="nominate-btn nominate-btn-primary nominate-submit"
             disabled={!validate()}
             aria-disabled={!validate()}
             aria-label="Submit nomination"
