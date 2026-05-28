@@ -16,7 +16,7 @@ export default function Footer() {
             <div className="footer-widget footer-brand">
               <Link href="/" className="footer-logo">
                 <Image
-                  src="/assets/logo/logo.webp"
+                  src="/assets/logo/logo.png"
                   alt="Core Media"
                   width={180}
                   height={70}
@@ -36,23 +36,15 @@ export default function Footer() {
 
               <ul className="footer-links">
                 <li>
-                  <Link href="/">Customer Experience</Link>
+                  <Link href="/videos">Video</Link>
                 </li>
 
                 <li>
-                  <Link href="/">Training Programs</Link>
+                  <Link href="/events">Events</Link>
                 </li>
 
                 <li>
-                  <Link href="/">Business Strategy</Link>
-                </li>
-
-                <li>
-                  <Link href="/">ESG Consulting</Link>
-                </li>
-
-                <li>
-                  <Link href="/">Development Hub</Link>
+                  <Link href="/dialoges">Dialogues</Link>
                 </li>
               </ul>
             </div>
@@ -63,23 +55,19 @@ export default function Footer() {
 
               <ul className="footer-links">
                 <li>
-                  <Link href="/">Contact Us</Link>
+                  <Link href="/#contact-section">Contact Us</Link>
                 </li>
 
                 <li>
-                  <Link href="/">Careers</Link>
+                  <Link href="/blog">Blog</Link>
                 </li>
 
                 <li>
-                  <Link href="/">Recognitions</Link>
+                  <Link href="/register">Registration</Link>
                 </li>
 
                 <li>
-                  <Link href="/">News & Media</Link>
-                </li>
-
-                <li>
-                  <Link href="/">Feedback</Link>
+                  <Link href="/nominate">Nominate</Link>
                 </li>
               </ul>
             </div>
@@ -95,6 +83,12 @@ export default function Footer() {
                   <Send size={18} />
                 </button>
               </form>
+              <br />
+              <h4>Our Office</h4>
+              <p className="footer-description">
+                Units Nos. 3037 – A1 Wing, 3rd Floor, Oberoi Garden Estate, Near Chandivali Studio,
+                Andheri (East), Mumbai – 400072, INDIA
+              </p>
 
               {/* <label className="footer-checkbox">
                 <input type="checkbox" />
@@ -116,12 +110,12 @@ export default function Footer() {
         <div className="footer-container footer-bottom-wrapper">
           {/* CONTACT */}
           <div className="footer-contact">
-            <a href="tel:+919970876727" className="footer-contact-item">
+            <a href="tel:+917506035537" className="footer-contact-item">
               <span className="footer-contact-icon">
                 <Phone size={15} />
               </span>
 
-              <span className="footer-contact-text">+91 9970 876 727</span>
+              <span className="footer-contact-text">+91 7506035537</span>
             </a>
 
             <a href="mailto:info@coremedia.com" className="footer-contact-item">
@@ -129,7 +123,7 @@ export default function Footer() {
                 <Mail size={15} />
               </span>
 
-              <span className="footer-contact-text">info@coremedia.com</span>
+              <span className="footer-contact-text">contact@core-mediagroup.com</span>
             </a>
           </div>
 

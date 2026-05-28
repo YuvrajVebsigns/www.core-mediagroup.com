@@ -169,7 +169,7 @@ export default function OurDialogues() {
         </div> */}
 
         <div className="blogs-more">
-          <Link href="/blog" className="blogs-more-btn">
+          <Link href="/dialoges" className="blogs-more-btn">
             <span>More Dialogues</span>
 
             <span className="blogs-more-icon">

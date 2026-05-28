@@ -128,7 +128,7 @@ export default function BlogsSection() {
         {/* MORE BLOGS BUTTON */}
         <div className="blogs-more">
           <Link href="/blog" className="blogs-more-btn">
-            <span>More Blogs</span>
+            <span>More Blogs </span>
 
             <span className="blogs-more-icon">
               <ArrowUpRight size={16} />

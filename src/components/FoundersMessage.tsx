@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 // import { useRef } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 export default function FoundersMessage() {
@@ -64,9 +65,11 @@ export default function FoundersMessage() {
           </div>
 
           {/* BUTTON */}
-          <Link href="/contact" className="founder-btn">
+          <Link href="/#contact-section" className="founder-btn">
             <span>Partner With Us</span>
-            <div className="founder-btn-icon">↗</div>
+            <div className="founder-btn-icon">
+              <ArrowUpRight size={22} />
+            </div>
           </Link>
         </div>
       </div>

@@ -37,23 +37,61 @@ export default function ContactSection() {
           {/* Form */}
           <form className="contact-form">
             <div className="contact-grid">
-              <input type="text" placeholder="Full Name *" />
+              {/* FULL NAME */}
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Full Name *"
+                required
+                pattern="^[A-Za-z\s]+$"
+                title="Only alphabets are allowed"
+                onInput={(e) => {
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^A-Za-z\s]/g, '');
+                }}
+              />
 
-              <input type="email" placeholder="Email Address *" />
+              {/* EMAIL */}
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address *"
+                required
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                title="Enter a valid email address"
+              />
 
-              <input type="tel" placeholder="Phone Number *" />
+              {/* PHONE NUMBER */}
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number *"
+                required
+                maxLength={10}
+                pattern="[0-9]{10}"
+                title="Enter a valid 10-digit phone number"
+                onInput={(e) => {
+                  e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '');
+                }}
+              />
 
-              <select>
-                <option>Select a Service *</option>
+              {/* SELECT */}
+              <select required defaultValue="">
+                <option value="" disabled>
+                  Select a Service *
+                </option>
+
                 <option>Business Strategy</option>
                 <option>Customer Experience</option>
-                <option>IT Support</option>
+                <option>CIO Events & Conferences</option>
+                <option>Brand Recognition</option>
+                <option>Video Content </option>
               </select>
             </div>
 
-            <textarea rows={6} placeholder="Your Message *" />
+            {/* MESSAGE */}
+            <textarea rows={6} placeholder="Your Message *" required />
 
-            {/* Button */}
+            {/* BUTTON */}
             <button type="submit" className="contact-btn">
               <span>Send Message</span>
 

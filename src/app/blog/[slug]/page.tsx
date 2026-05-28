@@ -170,25 +170,6 @@ export default function BlogDetailsPage() {
               </Link>
             </AnimatedBlock>
           </AnimatedBlock>
-
-          {/* <aside className="blogpage-sidebar">
-              <div className="modern-card card">
-                <div className="modern-card-badge">Modern</div>
-                <div className="modern-card-body">
-                  <div className="modern-card-title">Home Makeover</div>
-                  <div className="modern-card-contact">+1 (321) 890-840</div>
-                  <div className="modern-card-image">
-                    <Image
-                      src="/assets/home/team1.webp"
-                      alt="person"
-                      width={120}
-                      height={120}
-                      style={{ borderRadius: '8px' }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </aside> */}
         </div>
       </article>
       {/* </div> */}

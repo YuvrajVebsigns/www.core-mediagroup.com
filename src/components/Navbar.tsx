@@ -227,7 +227,7 @@ export default function Navbar() {
           </button> */}
 
           {/* CTA */}
-          <Link href="/contact" className="talk-btn">
+          <Link href="/#contact-section" className="talk-btn">
             <span>Let’s Talk</span>
 
             <div className="talk-btn-icon">
