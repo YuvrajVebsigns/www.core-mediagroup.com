@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // Define paths that do not require authentication
-const publicPaths = ['/login', '/register', '/forgot-password'];
+const publicPaths = ['/', '/register', '/forgot-password'];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -16,7 +16,7 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const isPublicPath = publicPaths.some((path) => pathname.startsWith(path));
+  const isPublicPath = publicPaths.some((path) => pathname.startsWith(path)) || pathname === '/';
 
   if (!hasToken && !isPublicPath) {
     // Redirect unauthenticated users to the login page

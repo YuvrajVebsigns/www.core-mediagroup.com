@@ -2,6 +2,11 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import QueryProvider from '@/providers/QueryProvider';
+import Preloader from '@/components/Preloader';
+import Navbar from '@/components/Navbar';
+import ScrollProgress from '@/components/ScrollProgress';
+import ScrollAnimator from '@/components/ScrollAnimator';
+import Footer from '@/components/Footer';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -24,7 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body>
+        <Navbar />
+        <Preloader />
+        <ScrollProgress />
+        <ScrollAnimator />
         <QueryProvider>{children}</QueryProvider>
+        <Footer />
       </body>
     </html>
   );
