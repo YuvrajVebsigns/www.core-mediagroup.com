@@ -775,11 +775,11 @@ export async function fetchWebsiteBlogComments(blogId: string) {
   const domain = 'coremediagroup.com';
   const auth = await ensureWebsiteAuth(domain);
 
-  const headers: Record<string, string> = {};
-  if (auth?.token) headers.Authorization = `Bearer ${auth.token}`;
-  if (auth?.websiteId) headers['x-website-id'] = auth.websiteId;
-
   const endpoint = `/api/v1/website/blogs/${encodeURIComponent(blogId)}/comments`;
+
+  const headers: Record<string, string> = {};
+  if (auth?.token) headers['Authorization'] = `Bearer ${auth.token}`;
+  if (auth?.websiteId) headers['x-website-id'] = String(auth.websiteId);
 
   try {
     const response = await apiFetch<WebsiteBlogCommentsResponse>(endpoint, {
@@ -788,12 +788,11 @@ export async function fetchWebsiteBlogComments(blogId: string) {
     });
 
     const comments = extractCommentItems(response);
-    if (response?.success && comments.length >= 0) {
-      return {
-        ...response,
-        data: comments,
-      } as WebsiteBlogCommentsResponse;
-    }
+    return {
+      success: true,
+      message: 'Comments fetched',
+      data: comments,
+    } as WebsiteBlogCommentsResponse;
   } catch (error: unknown) {
     const statusCode = getApiErrorStatus(error);
 
@@ -813,12 +812,11 @@ export async function fetchWebsiteBlogComments(blogId: string) {
           });
 
           const retryComments = extractCommentItems(retryRes);
-          if (retryRes?.success && retryComments.length >= 0) {
-            return {
-              ...retryRes,
-              data: retryComments,
-            } as WebsiteBlogCommentsResponse;
-          }
+          return {
+            success: true,
+            message: 'Comments fetched',
+            data: retryComments,
+          } as WebsiteBlogCommentsResponse;
         }
       } catch {
         // ignore and fallthrough
@@ -838,53 +836,70 @@ export async function submitWebsiteBlogComment(
 
   const headers: Record<string, string> = {};
   if (auth?.token) headers.Authorization = `Bearer ${auth.token}`;
-  if (auth?.websiteId) headers['x-website-id'] = auth.websiteId;
+  if (auth?.websiteId) headers['x-website-id'] = String(auth.websiteId);
 
   const endpoint = `/api/v1/website/blogs/${encodeURIComponent(blogId)}/comments`;
 
   const { apiFetch } = await import('@/services/apiFetch');
 
   try {
-    const response = await apiFetch<{ success: boolean; message: string; data?: unknown }>(
-      endpoint,
-      {
-        method: 'POST',
-        requireAuth: false,
-        headers: {
-          'Content-Type': 'application/json',
-          ...headers,
-        },
-        body: JSON.stringify(payload),
+    const response = await apiFetch<WebsiteBlogComment>(endpoint, {
+      method: 'POST',
+      requireAuth: false,
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers,
       },
-    );
+      body: JSON.stringify(payload),
+    });
 
-    return response;
+    if (response) {
+      return {
+        success: true,
+        message: 'Comment submitted successfully. It will be visible after admin approval.',
+        data: response,
+      };
+    }
   } catch (error: unknown) {
     const statusCode = getApiErrorStatus(error);
 
     if (statusCode === 401 && typeof window !== 'undefined') {
-      window.localStorage.removeItem('websiteAuth');
+      try {
+        window.localStorage.removeItem('websiteAuth');
+        const freshAuth = await ensureWebsiteAuth(domain);
+        if (freshAuth?.token) {
+          const retryHeaders: Record<string, string> = {
+            Authorization: `Bearer ${freshAuth.token}`,
+            'x-website-id': String(freshAuth.websiteId),
+            'Content-Type': 'application/json',
+          };
 
-      const freshAuth = await ensureWebsiteAuth(domain);
+          const retryRes = await apiFetch<WebsiteBlogComment>(endpoint, {
+            method: 'POST',
+            requireAuth: false,
+            headers: retryHeaders,
+            body: JSON.stringify(payload),
+          });
 
-      if (freshAuth?.token) {
-        const retryHeaders: Record<string, string> = {
-          Authorization: `Bearer ${freshAuth.token}`,
-          'x-website-id': freshAuth.websiteId,
-          'Content-Type': 'application/json',
-        };
-
-        return apiFetch<{ success: boolean; message: string; data?: unknown }>(endpoint, {
-          method: 'POST',
-          requireAuth: false,
-          headers: retryHeaders,
-          body: JSON.stringify(payload),
-        });
+          if (retryRes) {
+            return {
+              success: true,
+              message: 'Comment submitted successfully. It will be visible after admin approval.',
+              data: retryRes,
+            };
+          }
+        }
+      } catch {
+        // ignore and fallthrough
       }
     }
-
-    throw error;
   }
+
+  return {
+    success: false,
+    message: 'Failed to submit comment',
+    data: null,
+  };
 }
 
 export async function submitWebsiteBlogLike(blogId: string) {
