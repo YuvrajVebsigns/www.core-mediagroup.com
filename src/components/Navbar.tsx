@@ -422,13 +422,8 @@ export default function Navbar() {
           >
             Registration
           </Link>
-
-          <Link
-            href="/nominate"
-            className={`nav-link ${pathname === '/nominate' ? 'active' : ''}`}
-            onClick={closeMobileMenu}
-          >
-            Nominate
+          <Link href="/nominate" className="nav-link" onClick={() => setMobileOpen(false)}>
+            Nomination
           </Link>
 
           <Link href="/#contact-section" className="nav-link" onClick={closeMobileMenu}>

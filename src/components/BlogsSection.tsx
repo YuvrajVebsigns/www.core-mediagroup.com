@@ -147,11 +147,10 @@ import Link from 'next/link';
 import { ArrowUpRight, Heart, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import BlogCommentsPanel from '@/components/BlogCommentsPanel';
 import {
-  fetchWebsiteBlogComments,
   fetchWebsiteBlogs,
   submitWebsiteBlogLike,
-  type WebsiteBlogComment,
   type WebsiteBlogItem,
 } from '@/services/blogs.service';
 
@@ -168,10 +167,6 @@ export default function BlogsSection() {
   const [isLoading, setIsLoading] = useState(true);
   const [likedBlogs, setLikedBlogs] = useState<Set<string>>(new Set());
   const [openCommentsBlogId, setOpenCommentsBlogId] = useState<string | null>(null);
-  const [commentsByBlogId, setCommentsByBlogId] = useState<Record<string, WebsiteBlogComment[]>>(
-    {},
-  );
-  const [loadingCommentsFor, setLoadingCommentsFor] = useState<string | null>(null);
 
   const LIKED_KEY = 'likedBlogs';
 
@@ -246,14 +241,6 @@ export default function BlogsSection() {
     return typeof blog.engagement?.commentsCount === 'number' ? blog.engagement.commentsCount : 0;
   }
 
-  function getCommentAuthor(comment: WebsiteBlogComment) {
-    return comment.name || 'Guest';
-  }
-
-  function getCommentMessage(comment: WebsiteBlogComment) {
-    return comment.message || '';
-  }
-
   async function handleLikeClick(e: React.MouseEvent<HTMLButtonElement>, blogId?: string) {
     e.stopPropagation();
     e.preventDefault();
@@ -320,30 +307,13 @@ export default function BlogsSection() {
     }
   }
 
-  async function handleCommentToggle(e: React.MouseEvent<HTMLButtonElement>, blogId?: string) {
+  function handleCommentToggle(e: React.MouseEvent<HTMLButtonElement>, blogId?: string) {
     e.stopPropagation();
     e.preventDefault();
 
     if (!blogId) return;
 
-    const nextOpen = openCommentsBlogId === blogId ? null : blogId;
-    setOpenCommentsBlogId(nextOpen);
-
-    if (!nextOpen) return;
-    if (commentsByBlogId[blogId]) return;
-
-    setLoadingCommentsFor(blogId);
-
-    try {
-      const response = await fetchWebsiteBlogComments(blogId);
-
-      setCommentsByBlogId((prev) => ({
-        ...prev,
-        [blogId]: (response.data ?? []).filter((comment) => comment.isApproved !== false),
-      }));
-    } finally {
-      setLoadingCommentsFor(null);
-    }
+    setOpenCommentsBlogId((current) => (current === blogId ? null : blogId));
   }
 
   useEffect(() => {
@@ -448,42 +418,8 @@ export default function BlogsSection() {
                     </span>
                   </div>
 
-                  {openCommentsBlogId === blog.id ? (
-                    <div
-                      className="blog-inline-comments"
-                      style={{
-                        marginTop: 16,
-                        paddingTop: 16,
-                        borderTop: '1px solid rgba(0,0,0,0.08)',
-                      }}
-                    >
-                      {loadingCommentsFor === blog.id ? <p>Loading comments...</p> : null}
-
-                      {!loadingCommentsFor && (commentsByBlogId[blog.id]?.length ?? 0) === 0 ? (
-                        <p style={{ opacity: 0.7 }}>No comments yet.</p>
-                      ) : null}
-
-                      <div style={{ display: 'grid', gap: 12 }}>
-                        {(commentsByBlogId[blog.id] ?? []).map((comment, commentIndex) => (
-                          <div
-                            key={comment.id ?? `${blog.id}-${commentIndex}`}
-                            style={{
-                              background: 'rgba(255,255,255,0.75)',
-                              borderRadius: 12,
-                              padding: '10px 12px',
-                            }}
-                          >
-                            <strong style={{ display: 'block', marginBottom: 4 }}>
-                              {getCommentAuthor(comment)}
-                            </strong>
-
-                            <p style={{ margin: 0, lineHeight: 1.6 }}>
-                              {getCommentMessage(comment)}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                  {openCommentsBlogId === blog.id && blog.id ? (
+                    <BlogCommentsPanel blogId={String(blog.id)} />
                   ) : null}
                 </div>
               </div>

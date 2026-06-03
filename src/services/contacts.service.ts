@@ -214,6 +214,7 @@
 // }
 
 import { API_ENDPOINTS } from '@/constants/api';
+import { getWebsiteDomain } from '@/lib/website-auth';
 import { apiFetch } from '@/services/apiFetch';
 
 type WebsiteAuth = {
@@ -333,7 +334,7 @@ async function ensureWebsiteAuth(domain: string) {
         'Content-Type': 'application/json',
         'x-website-domain': domain,
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({ domain }),
     },
   );
 
@@ -364,7 +365,7 @@ function getApiErrorStatus(error: unknown) {
 }
 
 export async function submitWebsiteContact(payload: ContactSubmission) {
-  const domain = 'coremediagroup.com';
+  const domain = getWebsiteDomain();
   const auth = await ensureWebsiteAuth(domain);
 
   const headers: Record<string, string> = {};
