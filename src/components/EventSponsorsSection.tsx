@@ -69,53 +69,31 @@ export default function EventSponsorsSection() {
         <p>Our partners supporting this event.</p>
 
         <div className="event-sponsors-grid">
-          {STATIC_EVENT_SPONSORS.map((sponsor) => {
-            const cardContent = (
-              <>
-                <div className="event-sponsor-logo-wrap">
-                  <Image
-                    src={sponsor.logoUrl}
-                    alt={sponsor.name}
-                    width={180}
-                    height={80}
-                    className="event-sponsor-logo"
-                  />
-                </div>
+          {STATIC_EVENT_SPONSORS.map((sponsor) => (
+            <article key={sponsor.id} className="event-sponsor-card">
+              <div className="event-sponsor-logo-wrap">
+                <Image
+                  src={sponsor.logoUrl}
+                  alt={sponsor.name}
+                  width={160}
+                  height={56}
+                  className="event-sponsor-logo"
+                />
+              </div>
 
-                <div className="event-sponsor-meta">
-                  <strong className="event-sponsor-name">{sponsor.name}</strong>
-                  {sponsor.tier ? (
-                    <span className={`event-sponsor-tier ${getTierClass(sponsor.tier)}`}>
-                      {sponsor.tier}
-                    </span>
-                  ) : null}
-                  {sponsor.description ? (
-                    <p className="event-sponsor-description">{sponsor.description}</p>
-                  ) : null}
-                </div>
-              </>
-            );
-
-            if (sponsor.website) {
-              return (
-                <a
-                  key={sponsor.id}
-                  href={sponsor.website}
-                  className="event-sponsor-card"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {cardContent}
-                </a>
-              );
-            }
-
-            return (
-              <article key={sponsor.id} className="event-sponsor-card">
-                {cardContent}
-              </article>
-            );
-          })}
+              <div className="event-sponsor-meta">
+                <strong className="event-sponsor-name">{sponsor.name}</strong>
+                {sponsor.tier ? (
+                  <span className={`event-sponsor-tier ${getTierClass(sponsor.tier)}`}>
+                    {sponsor.tier}
+                  </span>
+                ) : null}
+                {sponsor.description ? (
+                  <p className="event-sponsor-description">{sponsor.description}</p>
+                ) : null}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>
