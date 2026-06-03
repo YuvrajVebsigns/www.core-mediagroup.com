@@ -1,15 +1,18 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { isValidPhoneNumber } from 'libphonenumber-js/min';
+import type { Country } from 'react-phone-number-input';
+import CountryCodeSelect, { getDialCodeFromCountry } from '@/components/CountryCodeSelect';
 import { submitAttendeeRegistration } from '@/services/attendees.service';
 import { fetchWebsiteEvents, WebsiteEvent } from '@/services/events.service';
-
 type EventItem = WebsiteEvent;
 
 export default function RegisterPage() {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [country, setCountry] = useState<Country>('IN');
   const [phone, setPhone] = useState('');
   const [organization, setOrganization] = useState('');
   const [selectedEvent, setSelectedEvent] = useState<string | ''>('');
@@ -19,7 +22,9 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState<{
     name?: string;
     email?: string;
+    countryCode?: string;
     phone?: string;
+    organization?: string;
     selectedEvent?: string;
   }>({});
 
@@ -58,11 +63,26 @@ export default function RegisterPage() {
       nextErrors.email = 'Enter a valid email.';
     }
 
+    /* COUNTRY CODE VALIDATION */
+    const dialCode = getDialCodeFromCountry(country);
+    if (!country || !dialCode) {
+      nextErrors.countryCode = 'Please select a country code.';
+    }
+
     /* PHONE VALIDATION */
-    if (!phone.trim()) {
+    const trimmedPhone = phone.trim();
+    if (!trimmedPhone) {
       nextErrors.phone = 'Phone number is required.';
-    } else if (!/^[0-9]{10}$/.test(phone)) {
-      nextErrors.phone = 'Enter a valid 10-digit phone number.';
+    } else if (dialCode) {
+      const fullNumber = `${dialCode}${trimmedPhone}`;
+      if (!isValidPhoneNumber(fullNumber)) {
+        nextErrors.phone = 'Enter a valid phone number for the selected country.';
+      }
+    }
+
+    /* ORGANIZATION VALIDATION */
+    if (!organization.trim()) {
+      nextErrors.organization = 'Organization is required.';
     }
 
     /* EVENT VALIDATION */
@@ -81,17 +101,25 @@ export default function RegisterPage() {
     setPopupMessage(null);
 
     try {
-      await submitAttendeeRegistration({
+      const response = await submitAttendeeRegistration({
         eventId: selectedEvent as string,
         name: name.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        phoneNumber: phone.trim(),
+        countryCode: getDialCodeFromCountry(country),
+        organization: organization.trim(),
       });
 
-      setPopupMessage('Registration successful — thank you!');
+      const apiMessage =
+        response && typeof response === 'object' && 'message' in response
+          ? String((response as { message?: string }).message)
+          : '';
+
+      setPopupMessage(apiMessage || 'Registration successful — thank you!');
 
       setName('');
       setEmail('');
+      setCountry('IN');
       setPhone('');
       setOrganization('');
       setSelectedEvent('');
@@ -173,16 +201,42 @@ export default function RegisterPage() {
               {errors.email && <div className="registration-error">{errors.email}</div>}
             </label>
 
-            {/* PHONE */}
+            {/* COUNTRY CODE */}
+            <label className="registration-label" htmlFor="registration-country-code">
+              Country Code*
+              <CountryCodeSelect
+                id="registration-country-code"
+                value={country}
+                disabled={loading}
+                onChange={(nextCountry) => {
+                  setCountry(nextCountry ?? 'IN');
+
+                  if (errors.countryCode) {
+                    setErrors({
+                      ...errors,
+                      countryCode: undefined,
+                    });
+                  }
+                }}
+              />
+              {country ? (
+                <span className="registration-dial-code-preview">
+                  Dial code: {getDialCodeFromCountry(country)}
+                </span>
+              ) : null}
+              {errors.countryCode && <div className="registration-error">{errors.countryCode}</div>}
+            </label>
+
+            {/* PHONE NUMBER */}
             <label className="registration-label">
-              Phone*
+              Phone Number*
               <input
                 type="tel"
+                name="phoneNumber"
                 placeholder="9876543210"
                 value={phone}
-                maxLength={10}
-                pattern="[0-9]{10}"
-                title="Enter a valid 10-digit phone number"
+                inputMode="numeric"
+                title="Enter phone number without country code"
                 onInput={(e) => {
                   e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '');
                 }}
@@ -202,13 +256,26 @@ export default function RegisterPage() {
 
             {/* ORGANIZATION */}
             <label className="registration-label">
-              Organization
+              Organization*
               <input
                 type="text"
                 placeholder="Company name"
                 value={organization}
-                onChange={(e) => setOrganization(e.target.value)}
+                required
+                onChange={(e) => {
+                  setOrganization(e.target.value);
+
+                  if (errors.organization) {
+                    setErrors({
+                      ...errors,
+                      organization: undefined,
+                    });
+                  }
+                }}
               />
+              {errors.organization && (
+                <div className="registration-error">{errors.organization}</div>
+              )}
             </label>
 
             {/* EVENT */}
@@ -249,11 +316,16 @@ export default function RegisterPage() {
                   loading ||
                   !!errors.name ||
                   !!errors.email ||
+                  !!errors.countryCode ||
                   !!errors.phone ||
+                  !!errors.organization ||
                   !!errors.selectedEvent ||
                   !name ||
                   !email ||
+                  !country ||
+                  !getDialCodeFromCountry(country) ||
                   !phone ||
+                  !organization.trim() ||
                   !selectedEvent
                 }
               >

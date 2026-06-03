@@ -1,3 +1,5 @@
+import { API_ENDPOINTS } from '@/constants/api';
+
 export interface WebsiteBlogWebsite {
   name: string;
   domain: string;
@@ -83,12 +85,21 @@ export interface WebsiteBlogDetailResponse {
 
 export interface WebsiteBlogComment {
   id?: string;
+  authorName?: string;
+  authorEmail?: string;
+  content?: string;
   name?: string;
   email?: string;
   message?: string;
   isApproved?: boolean;
   createdAt?: string;
 }
+
+export type SubmitBlogCommentInput = {
+  authorName: string;
+  authorEmail: string;
+  content: string;
+};
 
 export interface WebsiteBlogCommentsResponse {
   success: boolean;
@@ -767,139 +778,120 @@ export async function fetchWebsiteBlogBySlug(idOrSlug: string) {
   return null;
 }
 
-export async function fetchWebsiteBlogComments(blogId: string) {
-  if (!blogId)
-    return { success: true, message: 'No blog id', data: [] } as WebsiteBlogCommentsResponse;
+function buildSubmitCommentBody(payload: SubmitBlogCommentInput) {
+  return {
+    authorName: payload.authorName,
+    authorEmail: payload.authorEmail,
+    content: payload.content,
+  };
+}
 
+async function fetchBlogCommentsWithAuth(blogId: string) {
   const { apiFetch } = await import('@/services/apiFetch');
-  const domain = 'coremediagroup.com';
-  const auth = await ensureWebsiteAuth(domain);
+  const { buildWebsiteAuthHeaders, clearWebsiteAuth, ensureWebsiteAuth, getApiErrorStatus } =
+    await import('@/lib/website-auth');
 
-  const endpoint = `/api/v1/website/blogs/${encodeURIComponent(blogId)}/comments`;
+  const endpoint = API_ENDPOINTS.WEBSITE.BLOG_COMMENTS.BASE(blogId);
+  const auth = await ensureWebsiteAuth();
 
-  const headers: Record<string, string> = {};
-  if (auth?.token) headers['Authorization'] = `Bearer ${auth.token}`;
-  if (auth?.websiteId) headers['x-website-id'] = String(auth.websiteId);
-
-  try {
-    const response = await apiFetch<WebsiteBlogCommentsResponse>(endpoint, {
+  const request = () =>
+    apiFetch<WebsiteBlogCommentsResponse>(endpoint, {
       requireAuth: false,
-      headers,
+      headers: buildWebsiteAuthHeaders(auth),
     });
 
+  try {
+    return await request();
+  } catch (error: unknown) {
+    if (getApiErrorStatus(error) === 401) {
+      clearWebsiteAuth();
+      const freshAuth = await ensureWebsiteAuth();
+      return apiFetch<WebsiteBlogCommentsResponse>(endpoint, {
+        requireAuth: false,
+        headers: buildWebsiteAuthHeaders(freshAuth),
+      });
+    }
+    throw error;
+  }
+}
+
+async function postBlogCommentWithAuth(blogId: string, payload: SubmitBlogCommentInput) {
+  const { apiFetch } = await import('@/services/apiFetch');
+  const { buildWebsiteAuthHeaders, clearWebsiteAuth, ensureWebsiteAuth, getApiErrorStatus } =
+    await import('@/lib/website-auth');
+
+  const endpoint = API_ENDPOINTS.WEBSITE.BLOG_COMMENTS.BASE(blogId);
+  const body = buildSubmitCommentBody(payload);
+  const auth = await ensureWebsiteAuth();
+
+  const request = () =>
+    apiFetch<WebsiteBlogComment>(endpoint, {
+      method: 'POST',
+      requireAuth: false,
+      headers: buildWebsiteAuthHeaders(auth),
+      body: JSON.stringify(body),
+    });
+
+  try {
+    return await request();
+  } catch (error: unknown) {
+    if (getApiErrorStatus(error) === 401) {
+      clearWebsiteAuth();
+      const freshAuth = await ensureWebsiteAuth();
+      return apiFetch<WebsiteBlogComment>(endpoint, {
+        method: 'POST',
+        requireAuth: false,
+        headers: buildWebsiteAuthHeaders(freshAuth),
+        body: JSON.stringify(body),
+      });
+    }
+    throw error;
+  }
+}
+
+export async function fetchWebsiteBlogComments(blogId: string) {
+  if (!blogId) {
+    return { success: true, message: 'No blog id', data: [] } as WebsiteBlogCommentsResponse;
+  }
+
+  try {
+    const response = await fetchBlogCommentsWithAuth(blogId);
     const comments = extractCommentItems(response);
+
     return {
       success: true,
       message: 'Comments fetched',
       data: comments,
     } as WebsiteBlogCommentsResponse;
-  } catch (error: unknown) {
-    const statusCode = getApiErrorStatus(error);
-
-    if (statusCode === 401 && typeof window !== 'undefined') {
-      try {
-        window.localStorage.removeItem('websiteAuth');
-        const freshAuth = await ensureWebsiteAuth(domain);
-        if (freshAuth?.token) {
-          const retryHeaders: Record<string, string> = {
-            Authorization: `Bearer ${freshAuth.token}`,
-            'x-website-id': String(freshAuth.websiteId),
-          };
-
-          const retryRes = await apiFetch<WebsiteBlogCommentsResponse>(endpoint, {
-            requireAuth: false,
-            headers: retryHeaders,
-          });
-
-          const retryComments = extractCommentItems(retryRes);
-          return {
-            success: true,
-            message: 'Comments fetched',
-            data: retryComments,
-          } as WebsiteBlogCommentsResponse;
-        }
-      } catch {
-        // ignore and fallthrough
-      }
-    }
+  } catch {
+    return { success: true, message: 'No comments', data: [] } as WebsiteBlogCommentsResponse;
   }
-
-  return { success: true, message: 'No comments', data: [] } as WebsiteBlogCommentsResponse;
 }
 
-export async function submitWebsiteBlogComment(
-  blogId: string,
-  payload: { name: string; email?: string; message: string },
-) {
-  const domain = 'coremediagroup.com';
-  const auth = await ensureWebsiteAuth(domain);
-
-  const headers: Record<string, string> = {};
-  if (auth?.token) headers.Authorization = `Bearer ${auth.token}`;
-  if (auth?.websiteId) headers['x-website-id'] = String(auth.websiteId);
-
-  const endpoint = `/api/v1/website/blogs/${encodeURIComponent(blogId)}/comments`;
-
-  const { apiFetch } = await import('@/services/apiFetch');
-
-  try {
-    const response = await apiFetch<WebsiteBlogComment>(endpoint, {
-      method: 'POST',
-      requireAuth: false,
-      headers: {
-        'Content-Type': 'application/json',
-        ...headers,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (response) {
-      return {
-        success: true,
-        message: 'Comment submitted successfully. It will be visible after admin approval.',
-        data: response,
-      };
-    }
-  } catch (error: unknown) {
-    const statusCode = getApiErrorStatus(error);
-
-    if (statusCode === 401 && typeof window !== 'undefined') {
-      try {
-        window.localStorage.removeItem('websiteAuth');
-        const freshAuth = await ensureWebsiteAuth(domain);
-        if (freshAuth?.token) {
-          const retryHeaders: Record<string, string> = {
-            Authorization: `Bearer ${freshAuth.token}`,
-            'x-website-id': String(freshAuth.websiteId),
-            'Content-Type': 'application/json',
-          };
-
-          const retryRes = await apiFetch<WebsiteBlogComment>(endpoint, {
-            method: 'POST',
-            requireAuth: false,
-            headers: retryHeaders,
-            body: JSON.stringify(payload),
-          });
-
-          if (retryRes) {
-            return {
-              success: true,
-              message: 'Comment submitted successfully. It will be visible after admin approval.',
-              data: retryRes,
-            };
-          }
-        }
-      } catch {
-        // ignore and fallthrough
-      }
-    }
+export async function submitWebsiteBlogComment(blogId: string, payload: SubmitBlogCommentInput) {
+  if (!blogId) {
+    return {
+      success: false,
+      message: 'Missing blog id',
+      data: null,
+    };
   }
 
-  return {
-    success: false,
-    message: 'Failed to submit comment',
-    data: null,
-  };
+  try {
+    const response = await postBlogCommentWithAuth(blogId, payload);
+
+    return {
+      success: true,
+      message: 'Comment submitted successfully. It will be visible after admin approval.',
+      data: response,
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : 'Failed to submit comment',
+      data: null,
+    };
+  }
 }
 
 export async function submitWebsiteBlogLike(blogId: string) {

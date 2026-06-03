@@ -6,6 +6,9 @@ export const APP_CONFIG = {
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api/v1';
 
+/** Must match the domain configured in the admin backend for this website. */
+export const WEBSITE_DOMAIN = process.env.NEXT_PUBLIC_WEBSITE_DOMAIN ?? 'core-mediagroup.com';
+
 export const AUTH_COOKIE_NAME = 'cm_auth_token';
 export const REFRESH_COOKIE_NAME = 'cm_refresh_token';
 

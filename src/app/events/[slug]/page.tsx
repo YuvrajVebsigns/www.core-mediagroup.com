@@ -316,6 +316,7 @@ import { ArrowUpLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 import EventDetailsAnimated from '@/components/EventDetailsAnimated';
+import EventSponsorsSection from '@/components/EventSponsorsSection';
 import {
   fetchWebsiteEventByIdOrSlug,
   fetchWebsiteEvents,
@@ -648,6 +649,8 @@ export default function EventDetailsPage() {
       <div className="event-details-shell">
         <ClientErrorBoundary>
           <EventDetailsAnimated featuredEvent={featuredEvent} readableSlug={readableSlug} />
+
+          <EventSponsorsSection />
 
           {contentBlocks.length > 0 ? (
             <div>{contentBlocks.map((block, index) => renderBlock(block, index))}</div>

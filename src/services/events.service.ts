@@ -1,4 +1,9 @@
 import { API_ENDPOINTS } from '@/constants/api';
+import {
+  buildWebsiteAuthHeaders,
+  ensureWebsiteAuth as obtainWebsiteAuth,
+  getWebsiteDomain,
+} from '@/lib/website-auth';
 import { apiFetch } from '@/services/apiFetch';
 
 type WebsiteAuth = {
@@ -72,7 +77,7 @@ async function ensureWebsiteAuth(domain: string) {
         'Content-Type': 'application/json',
         'x-website-domain': domain,
       },
-      body: JSON.stringify({}),
+      body: JSON.stringify({ domain }),
     },
   );
 
@@ -119,7 +124,7 @@ function getApiErrorStatus(error: unknown) {
 }
 
 export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEvent[]> {
-  const domain = 'coremediagroup.com';
+  const domain = getWebsiteDomain();
   let auth: WebsiteAuth | null = null;
 
   if (!websiteId) {
@@ -206,18 +211,18 @@ export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEve
 }
 
 export async function fetchWebsiteEventByIdOrSlug(idOrSlug: string): Promise<WebsiteEvent | null> {
-  const domain = 'coremediagroup.com';
-  let auth: WebsiteAuth | null = null;
+  const domain = getWebsiteDomain();
+  let auth: WebsiteAuth | null = readStoredWebsiteAuth();
 
-  try {
-    auth = readStoredWebsiteAuth();
-  } catch {
-    auth = null;
+  if (!auth?.token) {
+    try {
+      auth = await obtainWebsiteAuth(domain);
+    } catch {
+      auth = null;
+    }
   }
 
-  const headers: Record<string, string> = {};
-  if (auth?.token) headers.Authorization = `Bearer ${auth.token}`;
-  if (auth?.websiteId) headers['x-website-id'] = auth.websiteId;
+  const headers: Record<string, string> = auth ? buildWebsiteAuthHeaders(auth) : {};
 
   try {
     const url = API_ENDPOINTS.WEBSITE.EVENTS.BY_ID(encodeURIComponent(idOrSlug));

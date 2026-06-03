@@ -447,11 +447,10 @@ import Link from 'next/link';
 import { ArrowUpRight, ChevronRight, ChevronLeft, Heart, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import BlogCommentsPanel from '@/components/BlogCommentsPanel';
 import {
-  fetchWebsiteBlogComments,
   fetchWebsiteBlogs,
   submitWebsiteBlogLike,
-  type WebsiteBlogComment,
   type WebsiteBlogItem,
 } from '@/services/blogs.service';
 
@@ -489,8 +488,6 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
   const [localLikes, setLocalLikes] = useState<number>(likesCount);
   const [liked, setLiked] = useState<boolean>(false);
   const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState<WebsiteBlogComment[]>([]);
-  const [loadingComments, setLoadingComments] = useState(false);
 
   const LIKED_KEY = 'likedBlogs';
 
@@ -533,14 +530,6 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
     return readLikedSet().has(String(id));
   }
 
-  function getCommentAuthor(comment: WebsiteBlogComment) {
-    return comment.name || 'Guest';
-  }
-
-  function getCommentMessage(comment: WebsiteBlogComment) {
-    return comment.message || '';
-  }
-
   useEffect(() => {
     setLiked(isBlogLiked(blog.id));
     setLocalLikes(likesCount);
@@ -573,23 +562,10 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
     }
   }
 
-  async function handleCommentToggle(e: React.MouseEvent) {
+  function handleCommentToggle(e: React.MouseEvent) {
     e.stopPropagation();
     e.preventDefault();
-
-    const nextShow = !showComments;
-    setShowComments(nextShow);
-
-    if (!nextShow || comments.length > 0) return;
-
-    setLoadingComments(true);
-
-    try {
-      const response = await fetchWebsiteBlogComments(blog.id);
-      setComments((response.data ?? []).filter((comment) => comment.isApproved !== false));
-    } finally {
-      setLoadingComments(false);
-    }
+    setShowComments((current) => !current);
   }
 
   const initialTransform = variant.includes('left')
@@ -656,33 +632,7 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
           </span>
         </div>
 
-        {showComments ? (
-          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid rgba(0,0,0,0.08)' }}>
-            {loadingComments ? <p>Loading comments...</p> : null}
-
-            {!loadingComments && comments.length === 0 ? (
-              <p style={{ opacity: 0.7 }}>No comments yet.</p>
-            ) : null}
-
-            <div style={{ display: 'grid', gap: 12 }}>
-              {comments.map((comment, commentIndex) => (
-                <div
-                  key={comment.id ?? `${blog.id}-${commentIndex}`}
-                  style={{
-                    background: 'rgba(255,255,255,0.75)',
-                    borderRadius: 12,
-                    padding: '10px 12px',
-                  }}
-                >
-                  <strong style={{ display: 'block', marginBottom: 4 }}>
-                    {getCommentAuthor(comment)}
-                  </strong>
-                  <p style={{ margin: 0, lineHeight: 1.6 }}>{getCommentMessage(comment)}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
+        {showComments && blog.id ? <BlogCommentsPanel blogId={String(blog.id)} /> : null}
       </div>
     </article>
   );
