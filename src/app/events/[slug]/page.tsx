@@ -312,6 +312,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { ArrowUpRight } from 'lucide-react';
 import { ArrowUpLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
@@ -678,8 +679,15 @@ export default function EventDetailsPage() {
             ) : null}
 
             <div style={{ marginTop: 24 }}>
-              <Link href="/register" className="talk-btn">
+              {/* <Link href="/register" className="talk-btn">
                 Registration
+              </Link> */}
+              <Link href="/register" className="talk-btn">
+                <span>Registration</span>
+
+                <div className="talk-btn-icon">
+                  <ArrowUpRight size={18} />
+                </div>
               </Link>
             </div>
           </div>

@@ -3,6 +3,7 @@
 // import Image from 'next/image';
 // import Link from 'next/link';
 // import { useParams } from 'next/navigation';
+// import { ArrowUpLeft } from 'lucide-react';
 // import { useEffect, useState } from 'react';
 // import useScrollAnimation from '../../../hooks/useScrollAnimation';
 // import {
@@ -10,63 +11,6 @@
 //   type WebsiteBlogContentBlock,
 //   type WebsiteBlogDetailItem,
 // } from '@/services/blogs.service';
-
-// type FallbackArticle = {
-//   category: string;
-//   title: string;
-//   author: string;
-//   date: string;
-//   image: string;
-//   hero: string;
-//   content: string[];
-//   sections: Array<{
-//     heading: string;
-//     paragraphs: string[];
-//   }>;
-// };
-
-// const fallbackArticle: FallbackArticle = {
-//   category: 'Blog',
-//   title: 'Healthcare & Life Sciences Accelerate Digital Transformation with AI/ML & Hybrid Cloud',
-//   author: 'CIO Dialogues Team',
-//   date: 'June 13, 2022',
-//   image: '/assets/blogs/blog-1.png',
-//   hero: '/assets/blogs/blog-1.webp',
-
-//   content: [
-//     'Healthcare and Life Sciences companies are accelerating digital transformation using AI/ML and Hybrid Cloud technologies.',
-
-//     'CIOs are focusing on cloud solutions for R&D, drug discovery, data management, and improving patient outcomes.',
-
-//     'Key challenges include data security, compliance, audits, and managing cloud infrastructure costs.',
-//   ],
-
-//   sections: [
-//     {
-//       heading: 'Accelerating with Hybrid Cloud',
-//       paragraphs: [
-//         'Healthcare companies are adopting Hybrid Cloud to improve scalability, customer experience, and operational efficiency.',
-
-//         'Cloud enables agile supply chains, automation, and faster digital innovation while maintaining critical on-premise systems.',
-
-//         'Google Cloud highlighted Hybrid Cloud solutions like Anthos to balance flexibility, compliance, and data protection.',
-//       ],
-//     },
-
-//     {
-//       heading: 'Data Privacy and Connectivity',
-//       paragraphs: [
-//         'Cloud technologies support innovation, collaboration, and advanced analytics across healthcare ecosystems.',
-
-//         'CIOs remain concerned about data privacy, regulatory compliance, and audit readiness.',
-
-//         'Google Cloud emphasized Zero-Trust security models and GxP-compliant infrastructure to address these challenges.',
-
-//         'Organizations are carefully selecting technologies that align with business transformation goals rather than adopting technology blindly.',
-//       ],
-//     },
-//   ],
-// };
 
 // function AnimatedBlock({
 //   children,
@@ -89,10 +33,10 @@
 // }
 
 // function formatPublishedDate(value?: string) {
-//   if (!value) return fallbackArticle.date;
+//   if (!value) return '';
 
 //   const parsed = new Date(value);
-//   if (Number.isNaN(parsed.getTime())) return fallbackArticle.date;
+//   if (Number.isNaN(parsed.getTime())) return '';
 
 //   return parsed.toLocaleDateString('en-US', {
 //     month: 'long',
@@ -102,15 +46,15 @@
 // }
 
 // function getBlogImage(blog?: WebsiteBlogDetailItem | null) {
-//   return blog?.featureImage || blog?.seo?.ogImage || fallbackArticle.hero;
+//   return blog?.featureImage || blog?.seo?.ogImage || '/assets/blogs/blog-1.webp';
 // }
 
 // function getBlogCategory(blog?: WebsiteBlogDetailItem | null) {
-//   return blog?.websites?.[0]?.name || blog?.tags?.[0] || fallbackArticle.category;
+//   return blog?.websites?.[0]?.name || blog?.tags?.[0] || 'Blog';
 // }
 
 // function getBlogAuthor(blog?: WebsiteBlogDetailItem | null) {
-//   return blog?.author?.fullName || fallbackArticle.author;
+//   return blog?.author?.fullName || 'CIO Dialogues Team';
 // }
 
 // function getBlogContentBlocks(blog?: WebsiteBlogDetailItem | null) {
@@ -140,6 +84,7 @@
 //   if (type === 'paragraph') {
 //     const text = typeof data?.text === 'string' ? data.text.trim() : '';
 //     if (!text) return null;
+
 //     return (
 //       <p
 //         key={key}
@@ -153,6 +98,7 @@
 //     const items = Array.isArray(data?.items)
 //       ? data.items.filter((item): item is string => typeof item === 'string')
 //       : [];
+
 //     if (!items.length) return null;
 
 //     return (
@@ -202,16 +148,7 @@
 //     return <hr key={key} style={{ margin: '24px 0' }} />;
 //   }
 
-//   const fallbackText = typeof data?.text === 'string' ? data.text.trim() : '';
-//   if (!fallbackText) return null;
-
-//   return (
-//     <p
-//       key={key}
-//       style={{ marginBottom: '18px', lineHeight: 1.8 }}
-//       dangerouslySetInnerHTML={{ __html: fallbackText }}
-//     />
-//   );
+//   return null;
 // }
 
 // export default function BlogDetailsPage() {
@@ -263,14 +200,43 @@
 //     };
 //   }, [slug]);
 
-//   const displayTitle = blog?.title ?? fallbackArticle.title;
+//   if (isLoading) {
+//     return (
+//       <main className="blog-detail-page">
+//         <p style={{ padding: '80px 20px', textAlign: 'center' }}>Loading blog...</p>
+//       </main>
+//     );
+//   }
+
+//   if (error || !blog) {
+//     return (
+//       <main className="not-found-page">
+//         <Image src="/assets/404.png" alt="Blog Not Found" width={700} height={500} />
+
+//         <h1>Blog Not Found</h1>
+
+//         <p>
+//           The article you&apos;re looking for may have been moved, removed, or is no longer
+//           available. Discover our latest blogs and stay informed with fresh insights.
+//         </p>
+
+//         <Link href="/blog" className="backbutton">
+//           <div className="backbutton-icon">
+//             <ArrowUpLeft size={18} />
+//           </div>
+
+//           <span>Back to Blog</span>
+//         </Link>
+//       </main>
+//     );
+//   }
+
+//   const displayTitle = blog.title;
 //   const displayAuthor = getBlogAuthor(blog);
 //   const displayCategory = getBlogCategory(blog);
-//   const displayDate = formatPublishedDate(blog?.publishedAt);
+//   const displayDate = formatPublishedDate(blog.publishedAt);
 //   const displayImage = getBlogImage(blog);
 //   const contentBlocks = getBlogContentBlocks(blog);
-//   const hasBlocks = contentBlocks.length > 0;
-//   const fallbackSections = fallbackArticle.sections;
 
 //   return (
 //     <main className="blog-detail-page">
@@ -296,89 +262,34 @@
 //             animationClass="animate-fade-in-left"
 //             initialTransform="translateX(-24px)"
 //           >
-//             {isLoading ? <p style={{ marginBottom: '18px' }}>Loading blog...</p> : null}
-//             {!isLoading && error ? <p style={{ marginBottom: '18px' }}>{error}</p> : null}
-
 //             <div className="blogpage-meta">
 //               <span className="blogpage-category">{displayCategory}</span>
-//               <p>
+//               {/* <p>
 //                 By <span>{displayAuthor}</span>
-//               </p>
+//               </p> */}
 //             </div>
 
 //             <h1 className="blogpage-title">{displayTitle}</h1>
-//             <div className="blogpage-meta" style={{ marginBottom: '18px' }}>
-//               Published on {displayDate}
-//             </div>
 
-//             {hasBlocks ? (
-//               <div>{contentBlocks.map((block, index) => renderBlock(block, index))}</div>
-//             ) : (
-//               <>
-//                 <p style={{ marginBottom: '18px', lineHeight: 1.8 }}>
-//                   {fallbackArticle.content[0]}
-//                 </p>
+//             {displayDate ? (
+//               <div className="blogpage-meta" style={{ marginBottom: '18px' }}>
+//                 Published on {displayDate}
+//               </div>
+//             ) : null}
 
-//                 <AnimatedBlock
-//                   className="project-overview"
-//                   animationClass="animate-fade-in"
-//                   initialTransform="translateY(18px)"
-//                 >
-//                   <h3>Project Overview</h3>
-//                   <p className="project-overview-sub">
-//                     A dynamic market, a strong and consistent brand identity is key to standing out
-//                     and driving growth.
-//                   </p>
-
-//                   <ul className="overview-list">
-//                     <li>
-//                       <strong>Brand Audit & Research</strong>
-//                     </li>
-//                     <li>
-//                       <strong>Stakeholder Workshops</strong>
-//                     </li>
-//                     <li>
-//                       <strong>Customer Experience</strong>
-//                     </li>
-//                     <li>
-//                       <strong>Launch & Marketing</strong>
-//                     </li>
-//                     <li>
-//                       <strong>Creative Direction</strong>
-//                     </li>
-//                     <li>
-//                       <strong>Touchpoints</strong>
-//                     </li>
-//                   </ul>
-//                 </AnimatedBlock>
-
-//                 {fallbackSections.map((section) => (
-//                   <AnimatedBlock
-//                     key={section.heading}
-//                     className="blog-section-block"
-//                     animationClass="animate-fade-in"
-//                     initialTransform="translateY(24px)"
-//                   >
-//                     <section style={{ marginTop: '28px' }}>
-//                       <h2 style={{ marginBottom: '14px' }}>{section.heading}</h2>
-//                       {section.paragraphs.map((paragraph) => (
-//                         <p key={paragraph} style={{ marginBottom: '18px', lineHeight: 1.8 }}>
-//                           {paragraph}
-//                         </p>
-//                       ))}
-//                     </section>
-//                   </AnimatedBlock>
-//                 ))}
-//               </>
-//             )}
+//             <div>{contentBlocks.map((block, index) => renderBlock(block, index))}</div>
 
 //             <AnimatedBlock
 //               className="blog-back-link"
 //               animationClass="animate-fade-in"
 //               initialTransform="translateY(18px)"
 //             >
-//               <Link href="/blog" className="talk-btn">
-//                 ← Back to Blog
+//               <Link href="/blog" className="backbutton">
+//                 <div className="backbutton-icon">
+//                   <ArrowUpLeft size={18} />
+//                 </div>
+
+//                 <span>Back to Blog</span>
 //               </Link>
 //             </AnimatedBlock>
 //           </AnimatedBlock>
@@ -396,6 +307,7 @@ import { useParams } from 'next/navigation';
 import { ArrowUpLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useScrollAnimation from '../../../hooks/useScrollAnimation';
+import BlogCommentsPanel from '@/components/BlogCommentsPanel';
 import {
   fetchWebsiteBlogBySlug,
   type WebsiteBlogContentBlock,
@@ -441,10 +353,6 @@ function getBlogImage(blog?: WebsiteBlogDetailItem | null) {
 
 function getBlogCategory(blog?: WebsiteBlogDetailItem | null) {
   return blog?.websites?.[0]?.name || blog?.tags?.[0] || 'Blog';
-}
-
-function getBlogAuthor(blog?: WebsiteBlogDetailItem | null) {
-  return blog?.author?.fullName || 'CIO Dialogues Team';
 }
 
 function getBlogContentBlocks(blog?: WebsiteBlogDetailItem | null) {
@@ -548,6 +456,7 @@ export default function BlogDetailsPage() {
   const [blog, setBlog] = useState<WebsiteBlogDetailItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -622,7 +531,6 @@ export default function BlogDetailsPage() {
   }
 
   const displayTitle = blog.title;
-  const displayAuthor = getBlogAuthor(blog);
   const displayCategory = getBlogCategory(blog);
   const displayDate = formatPublishedDate(blog.publishedAt);
   const displayImage = getBlogImage(blog);
@@ -646,7 +554,7 @@ export default function BlogDetailsPage() {
           />
         </AnimatedBlock>
 
-        <div className="blogpage-body">
+        <div className="blogpage-body blog-detail-layout">
           <AnimatedBlock
             className="blogpage-content"
             animationClass="animate-fade-in-left"
@@ -654,9 +562,6 @@ export default function BlogDetailsPage() {
           >
             <div className="blogpage-meta">
               <span className="blogpage-category">{displayCategory}</span>
-              <p>
-                By <span>{displayAuthor}</span>
-              </p>
             </div>
 
             <h1 className="blogpage-title">{displayTitle}</h1>
@@ -674,15 +579,55 @@ export default function BlogDetailsPage() {
               animationClass="animate-fade-in"
               initialTransform="translateY(18px)"
             >
-              <Link href="/events" className="backbutton">
+              <Link href="/blog" className="backbutton">
                 <div className="backbutton-icon">
                   <ArrowUpLeft size={18} />
                 </div>
 
-                <span>Back to Events</span>
+                <span>Back to Blog</span>
               </Link>
             </AnimatedBlock>
           </AnimatedBlock>
+
+          <aside className="blog-comments-side-card">
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '12px',
+                marginBottom: '16px',
+              }}
+            >
+              <h3 style={{ margin: 0 }}>Comments</h3>
+
+              <button
+                type="button"
+                onClick={() => setShowComments((prev) => !prev)}
+                style={{
+                  background: '#a40000',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '999px',
+                  padding: '10px 18px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {showComments ? 'Close' : 'Add Comment'}
+              </button>
+            </div>
+
+            {showComments ? (
+              blog.id ? (
+                <BlogCommentsPanel blogId={String(blog.id)} />
+              ) : (
+                <p>No comments available.</p>
+              )
+            ) : null}
+          </aside>
         </div>
       </article>
     </main>

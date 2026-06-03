@@ -2781,6 +2781,45 @@ main {
   margin-left: 90px;
 }
 
+.blog-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 28px;
+  align-items: flex-start;
+
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.blog-comments-side-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 110px;
+
+  margin: 20px; /* top right bottom left */
+}
+
+.blog-comments-side-card h3 {
+  margin-bottom: 16px;
+  font-size: 22px;
+  color: #111;
+  font-weight: 700;
+}
+
+@media (max-width: 991px) {
+  .blog-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .blog-comments-side-card {
+    position: static;
+  }
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .blog-section-block h2 {
@@ -2914,7 +2953,7 @@ main {
 }
 
 .blogpage-content {
-  padding: 6px 0;
+  padding: 6px 20px;
 }
 
 .blogpage-category {
@@ -5833,8 +5872,9 @@ main {
 }
 
 .registration-container {
+  margin-top: 10px;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1050px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
@@ -5842,8 +5882,9 @@ main {
 
 .registration-wrapper {
   width: 100%;
-  max-width: 900px;
-  margin: 30px auto 0;
+  max-width: 800px;
+  height: auto;
+  margin: 15px auto 0;
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(16px);
@@ -5890,13 +5931,33 @@ main {
 .registration-country-select {
   width: 100%;
   height: 48px;
-  padding: 0 16px;
+  padding: 0 45px 0 16px; /* extra right space for dropdown arrow */
   border: 2px solid #ddd;
   border-radius: 999px;
-  background: #ffffff;
+  background-color: #ffffff;
   outline: none;
   font-size: 15px;
   color: #2f2e2e;
+  box-sizing: border-box;
+}
+
+/* Move dropdown arrow to the left */
+.registration-form select,
+.registration-country-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 25px) center; /* move arrow left */
+  background-size: 14px;
+}
+
+.registration-form input:focus,
+.registration-form select:focus,
+.registration-country-select:focus {
+  border-color: #a40000;
 }
 
 .registration-country-select {
