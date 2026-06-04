@@ -474,6 +474,7 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
     return readLikedSet().has(String(id));
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setLiked(isBlogLiked(blog.id));
     setLocalLikes(likesCount);
@@ -679,7 +680,7 @@ export default function BlogPage() {
         <div className="blog-hero-overlay"></div>
 
         <div className="blog-hero-content" ref={heroContentRef}>
-          <h1>Read Blog</h1>
+          <h1>Explore Insights</h1>
 
           <div className="blog-breadcrumb">
             <Link href="/" className="blog-breadcrumb-home">

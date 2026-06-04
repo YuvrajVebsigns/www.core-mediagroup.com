@@ -155,6 +155,7 @@ export default function BlogDetailsPage() {
   const [blog, setBlog] = useState<WebsiteBlogDetailItem | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showShareOptions, setShowShareOptions] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -233,6 +234,49 @@ export default function BlogDetailsPage() {
   const displayDate = formatPublishedDate(blog.publishedAt);
   const displayImage = getBlogImage(blog);
   const contentBlocks = getBlogContentBlocks(blog);
+  const shareUrl = typeof window !== 'undefined' ? `${window.location.origin}/blog/${slug}` : '';
+
+  function openExternal(url: string) {
+    try {
+      window.open(url, '_blank', 'noopener');
+    } catch (_) {
+      // ignore
+    }
+  }
+  async function handleShareWhatsApp() {
+    const waUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
+    openExternal(waUrl);
+    setShowShareOptions(false);
+  }
+
+  async function handleShareFacebook() {
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    openExternal(fbUrl);
+    setShowShareOptions(false);
+  }
+
+  async function handleShareTwitter() {
+    const twUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(displayTitle || '')}&url=${encodeURIComponent(shareUrl)}`;
+    openExternal(twUrl);
+    setShowShareOptions(false);
+  }
+
+  async function handleShareInstagram() {
+    const igWeb = `https://www.instagram.com/?url=${encodeURIComponent(shareUrl)}`;
+    openExternal(igWeb);
+    setShowShareOptions(false);
+  }
+
+  // minimal helpers kept; unused icon components removed to satisfy linter
+
+  async function copyLinkToClipboard() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      // Small UX feedback could be added here (toast), kept minimal per request
+    } catch (_) {
+      // ignore
+    }
+  }
 
   return (
     <main className="blog-detail-page">
@@ -284,6 +328,90 @@ export default function BlogDetailsPage() {
 
                 <span>Back to Blog</span>
               </Link>
+            </AnimatedBlock>
+            <br />
+            <AnimatedBlock
+              className="blog-back-link"
+              animationClass="animate-fade-in"
+              initialTransform="translateY(18px)"
+            >
+              <div className="share-container">
+                <button
+                  type="button"
+                  className="backbutton"
+                  onClick={() => setShowShareOptions((s) => !s)}
+                  aria-expanded={showShareOptions}
+                  aria-haspopup="menu"
+                  id="share-button"
+                >
+                  <div className="backbutton-icon">
+                    <ArrowUpLeft size={18} />
+                  </div>
+
+                  <span>Share Blog</span>
+                </button>
+
+                <br />
+
+                {showShareOptions ? (
+                  <div className="share-popup" role="menu" aria-labelledby="share-button">
+                    <button
+                      type="button"
+                      onClick={handleShareWhatsApp}
+                      className="share-option whatsapp"
+                    >
+                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                        <WhatsAppIcon />
+                      </span> */}
+                      <span>WhatsApp</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleShareFacebook}
+                      className="share-option facebook"
+                    >
+                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                        <FacebookIcon />
+                      </span> */}
+                      <span>Facebook</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleShareTwitter}
+                      className="share-option twitter"
+                    >
+                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                        <TwitterIcon />
+                      </span> */}
+                      <span>Twitter</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleShareInstagram}
+                      className="share-option instagram"
+                    >
+                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                        <InstagramIcon />
+                      </span> */}
+                      <span>Instagram</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={copyLinkToClipboard}
+                      className="share-option copy"
+                    >
+                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                        <LinkIcon />
+                      </span> */}
+                      <span>Copy Link</span>
+                    </button>
+                  </div>
+                ) : null}
+              </div>
             </AnimatedBlock>
           </AnimatedBlock>
 

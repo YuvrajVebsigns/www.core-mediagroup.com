@@ -311,7 +311,7 @@ export default function RegisterPage() {
                   !selectedEvent
                 }
               >
-                {loading ? 'Submitting...' : 'Register'}
+                {loading ? 'Submitting...' : 'Submit Registration'}
               </button>
             </div>
           </form>
