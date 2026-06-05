@@ -19,7 +19,7 @@
 //   nominatorContact?: string;
 //   cios?: {
 //     [key: number]: {
-//       category?: string;
+//       categoryId?: string;
 //       name?: string;
 //       company?: string;
 //       email?: string;
@@ -141,7 +141,7 @@
 
 //     cios.forEach((c, idx) => {
 //       const currentCioErrors: {
-//         category?: string;
+//         categoryId?: string;
 //         name?: string;
 //         company?: string;
 //         email?: string;
@@ -512,9 +512,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { MONGODB_ID_REGEX, NOMINATION_CATEGORY_OPTIONS } from '@/constants/nominations.constants';
+import { submitWebsiteNomination } from '@/services/nominations.service';
 
 type CIOEntry = {
-  category: string;
+  categoryId: string;
   name: string;
   company: string;
   email: string;
@@ -529,7 +531,7 @@ type FormErrors = {
   nominatorContact?: string;
   cios?: {
     [key: number]: {
-      category?: string;
+      categoryId?: string;
       name?: string;
       company?: string;
       email?: string;
@@ -546,12 +548,13 @@ export default function NominatePage() {
   const [nominatorEmail, setNominatorEmail] = useState('');
 
   const [cios, setCios] = useState<CIOEntry[]>([
-    { category: '', name: '', company: '', email: '', mobile: '' },
+    { categoryId: '', name: '', company: '', email: '', mobile: '' },
   ]);
 
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [animatingCioIndex, setAnimatingCioIndex] = useState<number | null>(null);
   const [animationType, setAnimationType] = useState<'add' | 'remove' | null>(null);
@@ -574,7 +577,7 @@ export default function NominatePage() {
         }, 800);
       }, 10);
 
-      return [...prev, { category: '', name: '', company: '', email: '', mobile: '' }];
+      return [...prev, { categoryId: '', name: '', company: '', email: '', mobile: '' }];
     });
   };
 
@@ -613,7 +616,7 @@ export default function NominatePage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -659,8 +662,11 @@ export default function NominatePage() {
     cios.forEach((c, idx) => {
       const currentCioErrors: NonNullable<FormErrors['cios']>[number] = {};
 
-      if (!c.category) {
-        currentCioErrors.category = 'Please select a category.';
+      if (!c.categoryId) {
+        currentCioErrors.categoryId = 'Please select a category.';
+        hasErrors = true;
+      } else if (!MONGODB_ID_REGEX.test(c.categoryId)) {
+        currentCioErrors.categoryId = 'Invalid category. Please select again.';
         hasErrors = true;
       }
 
@@ -707,7 +713,42 @@ export default function NominatePage() {
     }
 
     setStatus(null);
-    setSubmitted(true);
+    setIsSubmitting(true);
+
+    try {
+      const response = await submitWebsiteNomination({
+        nominatorName,
+        nominatorCompany,
+        nominatorCity,
+        nominatorContact,
+        nominatorEmail,
+        nominees: cios.map((cio) => ({
+          categoryId: cio.categoryId,
+          contactName: cio.name,
+          companyName: cio.company,
+          contactEmail: cio.email,
+          mobileNo: cio.mobile,
+        })),
+      });
+
+      const apiMessage =
+        response && typeof response === 'object' && 'message' in response
+          ? String((response as { message?: string }).message)
+          : '';
+
+      if (apiMessage) {
+        setStatus(apiMessage);
+      }
+
+      setSubmitted(true);
+    } catch (error) {
+      setStatus(
+        error instanceof Error ? error.message : 'Failed to submit nomination. Please try again.',
+      );
+      setSubmitted(false);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -904,16 +945,19 @@ export default function NominatePage() {
                       <label className="nominate-label">
                         Nominated CIO by Category *
                         <select
-                          value={c.category}
-                          onChange={(e) => updateCio(idx, 'category', e.target.value)}
+                          value={c.categoryId}
+                          onChange={(e) => updateCio(idx, 'categoryId', e.target.value)}
                           className="nominate-input-field"
                         >
                           <option value="">- Select Category -</option>
-                          <option value="Business Icon">Business Icon</option>
-                          <option value="Technology Icon">Technology Icon</option>
+                          {NOMINATION_CATEGORY_OPTIONS.map((option) => (
+                            <option key={option.id} value={option.id}>
+                              {option.label}
+                            </option>
+                          ))}
                         </select>
-                        {errors.cios?.[idx]?.category && (
-                          <div className="registration-error">{errors.cios[idx].category}</div>
+                        {errors.cios?.[idx]?.categoryId && (
+                          <div className="registration-error">{errors.cios[idx].categoryId}</div>
                         )}
                       </label>
 
@@ -1003,8 +1047,9 @@ export default function NominatePage() {
             form="nominate-form"
             className="nominate-btn nominate-btn-primary nominate-submit"
             aria-label="Submit nomination"
+            disabled={isSubmitting}
           >
-            Submit
+            {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
 
           <small className="nominate-submit-note">
