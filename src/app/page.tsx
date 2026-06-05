@@ -10,6 +10,7 @@ import FAQSection from '@/components/FAQSection';
 import ContactSection from '@/components/ContactSection';
 import BlogsSection from '@/components/BlogsSection';
 import DialoguesSection from '@/components/DialoguesSection';
+import AssociateBrandsPage from '@/components/Associatebrands';
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
       <ContactSection />
       <BlogsSection />
       <DialoguesSection />
+      <AssociateBrandsPage />
       {/* </div> */}
     </main>
   );

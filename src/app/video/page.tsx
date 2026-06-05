@@ -1,3 +1,4 @@
+import Link from 'next/link';
 export default function VideoPage() {
   return (
     <main className="video-page-section">
@@ -34,6 +35,12 @@ export default function VideoPage() {
           Connect with us if you’re considering video as a channel for content marketing and we’ll
           turn the spotlight on your brand!
         </p>
+
+        <div className="social-media-back">
+          <Link href="/" className="social-media-back-btn">
+            ← Back
+          </Link>
+        </div>
       </div>
     </main>
   );

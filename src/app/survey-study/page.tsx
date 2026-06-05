@@ -66,8 +66,8 @@ export default function SurveyStudyPage() {
                 market—we&apos;ll get you the insights you need!
               </p>
 
-              <div className="survey-study-back">
-                <Link href="/" className="survey-study-back-btn">
+              <div className="social-media-back">
+                <Link href="/" className="social-media-back-btn">
                   ← Back
                 </Link>
               </div>

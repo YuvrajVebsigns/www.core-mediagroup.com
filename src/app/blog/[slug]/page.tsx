@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { ArrowUpLeft } from 'lucide-react';
+import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useScrollAnimation from '../../../hooks/useScrollAnimation';
 import BlogCommentsPanel from '@/components/BlogCommentsPanel';
@@ -338,17 +338,16 @@ export default function BlogDetailsPage() {
               <div className="share-container">
                 <button
                   type="button"
-                  className="backbutton"
+                  className="talk-btn"
                   onClick={() => setShowShareOptions((s) => !s)}
                   aria-expanded={showShareOptions}
                   aria-haspopup="menu"
                   id="share-button"
                 >
-                  <div className="backbutton-icon">
-                    <ArrowUpLeft size={18} />
-                  </div>
-
                   <span>Share Blog</span>
+                  <div className="talk-btn-icon">
+                    <ArrowUpRight size={18} />
+                  </div>
                 </button>
 
                 <br />
