@@ -198,7 +198,7 @@ export default function VideosPage() {
         <div className="blog-hero-overlay"></div>
 
         <div className="blog-hero-content" ref={heroContentRef}>
-          <h1>Play Videos</h1>
+          <h1>Video Library</h1>
 
           <div className="blog-breadcrumb">
             <Link href="/" className="blog-breadcrumb-home">
