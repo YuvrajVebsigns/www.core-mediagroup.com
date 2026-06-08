@@ -4498,7 +4498,7 @@ main {
 ========================================================= */
 
 .contact-section {
-  background: #8e0101;
+  background: #a40000;
   padding: 100px 40px;
 }
 
@@ -4518,12 +4518,10 @@ main {
 ========================================================= */
 
 .contact-map-area {
-  background: #8e0101;
-
+  background: #a40000;
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 60px;
   position: relative;
 }
@@ -4546,8 +4544,8 @@ main {
 ========================================================= */
 
 .map-dot {
-  width: 14px;
-  height: 14px;
+  width: 10px;
+  height: 10px;
 
   background: white;
   border-radius: 50%;
@@ -4558,18 +4556,22 @@ main {
 }
 
 .dot-1 {
-  top: 32%;
+  top: 31%;
   left: 42%;
+
+  background-color: #282626;
 }
 
 .dot-2 {
-  top: 48%;
+  top: 43%;
   left: 67%;
+  background-color: #353232;
 }
 
 .dot-3 {
-  top: 62%;
-  left: 25%;
+  top: 61%;
+  left: 26%;
+  background-color: #312f2f;
 }
 
 @keyframes pulseDot {
@@ -4741,7 +4743,7 @@ main {
   width: 12px;
   height: 12px;
   border-radius: 999px;
-  background: #19a65a;
+  background: #a6191b;
   flex-shrink: 0;
 }
 
@@ -4791,7 +4793,7 @@ main {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  color: #8e0101;
+  color: #b40000;
   background: white;
   display: flex;
   align-items: center;
@@ -4869,6 +4871,21 @@ main {
   .map-dot {
     width: 10px;
     height: 10px;
+  }
+
+  .dot-1 {
+    top: 56%;
+    left: 40%;
+  }
+
+  .dot-2 {
+    top: 70%;
+    left: 67%;
+  }
+
+  .dot-3 {
+    top: 92%;
+    left: 26%;
   }
 }
 
