@@ -28,9 +28,9 @@ export default function CountryCodeSelect({
 }: CountryCodeSelectProps) {
   const options = useMemo(
     () =>
-      getCountries().map((country) => {
+      getCountries().map((country: Country) => {
         const dialCode = getDialCodeFromCountry(country);
-        const label = en[country] ?? country;
+        const label = (en as Record<string, string>)[country] ?? country;
         return {
           country,
           dialCode,
@@ -54,7 +54,7 @@ export default function CountryCodeSelect({
       <option value="" disabled>
         Select country code
       </option>
-      {options.map(({ country, label }) => (
+      {options.map(({ country, label }: { country: Country; label: string }) => (
         <option key={country} value={country}>
           {label}
         </option>
