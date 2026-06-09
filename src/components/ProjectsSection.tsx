@@ -243,7 +243,16 @@ export default function ProjectsSection() {
         </div>
 
         <div className="project-top-bar">
-          <h6 className="project-subtitle">⬢ Custom Events</h6>
+          <h6 className="project-subtitle">
+            <Image
+              src="/assets/icon.png"
+              alt="About Us"
+              width={20}
+              height={20}
+              className="expertise-label-icon"
+            />{' '}
+            Custom Events
+          </h6>
 
           <Link href="/events" className="talk-btn">
             <span>More Events</span>
@@ -302,7 +311,12 @@ export default function ProjectsSection() {
         </div>
 
         <div className="project-top-bar">
-          <h6 className="project-subtitle">⬢ Video Showcase</h6>
+          <h6 className="project-subtitle">
+            <span className="project-subtitle-icon">
+              <Image src="/assets/icon.png" alt="Video Showcase" width={20} height={20} />
+            </span>
+            <span>Video Showcase</span>
+          </h6>
 
           <Link href="/videos" className="talk-btn">
             <span>More Videos</span>

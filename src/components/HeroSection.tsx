@@ -55,3 +55,52 @@ export default function HeroSection() {
     </section>
   );
 }
+
+// 'use client';
+
+// import { ArrowUpRight } from 'lucide-react';
+
+// export default function HeroSection() {
+//   return (
+//     <section className="hero-section">
+//       <div className="hero-pattern" />
+
+//       <div className="hero-container">
+//         <div className="hero-left">
+//           <span className="hero-small-line" />
+
+//           <p className="hero-side-text">
+//             Recognized by industry leaders, our award-winning team has a proven record of delivering
+//             excellence across projects.
+//           </p>
+
+//           <div className="hero-award">
+//             <div className="hero-award-circle">
+//               <span className="hero-award-text">AWARD WINNING BUSINESS</span>
+//               <strong>w.</strong>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="hero-main">
+//           <h1>
+//             Driving Innovation to Transform Business Futures <ArrowUpRight className="hero-title-icon" />
+//           </h1>
+
+//           <div className="hero-bottom-row">
+//             <a href="/contact" className="hero-btn">
+//               <span>Get Started</span>
+//               <span className="hero-btn-icon">
+//                 <ArrowUpRight size={18} />
+//               </span>
+//             </a>
+
+//             <p>
+//               Recognized by     industry award leaders, award winning team has be a proven record.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }

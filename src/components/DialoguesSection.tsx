@@ -144,7 +144,13 @@ export default function OurDialogues() {
       <div className="dialogues-container">
         <div className="dialogues-heading" ref={headingRef}>
           <span className="dialogues-badge">
-            <span className="dialogues-badge-mark">⬢</span>
+            <Image
+              src="/assets/icon.png"
+              alt="About Us"
+              width={20}
+              height={20}
+              className="expertise-label-icon"
+            />
             <span className="dialogues-badge-text">SUCCESS STORIES</span>
           </span>
         </div>
