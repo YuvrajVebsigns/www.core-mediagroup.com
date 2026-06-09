@@ -3,22 +3,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { fetchDialoguesFromPage } from '@/services/dialogues.service';
 
-interface Dialogue {
-  id: number;
-  slug: string;
-  title: string;
-  quote: string;
+type Dialogue = {
+  id: string | number;
   author: string;
   role: string;
-  avatar: string;
-  date: string;
-}
+  quote: string;
+  avatar?: string;
+};
 
 export default function DialoguesPage() {
-  const [dialogues, setDialogues] = useState<Dialogue[]>([]);
+  const [allDialogues, setAllDialogues] = useState<Dialogue[]>([]);
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const heroMediaRef = useScrollAnimation<HTMLDivElement>({
     animationClass: 'animate-fade-in-right',
@@ -34,15 +35,24 @@ export default function DialoguesPage() {
     once: false,
   });
 
-  const featuredDialogues = dialogues.slice(0, 3);
-  const repeatedDialogues = Array.from({ length: 3 }, () => featuredDialogues).flat();
+  const featuredDialogues = allDialogues.slice((currentPage - 1) * 9, currentPage * 9);
 
   useEffect(() => {
-    fetch('/api/dialoges')
-      .then((res) => res.json())
-      .then((data) => setDialogues(data))
-      .catch(() => setDialogues([]));
+    fetchDialoguesFromPage('dialogues')
+      .then((items) => {
+        const validItems = Array.isArray(items) ? items : [];
+        setAllDialogues(validItems);
+        setTotalPages(Math.max(1, Math.ceil(validItems.length / 9)));
+        setCurrentPage((page) => Math.min(page, Math.max(1, Math.ceil(validItems.length / 9))));
+      })
+      .catch(() => {
+        setAllDialogues([]);
+        setTotalPages(1);
+      });
   }, []);
+
+  const handlePrevPage = () => setCurrentPage((page) => Math.max(1, page - 1));
+  const handleNextPage = () => setCurrentPage((page) => Math.min(totalPages, page + 1));
 
   return (
     <>
@@ -79,7 +89,7 @@ export default function DialoguesPage() {
           <br />
 
           <div className="dialogues-list">
-            {repeatedDialogues.map((d, index) => {
+            {featuredDialogues.map((d, index) => {
               const variant =
                 index % 3 === 0
                   ? 'animate-fade-in-left'
@@ -101,6 +111,32 @@ export default function DialoguesPage() {
                 />
               );
             })}
+          </div>
+
+          <div className="blogpage-pagination" aria-label="Dialogue pagination">
+            <button
+              className="blogpage-page"
+              type="button"
+              aria-label="Previous page"
+              onClick={handlePrevPage}
+              disabled={currentPage <= 1}
+            >
+              <ChevronLeft size={14} />
+            </button>
+
+            <button className="blogpage-page blogpage-page-active" type="button" disabled>
+              {String(currentPage).padStart(2, '0')}
+            </button>
+
+            <button
+              className="blogpage-page blogpage-page-arrow"
+              type="button"
+              aria-label="Next page"
+              onClick={handleNextPage}
+              disabled={currentPage >= totalPages}
+            >
+              <ChevronRight size={14} />
+            </button>
           </div>
         </div>
       </section>
@@ -167,13 +203,17 @@ function AnimatedDialogueCard({
       <div className="dialogue-divider" />
 
       <div className="dialogue-footer">
-        <Image
-          src={dialogue.avatar}
-          alt={dialogue.author}
-          width={65}
-          height={65}
-          className="dialogue-avatar"
-        />
+        {dialogue.avatar ? (
+          <Image
+            src={dialogue.avatar}
+            alt={dialogue.author}
+            width={65}
+            height={65}
+            className="dialogue-avatar"
+          />
+        ) : (
+          <div className="dialogue-avatar dialogue-avatar-placeholder" />
+        )}
 
         <div>
           <h4 className="dialogue-author">{dialogue.author}</h4>

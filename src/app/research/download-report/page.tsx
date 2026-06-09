@@ -7,11 +7,20 @@ export default function DownloadReportPage() {
         <div className="download-report-icon" aria-hidden="true">
           😊
         </div>
+
         <h1>Thank you for submitting your details!</h1>
+
         <p>Click the button below to download the Business Pulse Report.</p>
-        <a href="/api/research/download" className="download-report-btn">
+
+        <a
+          href="/reports/business-pulse-report.pdf"
+          download="business-pulse-report.pdf"
+          className="download-report-btn"
+        >
           DOWNLOAD REPORT
         </a>
+
+        <br />
         <br />
 
         <p className="download-report-brand">CORE MEDIA GROUP</p>

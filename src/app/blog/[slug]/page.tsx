@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { ArrowUpLeft } from 'lucide-react';
+import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useScrollAnimation from '../../../hooks/useScrollAnimation';
 import BlogCommentsPanel from '@/components/BlogCommentsPanel';
@@ -74,8 +74,19 @@ function renderBlock(block: WebsiteBlogContentBlock | null | undefined, index: n
     const text = typeof data?.text === 'string' ? data.text.trim() : '';
     if (!text) return null;
 
-    if (level <= 2) return <h2 key={key}>{text}</h2>;
-    return <h3 key={key}>{text}</h3>;
+    if (level <= 2) {
+      return (
+        <h2 key={key} className="blog-content-heading">
+          {text}
+        </h2>
+      );
+    }
+
+    return (
+      <h3 key={key} className="blog-content-subheading">
+        {text}
+      </h3>
+    );
   }
 
   if (type === 'paragraph') {
@@ -83,11 +94,7 @@ function renderBlock(block: WebsiteBlogContentBlock | null | undefined, index: n
     if (!text) return null;
 
     return (
-      <p
-        key={key}
-        style={{ marginBottom: '18px', lineHeight: 1.8 }}
-        dangerouslySetInnerHTML={{ __html: text }}
-      />
+      <p key={key} className="blog-content-paragraph" dangerouslySetInnerHTML={{ __html: text }} />
     );
   }
 
@@ -115,12 +122,13 @@ function renderBlock(block: WebsiteBlogContentBlock | null | undefined, index: n
     if (!url) return null;
 
     return (
-      <div key={key} style={{ margin: '24px 0' }}>
+      <div key={key} className="blog-content-image-wrap">
         <Image
           src={url}
           alt={typeof data?.caption === 'string' ? data.caption : 'Blog image'}
           width={1200}
           height={675}
+          className="blog-content-image"
           unoptimized
         />
       </div>
@@ -132,10 +140,7 @@ function renderBlock(block: WebsiteBlogContentBlock | null | undefined, index: n
     if (!text) return null;
 
     return (
-      <blockquote
-        key={key}
-        style={{ margin: '24px 0', paddingLeft: '18px', borderLeft: '3px solid #d11f26' }}
-      >
+      <blockquote key={key} className="blog-content-quote">
         {text}
       </blockquote>
     );
@@ -314,109 +319,112 @@ export default function BlogDetailsPage() {
               </div>
             ) : null}
 
-            <div>{contentBlocks.map((block, index) => renderBlock(block, index))}</div>
+            <div className="blog-content-blocks">
+              {contentBlocks.map((block, index) => renderBlock(block, index))}
+            </div>
 
-            <AnimatedBlock
-              className="blog-back-link"
-              animationClass="animate-fade-in"
-              initialTransform="translateY(18px)"
-            >
-              <Link href="/blog" className="backbutton">
-                <div className="backbutton-icon">
-                  <ArrowUpLeft size={18} />
-                </div>
-
-                <span>Back to Blog</span>
-              </Link>
-            </AnimatedBlock>
-            <br />
-            <AnimatedBlock
-              className="blog-back-link"
-              animationClass="animate-fade-in"
-              initialTransform="translateY(18px)"
-            >
-              <div className="share-container">
-                <button
-                  type="button"
-                  className="backbutton"
-                  onClick={() => setShowShareOptions((s) => !s)}
-                  aria-expanded={showShareOptions}
-                  aria-haspopup="menu"
-                  id="share-button"
-                >
+            <div className="blog-detail-actions">
+              <AnimatedBlock
+                className="blog-back-link"
+                animationClass="animate-fade-in"
+                initialTransform="translateY(18px)"
+              >
+                <Link href="/blog" className="backbutton">
                   <div className="backbutton-icon">
                     <ArrowUpLeft size={18} />
                   </div>
 
-                  <span>Share Blog</span>
-                </button>
+                  <span>Back to Blog</span>
+                </Link>
+              </AnimatedBlock>
 
-                <br />
+              <AnimatedBlock
+                className="blog-back-link"
+                animationClass="animate-fade-in"
+                initialTransform="translateY(18px)"
+              >
+                <div className="share-container">
+                  <button
+                    type="button"
+                    className="talk-btn"
+                    onClick={() => setShowShareOptions((s) => !s)}
+                    aria-expanded={showShareOptions}
+                    aria-haspopup="menu"
+                    id="share-button"
+                  >
+                    <span>Share Blog</span>
+                    <div className="talk-btn-icon">
+                      <ArrowUpRight size={18} />
+                    </div>
+                  </button>
 
-                {showShareOptions ? (
-                  <div className="share-popup" role="menu" aria-labelledby="share-button">
-                    <button
-                      type="button"
-                      onClick={handleShareWhatsApp}
-                      className="share-option whatsapp"
-                    >
-                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                  <br />
+
+                  {showShareOptions ? (
+                    <div className="share-popup" role="menu" aria-labelledby="share-button">
+                      <button
+                        type="button"
+                        onClick={handleShareWhatsApp}
+                        className="share-option whatsapp"
+                      >
+                        {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
                         <WhatsAppIcon />
                       </span> */}
-                      <span>WhatsApp</span>
-                    </button>
+                        <span>WhatsApp</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={handleShareFacebook}
-                      className="share-option facebook"
-                    >
-                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                      <button
+                        type="button"
+                        onClick={handleShareFacebook}
+                        className="share-option facebook"
+                      >
+                        {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
                         <FacebookIcon />
                       </span> */}
-                      <span>Facebook</span>
-                    </button>
+                        <span>Facebook</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={handleShareTwitter}
-                      className="share-option twitter"
-                    >
-                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                      <button
+                        type="button"
+                        onClick={handleShareTwitter}
+                        className="share-option twitter"
+                      >
+                        {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
                         <TwitterIcon />
                       </span> */}
-                      <span>Twitter</span>
-                    </button>
+                        <span>Twitter</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={handleShareInstagram}
-                      className="share-option instagram"
-                    >
-                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                      <button
+                        type="button"
+                        onClick={handleShareInstagram}
+                        className="share-option instagram"
+                      >
+                        {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
                         <InstagramIcon />
                       </span> */}
-                      <span>Instagram</span>
-                    </button>
+                        <span>Instagram</span>
+                      </button>
 
-                    <button
-                      type="button"
-                      onClick={copyLinkToClipboard}
-                      className="share-option copy"
-                    >
-                      {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
+                      <button
+                        type="button"
+                        onClick={copyLinkToClipboard}
+                        className="share-option copy"
+                      >
+                        {/* <span style={{ display: 'inline-flex', marginRight: 8 }}>
                         <LinkIcon />
                       </span> */}
-                      <span>Copy Link</span>
-                    </button>
-                  </div>
-                ) : null}
-              </div>
-            </AnimatedBlock>
+                        <span>Copy Link</span>
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              </AnimatedBlock>
+            </div>
           </AnimatedBlock>
 
           <aside className="blog-comments-side-card">
-            <h3 style={{ margin: '0 0 16px' }}>Comments</h3>
+            <h3 className="blog-comments-side-card-title">Comments</h3>
 
             {blog.id ? (
               <BlogCommentsPanel blogId={String(blog.id)} />

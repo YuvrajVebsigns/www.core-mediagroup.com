@@ -36,15 +36,19 @@ export default function Footer() {
 
               <ul className="footer-links">
                 <li>
-                  <Link href="/videos">Video</Link>
+                  <Link href="/survey-study">Survey / Study</Link>
                 </li>
 
                 <li>
-                  <Link href="/events">Events</Link>
+                  <Link href="/video">Videos</Link>
                 </li>
 
                 <li>
-                  <Link href="/dialoges">Dialogues</Link>
+                  <Link href="/bespoke-events">Bespoke Events</Link>
+                </li>
+
+                <li>
+                  <Link href="/social-media">Social Media</Link>
                 </li>
               </ul>
             </div>

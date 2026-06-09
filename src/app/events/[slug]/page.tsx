@@ -433,14 +433,14 @@ export default function EventDetailsPage() {
               <div className="share-container">
                 <button
                   type="button"
-                  className="backbutton"
+                  className="talk-btn"
                   onClick={() => setShowShareOptions((s) => !s)}
                   aria-expanded={showShareOptions}
                   aria-haspopup="menu"
                   id="share-button"
                 >
                   <span>Share Event</span>
-                  <div className="backbutton-icon">
+                  <div className="talk-btn-icon">
                     <ArrowUpRight size={18} />
                   </div>
                 </button>

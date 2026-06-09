@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 
 // Link import removed (unused)
 
@@ -75,6 +76,11 @@ export default function BespokeEventsPage() {
                   professionalism and excellence.
                 </li>
               </ul>
+              <div className="social-media-back">
+                <Link href="/" className="social-media-back-btn">
+                  ← Back
+                </Link>
+              </div>
             </div>
           </div>
         </div>

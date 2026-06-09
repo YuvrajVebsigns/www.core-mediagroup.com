@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   const dialoges = [
     {
       id: 1,
@@ -103,5 +103,22 @@ export async function GET() {
     },
   ];
 
-  return NextResponse.json(dialoges);
+  const url = new URL(request.url);
+  const page = Number(url.searchParams.get('page') ?? '1');
+  const limit = Number(url.searchParams.get('limit') ?? '9');
+  const normalizedPage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  const normalizedLimit = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : 9;
+  const totalItems = dialoges.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / normalizedLimit));
+  const startIndex = (normalizedPage - 1) * normalizedLimit;
+  const pageData = dialoges.slice(startIndex, startIndex + normalizedLimit);
+
+  return NextResponse.json({
+    success: true,
+    page: normalizedPage,
+    limit: normalizedLimit,
+    totalItems,
+    totalPages,
+    data: pageData,
+  });
 }

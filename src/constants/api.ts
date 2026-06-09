@@ -19,6 +19,7 @@ export const API_ENDPOINTS = {
     BLOG_COMMENTS: {
       BASE: (id: string) => `/api/v1/website/blogs/${encodeURIComponent(id)}/comments`,
     },
+    NOMINATIONS: '/api/v1/website/nominations',
     SPONSORS: {
       BASE: '/api/v1/website/sponsors',
       BY_ID: (id: string) => `/api/v1/website/sponsors/${encodeURIComponent(id)}`,

@@ -21,8 +21,11 @@ export default function DialogueDetail({ params }: { params: { slug: string } })
   useEffect(() => {
     fetch('/api/dialoges')
       .then((res) => res.json())
-      .then((data: Dialogue[]) => {
-        const found = data.find((d) => d.slug === slug) || null;
+      .then((result) => {
+        const data = Array.isArray(result) ? result : (result.data ?? []);
+        const found = Array.isArray(data)
+          ? data.find((d: Dialogue) => d.slug === slug) || null
+          : null;
         setDialogue(found);
       })
       .catch(() => setDialogue(null));
