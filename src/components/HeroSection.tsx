@@ -84,7 +84,7 @@ export default function HeroSection() {
 
 //         <div className="hero-main">
 //           <h1>
-//             Driving Innovation to Transform Business Futures <ArrowUpRight className="hero-title-icon" />
+//             Driving Innovation to Transform Business Futures <br /> <br /> <ArrowUpRight className="hero-title-icon" />
 //           </h1>
 
 //           <div className="hero-bottom-row">

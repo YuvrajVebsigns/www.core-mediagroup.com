@@ -271,7 +271,6 @@ export default function ContactSection() {
       setIsSubmitting(false);
     }
   }
-
   return (
     <section className="contact-section" id="contact-section">
       <div className="contact-container">

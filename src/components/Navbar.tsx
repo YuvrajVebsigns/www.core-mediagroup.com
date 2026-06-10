@@ -19,10 +19,9 @@ export default function Navbar() {
 
   const isServicesPage =
     pathname === '/survey-study' ||
-    pathname === '/videos' ||
+    pathname === '/video' ||
     pathname === '/bespoke-events' ||
     pathname === '/social-media' ||
-    pathname === '/events' ||
     pathname === '/dialoges';
 
   const openServices = () => {
