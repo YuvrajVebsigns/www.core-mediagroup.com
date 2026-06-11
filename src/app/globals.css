@@ -13221,11 +13221,17 @@ main {
     margin-top: 22px;
   }
 
-  .share-container,
-  .share-popup {
+  .share-container {
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
+  }
+
+  .share-popup {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    flex-wrap: nowrap; /* keeps all icons in one line */
+    width: 130px;
   }
 
   .share-option {
