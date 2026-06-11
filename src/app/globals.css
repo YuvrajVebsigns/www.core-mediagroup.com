@@ -883,6 +883,19 @@ main {
   position: static;
 }
 
+.event-buttons-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.share-container1 {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 /* Share Button */
 .share-button {
   height: 48px;
@@ -986,6 +999,7 @@ main {
 
   .share-button {
     height: 44px;
+    width: 60px;
     padding: 0 16px;
     font-size: 14px;
   }
@@ -2788,6 +2802,7 @@ main {
   .client-card {
     width: 210px;
     height: 110px;
+    border: 3px;
   }
 
   .client-logo {
@@ -2835,7 +2850,7 @@ main {
   .client-card {
     width: 170px;
     height: 90px;
-    border-radius: 1px;
+    border: 3px;
     padding: 18px;
   }
 
@@ -2862,6 +2877,7 @@ main {
   .client-card {
     width: 150px;
     height: 80px;
+    border: 3px;
     padding: 14px;
   }
 
@@ -3171,11 +3187,17 @@ main {
     margin-top: 22px;
   }
 
-  .share-container,
-  .share-popup {
+  .share-container {
     flex-direction: column;
     align-items: stretch;
-    width: 100%;
+  }
+
+  .share-popup {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    flex-wrap: nowrap; /* keeps all icons in one line */
+    width: 130px;
   }
 
   .share-option {
@@ -6409,36 +6431,10 @@ main {
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-}
-
-.registration-section::before,
-.registration-section::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  z-index: 0;
-}
-
-.registration-section::before {
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.12);
-  top: -120px;
-  left: -100px;
-}
-
-.registration-section::after {
-  width: 260px;
-  height: 260px;
-  background: rgba(255, 255, 255, 0.08);
-  bottom: -120px;
-  right: -100px;
+  overflow: visible;
 }
 
 .registration-container {
-  margin-top: 10px;
   width: 100%;
   max-width: 1050px;
   margin: 0 auto;
@@ -6449,40 +6445,26 @@ main {
 .registration-wrapper {
   width: 100%;
   max-width: 800px;
-  height: auto;
   margin: 15px auto 0;
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.14);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid #9d1111;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.12);
-  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  overflow: visible;
   position: relative;
 }
 
 .registration-title {
   margin: 0;
   padding: 22px 30px;
+  border-radius: 28px 28px 0 0;
   background: linear-gradient(90deg, #8e0101 0%, #9d1111 100%);
-  color: #ffffff;
+  color: #fff;
   font-size: 20px;
   font-weight: 500;
-  letter-spacing: 1px;
-  text-align: left;
   text-transform: uppercase;
-}
-
-.registration-subtitle {
-  margin: 0;
-  padding: 24px 30px 0;
-  grid-column: 1 / -1;
-  color: #3b1212;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.5;
 }
 
 .registration-form {
@@ -6500,70 +6482,88 @@ main {
   font-size: 14px;
   font-weight: 600;
   color: #585555;
+  position: relative;
 }
 
 .registration-form input,
 .registration-form select,
-.registration-country-select {
+.registration-country-select,
+.custom-select-btn {
   width: 100%;
   height: 48px;
-  padding: 0 45px 0 16px; /* extra right space for dropdown arrow */
+  padding: 0 16px;
   border: 2px solid #ddd;
   border-radius: 999px;
-  background-color: #ffffff;
+  background: #fff;
   outline: none;
   font-size: 15px;
   color: #2f2e2e;
   box-sizing: border-box;
 }
 
-/* Move dropdown arrow to the left */
-.registration-form select,
-.registration-country-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: calc(100% - 25px) center; /* move arrow left */
-  background-size: 14px;
-}
-
 .registration-form input:focus,
 .registration-form select:focus,
-.registration-country-select:focus {
+.registration-country-select:focus,
+.custom-select-btn:focus {
   border-color: #8e0101;
-}
-
-.registration-country-select {
-  cursor: pointer;
-  appearance: auto;
-}
-
-.registration-phone-group {
-  display: grid;
-  grid-template-columns: 160px minmax(0, 1fr);
-  gap: 16px;
-  align-items: center;
-}
-
-.registration-dial-code-preview {
-  margin-top: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #777;
-}
-
-.registration-form input::placeholder {
-  color: #8f8f8f;
-}
-
-.registration-form input:focus,
-.registration-form select:focus,
-.registration-country-select:focus {
-  border: 2px solid #8e0101;
   box-shadow: 0 0 0 4px rgba(142, 1, 1, 0.15);
+}
+
+.custom-select-wrap {
+  position: relative;
+  width: 100%;
+  z-index: 50;
+}
+
+.custom-select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+}
+
+.custom-select-btn span:first-child {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.custom-select-arrow {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.custom-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  max-height: 120px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+  z-index: 9999;
+}
+
+.custom-select-option {
+  width: 100%;
+  min-height: 28px;
+  padding: 6px 14px;
+  border: 0;
+  background: #fff;
+  color: #222;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.custom-select-option:hover {
+  background: #f5eeee;
+  color: #8e0101;
 }
 
 .registration-error {
@@ -6586,43 +6586,30 @@ main {
   border: none;
   border-radius: 999px;
   background: linear-gradient(90deg, #8e0101 0%, #9d1111 100%);
-  color: #ffffff;
+  color: #fff;
   font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.5px;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(142, 1, 1, 0.3);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    opacity 0.3s ease;
-}
-
-.registration-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 35px rgba(142, 1, 1, 0.35);
 }
 
 .registration-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
 }
 
 .registration-popup {
   position: fixed;
-  top: 24px;
+  top: 110px;
   right: 24px;
   z-index: 9999;
   display: flex;
   align-items: center;
-  margin-top: 90px;
   gap: 12px;
   max-width: 360px;
-  width: auto;
   padding: 14px 16px;
   border-radius: 14px;
-  background: #ffffff;
+  background: #fff;
   color: #7a0d0d;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
 }
@@ -6665,35 +6652,8 @@ main {
   padding: 48px 32px;
   text-align: center;
   border-radius: 30px;
-  background: #ffffff;
+  background: #fff;
   box-shadow: 0 36px 80px rgba(48, 25, 25, 0.08);
-  border: 1px solid rgba(157, 17, 17, 0.12);
-}
-
-.download-report-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 84px;
-  height: 84px;
-  margin-bottom: 18px;
-  border-radius: 50%;
-  background: #f5f5f5;
-  font-size: 36px;
-}
-
-.download-report-card h1 {
-  margin: 0 0 14px;
-  font-size: 26px;
-  font-weight: 700;
-  color: #211f1f;
-}
-
-.download-report-card p {
-  margin: 0 0 28px;
-  color: #5d5555;
-  font-size: 15px;
-  line-height: 1.6;
 }
 
 .download-report-btn {
@@ -6704,27 +6664,10 @@ main {
   height: 52px;
   padding: 0 24px;
   border-radius: 999px;
-  border: none;
   background: #8e0101;
-  color: #ffffff;
-  font-size: 15px;
+  color: #fff;
   font-weight: 700;
   text-decoration: none;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.download-report-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(76, 175, 80, 0.24);
-}
-
-.download-report-brand {
-  margin-top: 28px;
-  color: #20669d;
-  font-weight: 700;
-  letter-spacing: 0.3px;
 }
 
 @media (max-width: 768px) {
@@ -6738,29 +6681,21 @@ main {
   }
 
   .registration-title {
-    padding: 18px 22px;
+    border-radius: 22px 22px 0 0;
     font-size: 18px;
   }
 
   .registration-form {
     padding: 24px;
     grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .registration-form input,
-  .registration-form select {
-    height: 52px;
-    font-size: 14px;
-  }
-
-  .registration-button-wrap {
-    justify-content: flex-start;
   }
 
   .registration-btn {
     width: 100%;
-    height: 54px;
+  }
+
+  .custom-select-menu {
+    max-height: 75px;
   }
 }
 
@@ -11036,6 +10971,7 @@ main {
 
   .share-button {
     height: 44px;
+    width: 60px;
     padding: 0 16px;
     font-size: 14px;
   }
@@ -12635,8 +12571,8 @@ main {
   }
 
   .team-image-wrap {
-    width: 250px;
-    height: 250px;
+    width: 330px;
+    height: 330px;
     margin-bottom: 22px;
   }
 
@@ -12659,8 +12595,8 @@ main {
   }
 
   .team-image-wrap {
-    width: 250px;
-    height: 250px;
+    width: 330px;
+    height: 330px;
   }
 
   .team-content h3 {
@@ -12838,6 +12774,7 @@ main {
   .client-card {
     width: 210px;
     height: 110px;
+    border: 3px;
   }
 
   .client-logo {
@@ -12885,7 +12822,7 @@ main {
   .client-card {
     width: 170px;
     height: 90px;
-    border-radius: 1px;
+    border: 3px;
     padding: 18px;
   }
 
@@ -12913,6 +12850,7 @@ main {
     width: 150px;
     height: 80px;
     padding: 14px;
+    border: 3px;
   }
 
   .client-logo {
@@ -13229,7 +13167,7 @@ main {
   .share-popup {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: 20px;
     flex-wrap: nowrap; /* keeps all icons in one line */
     width: 130px;
   }
