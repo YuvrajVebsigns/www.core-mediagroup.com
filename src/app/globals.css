@@ -14485,7 +14485,7 @@ main {
 
 .contact-section {
   background: #a40000;
-  padding: 90px 40px;
+  padding: 90px 40px
 }
 
 .contact-container {
@@ -14522,13 +14522,14 @@ main {
 .map-dot {
   width: 10px;
   height: 10px;
+  background: white;
   border-radius: 50%;
   position: absolute;
   animation: pulseDot 2s infinite;
 }
 
 .dot-1 {
-  top: 51%;
+  top: 31%;
   left: 42%;
   background-color: #282626;
 }
@@ -14787,6 +14788,21 @@ main {
 
   .dot-2 {
     top: 50%;
+    left: 67%;
+  }
+
+  .dot-3 {
+    top: 92%;
+    left: 26%;
+  }
+
+  .dot-1 {
+    top: 56%;
+    left: 40%;
+  }
+
+  .dot-2 {
+    top: 70%;
     left: 67%;
   }
 
