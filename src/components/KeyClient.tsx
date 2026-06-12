@@ -52,8 +52,8 @@ export default function KeyClient() {
                 <Image
                   src={logo}
                   alt="Client Logo"
-                  width={180}
-                  height={80}
+                  width={210}
+                  height={120}
                   className="client-logo"
                 />
               </div>

@@ -2,39 +2,36 @@
 
 // import Image from 'next/image';
 // import Link from 'next/link';
-// import { useRef, useState, useEffect } from 'react';
+// import { useEffect, useRef, useState } from 'react';
 // import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 // import useScrollAnimation from '@/hooks/useScrollAnimation';
-// // import { getAllDialoguesPages } from '@/services/dialogues.service';
+// import { fetchDialoguesFromPage } from '@/services/dialogues.service';
 
-// interface DialogueCard {
-//   id: string;
-//   slug: string;
-//   title: string;
+// type Dialogue = {
+//   id: number | string;
+//   slug?: string;
 //   quote: string;
-// }
-
-// interface ContentBlock {
-//   type?: string;
-//   data?: {
-//     text?: string;
-//   };
-// }
-
-// interface DialoguePage {
-//   id: string;
-//   slug: string;
-//   title?: string;
-//   content?: {
-//     blocks?: ContentBlock[];
-//   };
-// }
+//   author: string;
+//   role: string;
+//   avatar?: string;
+// };
 
 // export default function OurDialogues() {
 //   const containerRef = useRef<HTMLDivElement | null>(null);
-//   const [expandedCard, setExpandedCard] = useState<string | null>(null);
-//   const [dialogues, setDialogues] = useState<DialogueCard[]>([]);
-//   const [isLoading, setIsLoading] = useState(true);
+//   const [dialogues, setDialogues] = useState<Dialogue[]>([]);
+//   const [expandedCard, setExpandedCard] = useState<string | number | null>(null);
+
+//   useEffect(() => {
+//     fetchDialoguesFromPage('dialogues')
+//       .then((items) => {
+//         if (Array.isArray(items) && items.length > 0) {
+//           setDialogues(items.slice(0, 3));
+//         }
+//       })
+//       .catch(() => {
+//         setDialogues([]);
+//       });
+//   }, []);
 
 //   const headingRef = useScrollAnimation<HTMLDivElement>({
 //     animationClass: 'animate-fade-in-left',
@@ -52,10 +49,15 @@
 //     if (!blocks.length) return '';
 
 //     const textBlock = blocks.find(
-//       (block) => block.type === 'paragraph' || block.type === 'text' || block.data?.text,
+//       (block) =>
+//         block.type === 'paragraph' ||
+//         block.type === 'text' ||
+//         Boolean(block.data?.text) ||
+//         Boolean(block.content) ||
+//         Boolean(block.data?.description),
 //     );
 
-//     const text = textBlock?.data?.text;
+//     const text = textBlock?.data?.text || textBlock?.content || textBlock?.data?.description;
 
 //     return typeof text === 'string' ? text.substring(0, 150) : '';
 //   };
@@ -65,10 +67,10 @@
 //       try {
 //         setIsLoading(true);
 
-//         const pages = await getAllDialoguesPages();
+//         const pages = await getDialoguesPages();
 
-//         const mappedDialogues: DialogueCard[] = pages.map((page: DialoguePage) => ({
-//           id: page.id,
+//         const mappedDialogues: DialogueCard[] = pages.map((page, index) => ({
+//           id: page.id || page.slug || String(index),
 //           slug: page.slug,
 //           title: page.title || '',
 //           quote: extractQuoteFromContent(page.content?.blocks || []) || page.title || '',
@@ -172,21 +174,32 @@
 
 //                     <div className="dialogue-divider" />
 
-//                     <div className="dialogue-footer">
-//                       <div>
-//                         <h4 className="dialogue-author">{dialogue.title}</h4>
-//                         <p className="dialogue-role">{dialogue.slug}</p>
-//                       </div>
+//                   <div className="dialogue-footer">
+//                     {dialogue.avatar ? (
+//                       <Image
+//                         src={dialogue.avatar}
+//                         alt={dialogue.author}
+//                         width={58}
+//                         height={58}
+//                         className="dialogue-avatar"
+//                       />
+//                     ) : (
+//                       <div className="dialogue-avatar dialogue-avatar-placeholder" />
+//                     )}
+
+//                     <div>
+//                       <h4 className="dialogue-author">{dialogue.author}</h4>
+//                       <p className="dialogue-role">{dialogue.role}</p>
 //                     </div>
-//                   </article>
-//                 );
-//               })
-//             )}
+//                   </div>
+//                 </article>
+//               );
+//             })}
 //           </div>
 //         </div>
 
 //         <div className="blogs-more">
-//           <Link href="/dialoges" className="blogs-more-btn">
+//           <Link href="/dialogues" className="blogs-more-btn">
 //             <span>More Dialogues</span>
 
 //             <span className="blogs-more-icon">
@@ -203,61 +216,24 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRef, useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
+import { fetchDialoguesFromPage } from '@/services/dialogues.service';
 
-interface DialogueCard {
-  id: string;
-  slug: string;
-  title: string;
+type Dialogue = {
+  id: number | string;
+  slug?: string;
   quote: string;
-}
-
-interface ContentBlock {
-  type?: string;
-  content?: string;
-  data?: {
-    text?: string;
-    description?: string;
-  };
-}
-
-interface DialoguePage {
-  id?: string;
-  slug: string;
-  title?: string;
-  content?: {
-    blocks?: ContentBlock[];
-  };
-}
-
-async function getDialoguesPages(): Promise<DialoguePage[]> {
-  try {
-    const response = await fetch('/api/dialogues', {
-      method: 'GET',
-      cache: 'no-store',
-    });
-
-    if (!response.ok) return [];
-
-    const result: unknown = await response.json();
-
-    if (typeof result === 'object' && result !== null && 'data' in result) {
-      const data = (result as { data?: DialoguePage[] }).data;
-      return Array.isArray(data) ? data : [];
-    }
-
-    return Array.isArray(result) ? (result as DialoguePage[]) : [];
-  } catch {
-    return [];
-  }
-}
+  author: string;
+  role: string;
+  avatar?: string;
+};
 
 export default function OurDialogues() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
-  const [dialogues, setDialogues] = useState<DialogueCard[]>([]);
+  const [dialogues, setDialogues] = useState<Dialogue[]>([]);
+  const [expandedCard, setExpandedCard] = useState<string | number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const headingRef = useScrollAnimation<HTMLDivElement>({
@@ -272,38 +248,18 @@ export default function OurDialogues() {
     threshold: 0.1,
   });
 
-  const extractQuoteFromContent = (blocks: ContentBlock[]): string => {
-    if (!blocks.length) return '';
-
-    const textBlock = blocks.find(
-      (block) =>
-        block.type === 'paragraph' ||
-        block.type === 'text' ||
-        Boolean(block.data?.text) ||
-        Boolean(block.content) ||
-        Boolean(block.data?.description),
-    );
-
-    const text = textBlock?.data?.text || textBlock?.content || textBlock?.data?.description;
-
-    return typeof text === 'string' ? text.substring(0, 150) : '';
-  };
-
   useEffect(() => {
-    const fetchDialogues = async () => {
+    const loadDialogues = async () => {
       try {
         setIsLoading(true);
 
-        const pages = await getDialoguesPages();
+        const items = await fetchDialoguesFromPage('dialogues');
 
-        const mappedDialogues: DialogueCard[] = pages.map((page, index) => ({
-          id: page.id || page.slug || String(index),
-          slug: page.slug,
-          title: page.title || '',
-          quote: extractQuoteFromContent(page.content?.blocks || []) || page.title || '',
-        }));
-
-        setDialogues(mappedDialogues);
+        if (Array.isArray(items) && items.length > 0) {
+          setDialogues(items.slice(0, 3));
+        } else {
+          setDialogues([]);
+        }
       } catch {
         setDialogues([]);
       } finally {
@@ -311,7 +267,7 @@ export default function OurDialogues() {
       }
     };
 
-    fetchDialogues();
+    loadDialogues();
   }, []);
 
   const scrollByCard = (direction: number) => {
@@ -402,9 +358,21 @@ export default function OurDialogues() {
                     <div className="dialogue-divider" />
 
                     <div className="dialogue-footer">
+                      {dialogue.avatar ? (
+                        <Image
+                          src={dialogue.avatar}
+                          alt={dialogue.author}
+                          width={58}
+                          height={58}
+                          className="dialogue-avatar"
+                        />
+                      ) : (
+                        <div className="dialogue-avatar dialogue-avatar-placeholder" />
+                      )}
+
                       <div>
-                        <h4 className="dialogue-author">{dialogue.title}</h4>
-                        <p className="dialogue-role">{dialogue.slug}</p>
+                        <h4 className="dialogue-author">{dialogue.author}</h4>
+                        <p className="dialogue-role">{dialogue.role}</p>
                       </div>
                     </div>
                   </article>

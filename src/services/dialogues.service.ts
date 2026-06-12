@@ -938,3 +938,137 @@ export async function submitWebsiteBlogLike(blogId: string) {
     throw error;
   }
 }
+export interface WebsiteDialoguesPageResponse {
+  success: boolean;
+  message: string;
+  data: {
+    slug?: string;
+    title?: string;
+    sections?: Array<{
+      type?: string;
+      data?: {
+        testimonials?: Array<{
+          author?: string;
+          role?: string;
+          quote?: string;
+          avatar?: string;
+          id?: string | number;
+        }>;
+      };
+    }>;
+    content?: {
+      blocks?: Array<{
+        type?: string;
+        data?: Record<string, unknown>;
+      }>;
+    };
+  };
+}
+
+export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'coremediagroup.com') {
+  const { apiFetch } = await import('@/services/apiFetch');
+  const auth = await ensureWebsiteAuth(domain);
+
+  const headers: Record<string, string> = {};
+  if (auth?.token) headers.Authorization = `Bearer ${auth.token}`;
+  if (auth?.websiteId) headers['x-website-id'] = auth.websiteId;
+
+  const endpoint = `/api/v1/website/pages/${encodeURIComponent(slug)}`;
+
+  try {
+    const response = await apiFetch<WebsiteDialoguesPageResponse>(endpoint, {
+      requireAuth: false,
+      headers,
+    });
+
+    if (response?.success && response.data) {
+      const testimonials = response.data.sections?.find(
+        (section) =>
+          typeof section.type === 'string' && section.type.toLowerCase().includes('testimonial'),
+      )?.data?.testimonials;
+
+      if (Array.isArray(testimonials) && testimonials.length > 0) {
+        return testimonials.map((item) => ({
+          id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
+          author: item.author ?? 'Unknown',
+          role: item.role ?? '',
+          quote: item.quote ?? '',
+          avatar: item.avatar ?? '',
+        }));
+      }
+
+      const blockTestimonials = response.data.content?.blocks?.find(
+        (block) =>
+          typeof block.type === 'string' && block.type.toLowerCase().includes('testimonial'),
+      )?.data?.testimonials;
+
+      if (Array.isArray(blockTestimonials) && blockTestimonials.length > 0) {
+        return blockTestimonials.map((item) => ({
+          id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
+          author: item.author ?? 'Unknown',
+          role: item.role ?? '',
+          quote: item.quote ?? '',
+          avatar: item.avatar ?? '',
+        }));
+      }
+    }
+  } catch (error: unknown) {
+    const statusCode = getApiErrorStatus(error);
+    if (statusCode === 401 && typeof window !== 'undefined') {
+      window.localStorage.removeItem('websiteAuth');
+      const freshAuth = await ensureWebsiteAuth(domain);
+      if (freshAuth?.token) {
+        const retryHeaders: Record<string, string> = {
+          Authorization: `Bearer ${freshAuth.token}`,
+          'x-website-id': freshAuth.websiteId,
+        };
+
+        const retryResponse = await apiFetch<WebsiteDialoguesPageResponse>(endpoint, {
+          requireAuth: false,
+          headers: retryHeaders,
+        });
+
+        if (retryResponse?.success && retryResponse.data) {
+          const testimonials = retryResponse.data.sections?.find(
+            (section) =>
+              typeof section.type === 'string' &&
+              section.type.toLowerCase().includes('testimonial'),
+          )?.data?.testimonials;
+
+          if (Array.isArray(testimonials) && testimonials.length > 0) {
+            return testimonials.map((item) => ({
+              id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
+              author: item.author ?? 'Unknown',
+              role: item.role ?? '',
+              quote: item.quote ?? '',
+              avatar: item.avatar ?? '',
+            }));
+          }
+
+          const blockTestimonials = retryResponse.data.content?.blocks?.find(
+            (block) =>
+              typeof block.type === 'string' && block.type.toLowerCase().includes('testimonial'),
+          )?.data?.testimonials;
+
+          if (Array.isArray(blockTestimonials) && blockTestimonials.length > 0) {
+            return blockTestimonials.map((item) => ({
+              id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
+              author: item.author ?? 'Unknown',
+              role: item.role ?? '',
+              quote: item.quote ?? '',
+              avatar: item.avatar ?? '',
+            }));
+          }
+        }
+      }
+    }
+  }
+
+  return [] as Array<{
+    id: string | number;
+    author: string;
+    role: string;
+    quote: string;
+    avatar: string;
+  }>;
+}
