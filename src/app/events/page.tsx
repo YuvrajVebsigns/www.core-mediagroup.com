@@ -26,6 +26,67 @@ function getStoredWebsiteId(): string | undefined {
   return undefined;
 }
 
+function getEventImage(event: WebsiteEvent): string {
+  const eventObj = event as Record<string, unknown>;
+
+  // Try to find image in various field names
+  const image =
+    typeof eventObj.image === 'string'
+      ? eventObj.image
+      : typeof eventObj.heroImage === 'string'
+        ? eventObj.heroImage
+        : typeof eventObj.banner === 'string'
+          ? eventObj.banner
+          : typeof eventObj.poster === 'string'
+            ? eventObj.poster
+            : typeof eventObj.featureImage === 'string'
+              ? eventObj.featureImage
+              : null;
+
+  console.log('🖼️ getEventImage:', {
+    title: eventObj.title,
+    foundImage: image,
+    checkedFields: {
+      image: eventObj.image,
+      heroImage: eventObj.heroImage,
+      banner: eventObj.banner,
+      poster: eventObj.poster,
+      featureImage: eventObj.featureImage,
+    },
+  });
+
+  if (image && image.trim()) return image;
+  return '/assets/blogs/blog-1.webp';
+}
+
+function getEventCategory(event: WebsiteEvent): string {
+  const eventObj = event as Record<string, unknown>;
+
+  const category =
+    typeof eventObj.category === 'string'
+      ? eventObj.category
+      : typeof eventObj.type === 'string'
+        ? eventObj.type
+        : null;
+
+  return category && category.trim() ? category : 'Events';
+}
+
+function getEventTitle(event: WebsiteEvent): string {
+  const eventObj = event as Record<string, unknown>;
+
+  const title =
+    typeof eventObj.title === 'string'
+      ? eventObj.title
+      : typeof eventObj.name === 'string'
+        ? eventObj.name
+        : typeof eventObj.eventName === 'string'
+          ? eventObj.eventName
+          : null;
+
+  return title && title.trim() ? title : 'Event';
+}
+
 // type EventItem = {
 //   category: string;
 //   title: string;
@@ -38,8 +99,10 @@ export default function EventsPage() {
   useEffect(() => {
     fetchWebsiteEvents(getStoredWebsiteId())
       .then((data) => {
-        if (Array.isArray(data) && data.length) setEvents(data);
-        else setEvents([]);
+        if (Array.isArray(data) && data.length) {
+          console.log('Events fetched:', data);
+          setEvents(data);
+        } else setEvents([]);
       })
       .catch(() => setEvents([]));
   }, []);
@@ -129,7 +192,7 @@ export default function EventsPage() {
               <div className="events-empty">No events available at the moment.</div>
             ) : (
               events.map((item: WebsiteEvent, index: number) => {
-                const title = String(item.title ?? item.name ?? item.eventName ?? 'Event');
+                const title = getEventTitle(item);
                 const slug =
                   item.id && typeof item.id === 'string'
                     ? String(item.id)
@@ -138,10 +201,10 @@ export default function EventsPage() {
                         .replace(/\s+/g, '-')
                         .replace(/[^a-z0-9-]/g, '');
 
-                const imageSrc = String(
-                  item.image ?? item.heroImage ?? item.banner ?? '/assets/blogs/blog-1.webp',
-                );
-                const category = String(item.category ?? 'Events');
+                const imageSrc = getEventImage(item);
+                const category = getEventCategory(item);
+
+                console.log(`Event: ${title}`, { imageSrc, category, eventObj: item });
 
                 return (
                   <Link key={slug} href={`/events/${slug}`}>
