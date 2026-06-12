@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { ArrowUpRight } from 'lucide-react';
-import { ArrowUpLeft } from 'lucide-react';
+import { ArrowUpLeft, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 import EventDetailsAnimated from '@/components/EventDetailsAnimated';
@@ -32,6 +31,29 @@ function getEventField(event: WebsiteEvent, key: string): unknown {
   return (event as unknown as Record<string, unknown>)[key];
 }
 
+function getEventImage(event?: WebsiteEvent | null): string {
+  if (!event) return '/assets/blogs/blog-1.webp';
+
+  // Try multiple image field names in priority order
+  const image =
+    getString(getEventField(event, 'image')) ||
+    getString(getEventField(event, 'heroImage')) ||
+    getString(getEventField(event, 'banner')) ||
+    getString(getEventField(event, 'poster'));
+
+  return image || '/assets/blogs/blog-1.webp';
+}
+
+function getEventCategory(event?: WebsiteEvent | null): string {
+  if (!event) return 'Events';
+
+  return (
+    getString(getEventField(event, 'category')) ||
+    getString(getEventField(event, 'type')) ||
+    'Events'
+  );
+}
+
 function openExternal(url: string) {
   try {
     window.open(url, '_blank', 'noopener');
@@ -42,7 +64,6 @@ function openExternal(url: string) {
 
 export default function EventDetailsPage() {
   const params = useParams<{ slug?: string | string[] }>();
-
   const slug: string = Array.isArray(params?.slug) ? (params.slug[0] ?? '') : (params?.slug ?? '');
 
   const [event, setEvent] = useState<WebsiteEvent | null>(null);
@@ -158,39 +179,37 @@ export default function EventDetailsPage() {
   const displayTitle = event?.title || 'Check this event';
 
   async function handleShareWhatsApp() {
-    const waUrl = `https://web.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`;
-    openExternal(waUrl);
+    openExternal(`https://web.whatsapp.com/send?text=${encodeURIComponent(shareUrl)}`);
     setShowShareOptions(false);
   }
 
   async function handleShareFacebook() {
-    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-    openExternal(fbUrl);
+    openExternal(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`);
     setShowShareOptions(false);
   }
 
   async function handleShareTwitter() {
-    const twUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(displayTitle || '')}&url=${encodeURIComponent(shareUrl)}`;
-    openExternal(twUrl);
+    openExternal(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(displayTitle)}&url=${encodeURIComponent(
+        shareUrl,
+      )}`,
+    );
     setShowShareOptions(false);
   }
 
   async function handleShareInstagram() {
-    const igWeb = `https://www.instagram.com/?url=${encodeURIComponent(shareUrl)}`;
-    openExternal(igWeb);
+    openExternal(`https://www.instagram.com/?url=${encodeURIComponent(shareUrl)}`);
     setShowShareOptions(false);
   }
 
   async function copyLinkToClipboard() {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      // Small UX feedback could be added here (toast), kept minimal per request
+      setShowShareOptions(false);
     } catch (_) {
       // ignore
     }
   }
-
-  // Inline icon components removed (not used) to satisfy linter
 
   if (isLoading) {
     return (
@@ -215,7 +234,6 @@ export default function EventDetailsPage() {
           <div className="backbutton-icon">
             <ArrowUpLeft size={18} />
           </div>
-
           <span>Back to Events</span>
         </Link>
       </main>
@@ -223,9 +241,7 @@ export default function EventDetailsPage() {
   }
 
   const readableSlug = slug.replace(/-/g, ' ');
-
   const normalizedSections: EventSection[] = [];
-
   const eventSections = getEventField(event, 'sections');
 
   if (Array.isArray(eventSections)) {
@@ -264,18 +280,17 @@ export default function EventDetailsPage() {
       getEventField(event, 'organizer') ?? getEventField(event, 'author') ?? 'CORE Media',
     ),
     date: String(getEventField(event, 'startsAt') ?? getEventField(event, 'date') ?? ''),
-    heroImage: String(
-      getEventField(event, 'image') ??
-        getEventField(event, 'heroImage') ??
-        getEventField(event, 'banner') ??
-        '/assets/blogs/blog-1.webp',
-    ),
-    badge: String(getEventField(event, 'category') ?? 'Events'),
+    heroImage: getEventImage(event),
+    badge: getEventCategory(event),
     summary: extractTextFromContent(
       getEventField(event, 'description') ?? getEventField(event, 'summary') ?? '',
     ),
     sections: normalizedSections,
   };
+
+  // Extract sponsors from event data
+  const sponsorsData = getEventField(event, 'sponsors');
+  const eventSponsors = Array.isArray(sponsorsData) ? sponsorsData : null;
 
   function renderBlock(block: unknown, index: number) {
     if (!isRecord(block)) return null;
@@ -379,7 +394,6 @@ export default function EventDetailsPage() {
   }
 
   const eventContent = getEventField(event, 'content');
-
   const contentBlocks =
     isRecord(eventContent) && Array.isArray(eventContent.blocks) ? eventContent.blocks : [];
 
@@ -389,7 +403,7 @@ export default function EventDetailsPage() {
         <ClientErrorBoundary>
           <EventDetailsAnimated featuredEvent={featuredEvent} readableSlug={readableSlug} />
 
-          <EventSponsorsSection />
+          <EventSponsorsSection sponsors={eventSponsors} />
 
           {contentBlocks.length > 0 ? (
             <div>{contentBlocks.map((block, index) => renderBlock(block, index))}</div>
@@ -416,10 +430,7 @@ export default function EventDetailsPage() {
               </div>
             ) : null}
 
-            <div style={{ marginTop: 24 }}>
-              {/* <Link href="/register" className="talk-btn">
-                Registration
-              </Link> */}
+            <div className="event-buttons-row">
               <Link href="/register" className="talk-btn">
                 <span>Registration</span>
 
@@ -427,10 +438,8 @@ export default function EventDetailsPage() {
                   <ArrowUpRight size={18} />
                 </div>
               </Link>
-            </div>
 
-            <div style={{ marginTop: 24 }}>
-              <div className="share-container">
+              <div className="share-container1">
                 <button
                   type="button"
                   className="talk-btn"
@@ -440,12 +449,11 @@ export default function EventDetailsPage() {
                   id="share-button"
                 >
                   <span>Share Event</span>
+
                   <div className="talk-btn-icon">
                     <ArrowUpRight size={18} />
                   </div>
                 </button>
-
-                <br />
 
                 {showShareOptions ? (
                   <div className="share-popup" role="menu" aria-labelledby="share-button">

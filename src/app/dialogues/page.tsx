@@ -1,0 +1,494 @@
+// 'use client';
+
+// import Image from 'next/image';
+// import Link from 'next/link';
+// import { useEffect, useState } from 'react';
+// import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+// import { getAllDialoguesPages, type DialoguePage } from '@/services/dialogues.service';
+
+// interface DialogueCard {
+//   id: string;
+//   slug: string;
+//   title: string;
+//   quote: string;
+// }
+
+// interface ContentBlock {
+//   type?: string;
+//   content?: string;
+//   data?: {
+//     text?: string;
+//     description?: string;
+//   };
+// }
+
+// export default function DialoguesPage() {
+//   const [dialogues, setDialogues] = useState<DialogueCard[]>([]);
+//   const [expandedCard, setExpandedCard] = useState<string | null>(null);
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   const heroMediaRef = useScrollAnimation<HTMLDivElement>({
+//     animationClass: 'animate-fade-in-right',
+//     initialTransform: 'translateX(40px)',
+//     threshold: 0.12,
+//     once: false,
+//   });
+
+//   const heroContentRef = useScrollAnimation<HTMLDivElement>({
+//     animationClass: 'animate-fade-in-left',
+//     initialTransform: 'translateX(-40px)',
+//     threshold: 0.12,
+//     once: false,
+//   });
+
+//   const extractQuoteFromContent = (blocks: ContentBlock[]): string => {
+//     if (!blocks.length) return '';
+
+//     for (const block of blocks) {
+//       if (typeof block.data?.text === 'string') {
+//         return block.data.text.substring(0, 200);
+//       }
+
+//       if (typeof block.content === 'string') {
+//         return block.content.substring(0, 200);
+//       }
+
+//       if (typeof block.data?.description === 'string') {
+//         return block.data.description.substring(0, 200);
+//       }
+//     }
+
+//     return '';
+//   };
+
+//   useEffect(() => {
+//     const fetchDialogues = async () => {
+//       try {
+//         setIsLoading(true);
+
+//         const pages = await getAllDialoguesPages();
+
+//         if (!pages || pages.length === 0) {
+//           setDialogues([]);
+//           return;
+//         }
+
+//         const mappedDialogues: DialogueCard[] = pages.map((page: DialoguePage) => {
+//           const quote =
+//             extractQuoteFromContent((page.content?.blocks || []) as ContentBlock[]) ||
+//             page.title ||
+//             '';
+
+//           return {
+//             id: page.id,
+//             slug: page.slug,
+//             title: page.title || '',
+//             quote,
+//           };
+//         });
+
+//         setDialogues(mappedDialogues);
+//       } catch {
+//         setDialogues([]);
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchDialogues();
+//   }, []);
+
+//   return (
+//     <>
+//       <section className="blog-hero dialogues-hero">
+//         <div className="blog-hero-media" ref={heroMediaRef}>
+//           <Image
+//             src="/assets/blogs/blog-1.webp"
+//             alt="Read Dialogues"
+//             fill
+//             className="blog-hero-image"
+//           />
+//         </div>
+
+//         <div className="blog-hero-overlay" />
+
+//         <div className="blog-hero-content" ref={heroContentRef}>
+//           <h1>Read Dialogues</h1>
+
+//           <div className="blog-breadcrumb">
+//             <Link href="/" className="blog-breadcrumb-home">
+//               🏦 Home
+//             </Link>
+
+//             <span>&gt;</span>
+
+//             <p>Dialogues</p>
+//           </div>
+//         </div>
+//       </section>
+
+//       <section className="dialogues-section">
+//         <div className="dialogues-container">
+//           <br />
+//           <br />
+
+//           <div className="dialogues-list">
+//             {isLoading ? (
+//               <div style={{ padding: '40px', textAlign: 'center', width: '100%' }}>
+//                 Loading dialogues...
+//               </div>
+//             ) : dialogues.length === 0 ? (
+//               <div style={{ padding: '40px', textAlign: 'center', width: '100%' }}>
+//                 No dialogues available
+//               </div>
+//             ) : (
+//               dialogues.map((d, index) => {
+//                 const variant =
+//                   index % 3 === 0
+//                     ? 'animate-fade-in-left'
+//                     : index % 3 === 1
+//                       ? 'animate-fade-in'
+//                       : 'animate-fade-in-right';
+
+//                 const cardKey = d.id;
+
+//                 return (
+//                   <AnimatedDialogueCard
+//                     key={cardKey}
+//                     cardKey={cardKey}
+//                     dialogue={d}
+//                     index={index}
+//                     variant={variant}
+//                     expandedCard={expandedCard}
+//                     setExpandedCard={setExpandedCard}
+//                   />
+//                 );
+//               })
+//             )}
+//           </div>
+//         </div>
+//       </section>
+//     </>
+//   );
+// }
+
+// type AnimatedDialogueCardProps = {
+//   cardKey: string;
+//   dialogue: DialogueCard;
+//   index: number;
+//   variant?: string;
+//   expandedCard: string | null;
+//   setExpandedCard: React.Dispatch<React.SetStateAction<string | null>>;
+// };
+
+// function AnimatedDialogueCard({
+//   cardKey,
+//   dialogue,
+//   index,
+//   variant = 'animate-fade-in',
+//   expandedCard,
+//   setExpandedCard,
+// }: AnimatedDialogueCardProps) {
+//   const initialTransform = variant.includes('left')
+//     ? 'translateX(-40px)'
+//     : variant.includes('right')
+//       ? 'translateX(40px)'
+//       : 'translateY(40px)';
+
+//   const ref = useScrollAnimation<HTMLDivElement>({
+//     animationClass: variant,
+//     initialTransform,
+//     threshold: 0.12,
+//     once: false,
+//   });
+
+//   const isExpanded = expandedCard === cardKey;
+
+//   return (
+//     <article ref={ref} className="dialogue-card" style={{ transitionDelay: `${index * 60}ms` }}>
+//       <Image
+//         src="/assets/dialoges/quote.png"
+//         alt="Quote"
+//         width={56}
+//         height={56}
+//         className="dialogue-quote"
+//       />
+
+//       <div className="dialogue-text">
+//         <p className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}>
+//           {dialogue.quote}
+//         </p>
+
+//         <button
+//           type="button"
+//           className="dialogue-read-more"
+//           onClick={() => setExpandedCard(isExpanded ? null : cardKey)}
+//         >
+//           {isExpanded ? 'Read Less' : 'Read More'}
+//         </button>
+//       </div>
+
+//       <div className="dialogue-divider" />
+
+//       <div className="dialogue-footer">
+//         <div>
+//           <h4 className="dialogue-author">{dialogue.title}</h4>
+//           <p className="dialogue-role">{dialogue.slug}</p>
+//         </div>
+//       </div>
+//     </article>
+//   );
+// }
+
+'use client';
+
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+
+type ContentBlock = {
+  type?: string;
+  content?: string;
+  data?: {
+    text?: string;
+    description?: string;
+  };
+};
+
+type DialoguePage = {
+  id?: string;
+  slug: string;
+  title?: string;
+  content?: {
+    blocks?: ContentBlock[];
+  };
+};
+
+type DialogueCard = {
+  id: string;
+  slug: string;
+  title: string;
+  quote: string;
+};
+
+async function getDialoguesPages(): Promise<DialoguePage[]> {
+  try {
+    const response = await fetch('/api/dialogues', {
+      method: 'GET',
+      cache: 'no-store',
+    });
+
+    if (!response.ok) return [];
+
+    const result: unknown = await response.json();
+
+    if (typeof result === 'object' && result !== null && 'data' in result) {
+      const data = (result as { data?: DialoguePage[] }).data;
+      return Array.isArray(data) ? data : [];
+    }
+
+    return Array.isArray(result) ? (result as DialoguePage[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function extractQuoteFromContent(blocks: ContentBlock[]): string {
+  if (!blocks.length) return '';
+
+  for (const block of blocks) {
+    if (typeof block.data?.text === 'string') {
+      return block.data.text.substring(0, 200);
+    }
+
+    if (typeof block.content === 'string') {
+      return block.content.substring(0, 200);
+    }
+
+    if (typeof block.data?.description === 'string') {
+      return block.data.description.substring(0, 200);
+    }
+  }
+
+  return '';
+}
+
+export default function DialoguesPage() {
+  const [dialogues, setDialogues] = useState<DialogueCard[]>([]);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const heroMediaRef = useScrollAnimation<HTMLDivElement>({
+    animationClass: 'animate-fade-in-right',
+    initialTransform: 'translateX(40px)',
+    threshold: 0.12,
+    once: false,
+  });
+
+  const heroContentRef = useScrollAnimation<HTMLDivElement>({
+    animationClass: 'animate-fade-in-left',
+    initialTransform: 'translateX(-40px)',
+    threshold: 0.12,
+    once: false,
+  });
+
+  useEffect(() => {
+    const fetchDialogues = async () => {
+      setIsLoading(true);
+
+      const pages = await getDialoguesPages();
+
+      const mappedDialogues: DialogueCard[] = pages.map((page, index) => ({
+        id: page.id || page.slug || String(index),
+        slug: page.slug,
+        title: page.title || '',
+        quote: extractQuoteFromContent(page.content?.blocks || []) || page.title || '',
+      }));
+
+      setDialogues(mappedDialogues);
+      setIsLoading(false);
+    };
+
+    fetchDialogues();
+  }, []);
+
+  return (
+    <>
+      <section className="blog-hero dialogues-hero">
+        <div className="blog-hero-media" ref={heroMediaRef}>
+          <Image
+            src="/assets/blogs/blog-1.webp"
+            alt="Read Dialogues"
+            fill
+            className="blog-hero-image"
+          />
+        </div>
+
+        <div className="blog-hero-overlay" />
+
+        <div className="blog-hero-content" ref={heroContentRef}>
+          <h1>Read Dialogues</h1>
+
+          <div className="blog-breadcrumb">
+            <Link href="/" className="blog-breadcrumb-home">
+              🏦 Home
+            </Link>
+
+            <span>&gt;</span>
+
+            <p>Dialogues</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="dialogues-section">
+        <div className="dialogues-container">
+          <br />
+          <br />
+
+          <div className="dialogues-list">
+            {isLoading ? (
+              <div style={{ padding: '40px', textAlign: 'center', width: '100%' }}>
+                Loading dialogues...
+              </div>
+            ) : dialogues.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', width: '100%' }}>
+                No dialogues available
+              </div>
+            ) : (
+              dialogues.map((dialogue, index) => {
+                const variant =
+                  index % 3 === 0
+                    ? 'animate-fade-in-left'
+                    : index % 3 === 1
+                      ? 'animate-fade-in'
+                      : 'animate-fade-in-right';
+
+                return (
+                  <AnimatedDialogueCard
+                    key={dialogue.id}
+                    cardKey={dialogue.id}
+                    dialogue={dialogue}
+                    index={index}
+                    variant={variant}
+                    expandedCard={expandedCard}
+                    setExpandedCard={setExpandedCard}
+                  />
+                );
+              })
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+type AnimatedDialogueCardProps = {
+  cardKey: string;
+  dialogue: DialogueCard;
+  index: number;
+  variant?: string;
+  expandedCard: string | null;
+  setExpandedCard: React.Dispatch<React.SetStateAction<string | null>>;
+};
+
+function AnimatedDialogueCard({
+  cardKey,
+  dialogue,
+  index,
+  variant = 'animate-fade-in',
+  expandedCard,
+  setExpandedCard,
+}: AnimatedDialogueCardProps) {
+  const initialTransform = variant.includes('left')
+    ? 'translateX(-40px)'
+    : variant.includes('right')
+      ? 'translateX(40px)'
+      : 'translateY(40px)';
+
+  const ref = useScrollAnimation<HTMLDivElement>({
+    animationClass: variant,
+    initialTransform,
+    threshold: 0.12,
+    once: false,
+  });
+
+  const isExpanded = expandedCard === cardKey;
+
+  return (
+    <article ref={ref} className="dialogue-card" style={{ transitionDelay: `${index * 60}ms` }}>
+      <Image
+        src="/assets/dialoges/quote.png"
+        alt="Quote"
+        width={56}
+        height={56}
+        className="dialogue-quote"
+      />
+
+      <div className="dialogue-text">
+        <p className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}>
+          {dialogue.quote}
+        </p>
+
+        <button
+          type="button"
+          className="dialogue-read-more"
+          onClick={() => setExpandedCard(isExpanded ? null : cardKey)}
+        >
+          {isExpanded ? 'Read Less' : 'Read More'}
+        </button>
+      </div>
+
+      <div className="dialogue-divider" />
+
+      <div className="dialogue-footer">
+        <div>
+          <h4 className="dialogue-author">{dialogue.title}</h4>
+          <p className="dialogue-role">{dialogue.slug}</p>
+        </div>
+      </div>
+    </article>
+  );
+}

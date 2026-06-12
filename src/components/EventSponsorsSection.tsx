@@ -1,6 +1,183 @@
+// 'use client';
+
+// import Image from 'next/image';
+
+// type Sponsor = {
+//   id: string;
+//   name: string;
+//   logoUrl?: string;
+//   logo?: string | Record<string, string>;
+//   tier?: string;
+//   description?: string;
+//   website?: string;
+//   companyName?: string;
+//   email?: string;
+//   phone?: string;
+//   contactName?: string;
+//   personName?: string;
+//   designation?: string;
+//   [key: string]: unknown;
+// };
+
+// type StaticSponsor = {
+//   id: string;
+//   name: string;
+//   logoUrl: string;
+//   tier?: string;
+//   description?: string;
+//   website?: string;
+//   companyName?: string;
+// };
+
+// const STATIC_EVENT_SPONSORS: StaticSponsor[] = [
+//   {
+//     id: 'sponsor-1',
+//     name: 'Rajesh Mehta',
+//     companyName: 'Lenovo',
+//     logoUrl: '/assets/keyclients/client1.png',
+//     tier: 'Platinum',
+//     description: 'Leading technology partner',
+//   },
+//   {
+//     id: 'sponsor-2',
+//     name: 'Priya Singh',
+//     companyName: 'Pure Storage',
+//     logoUrl: '/assets/keyclients/client2.png',
+//     tier: 'Gold',
+//     description: 'Enterprise solutions provider',
+//   },
+//   {
+//     id: 'sponsor-3',
+//     name: 'Amit Kumar',
+//     companyName: 'Tata Communications',
+//     logoUrl: '/assets/keyclients/client3.png',
+//     tier: 'Gold',
+//     description: 'Digital innovation partner',
+//   },
+//   {
+//     id: 'sponsor-4',
+//     name: 'Neha Verma',
+//     companyName: 'Nutanix',
+//     logoUrl: '/assets/keyclients/client4.png',
+//     tier: 'Silver',
+//     description: 'Cloud and infrastructure partner',
+//   },
+// ];
+
+// function getTierClass(tier?: string) {
+//   if (!tier) return 'event-sponsor-tier-default';
+//   return `event-sponsor-tier-${tier.toLowerCase()}`;
+// }
+
+// function getLogoUrl(sponsor: Sponsor): string | undefined {
+//   if (typeof sponsor.logoUrl === 'string' && sponsor.logoUrl.trim()) {
+//     return sponsor.logoUrl;
+//   }
+
+//   if (typeof sponsor.logo === 'string' && sponsor.logo.trim()) {
+//     return sponsor.logo;
+//   }
+
+//   if (typeof sponsor.logo === 'object' && sponsor.logo !== null) {
+//     const logo = sponsor.logo as Record<string, unknown>;
+//     return (
+//       (typeof logo.original === 'string' && logo.original) ||
+//       (typeof logo.medium === 'string' && logo.medium) ||
+//       (typeof logo.small === 'string' && logo.small) ||
+//       (typeof logo.thumbnail === 'string' && logo.thumbnail) ||
+//       (typeof logo.large === 'string' && logo.large) ||
+//       undefined
+//     );
+//   }
+
+//   return undefined;
+// }
+
+// interface EventSponsorsSectionProps {
+//   sponsors?: Sponsor[] | null;
+// }
+
+// export default function EventSponsorsSection({ sponsors }: EventSponsorsSectionProps) {
+//   const displaySponsors = sponsors && sponsors.length > 0 ? sponsors : STATIC_EVENT_SPONSORS;
+//   const hasRealSponsors = sponsors && sponsors.length > 0;
+//   const staticLenovoLogo = '/assets/keyclients/client1.png'; // Static Lenovo logo
+
+//   // If no real sponsors from API, don't render anything
+//   if (!hasRealSponsors) {
+//     return null;
+//   }
+
+//   return (
+//     <section className="event-sponsors-section" aria-labelledby="event-sponsors-heading">
+//       <div className="event-details-sidebar-card event-sponsors-card">
+//         <h3 id="event-sponsors-heading">Event Sponsors</h3>
+//         <p>Our partners supporting this event.</p>
+
+//         <div className="event-sponsors-grid">
+//           {displaySponsors.map((sponsor) => {
+//             const logoUrl = getLogoUrl(sponsor);
+//             const hasLogo = !!logoUrl;
+
+//             // Get contact person name (priority: contactName > personName > name)
+//             const contactName =
+//               sponsor.contactName || sponsor.personName || sponsor.name || 'Contact';
+
+//             // Get company name
+//             const companyName = sponsor.companyName || 'Company';
+
+//             return (
+//               <article key={sponsor.id} className="event-sponsor-card">
+//                 <div className="event-sponsor-logo-wrap">
+//                   <Image
+//                     src={logoUrl || staticLenovoLogo}
+//                     alt={companyName}
+//                     width={160}
+//                     height={56}
+//                     className="event-sponsor-logo"
+//                   />
+//                 </div>
+
+//                 <div className="event-sponsor-meta">
+//                   <strong className="event-sponsor-name">{contactName}</strong>
+//                   <p style={{ fontSize: '0.9em', color: '#666', margin: '4px 0' }}>{companyName}</p>
+//                   {sponsor.tier ? (
+//                     <span className={`event-sponsor-tier ${getTierClass(sponsor.tier)}`}>
+//                       {sponsor.tier}
+//                     </span>
+//                   ) : null}
+//                   {hasLogo && sponsor.description ? (
+//                     <p className="event-sponsor-description">{sponsor.description}</p>
+//                   ) : null}
+//                 </div>
+//               </article>
+//             );
+//           })}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
 'use client';
 
 import Image from 'next/image';
+
+type Sponsor = {
+  id: string;
+  name: string;
+  logoUrl?: string;
+  logo?: string | Record<string, string>;
+  tier?: string;
+  description?: string;
+  website?: string;
+  companyName?: string;
+  email?: string;
+  phone?: string;
+  contactName?: string;
+  personName?: string;
+  designation?: string;
+  [key: string]: unknown;
+};
 
 type StaticSponsor = {
   id: string;
@@ -9,59 +186,102 @@ type StaticSponsor = {
   tier?: string;
   description?: string;
   website?: string;
+  companyName?: string;
 };
 
 const STATIC_EVENT_SPONSORS: StaticSponsor[] = [
   {
     id: 'sponsor-1',
-    name: 'Tech Corp',
+    name: 'Rajesh Mehta',
+    companyName: 'Lenovo',
     logoUrl: '/assets/keyclients/client1.png',
     tier: 'Platinum',
     description: 'Leading technology partner',
   },
   {
     id: 'sponsor-2',
-    name: 'Global Solutions',
+    name: 'Priya Singh',
+    companyName: 'Pure Storage',
     logoUrl: '/assets/keyclients/client2.png',
     tier: 'Gold',
     description: 'Enterprise solutions provider',
   },
   {
     id: 'sponsor-3',
-    name: 'Innovate Ltd',
+    name: 'Amit Kumar',
+    companyName: 'Tata Communications',
     logoUrl: '/assets/keyclients/client3.png',
     tier: 'Gold',
     description: 'Digital innovation partner',
   },
   {
     id: 'sponsor-4',
-    name: 'NextGen Systems',
+    name: 'Neha Verma',
+    companyName: 'Nutanix',
     logoUrl: '/assets/keyclients/client4.png',
     tier: 'Silver',
     description: 'Cloud and infrastructure partner',
   },
-  // {
-  //   id: 'sponsor-5',
-  //   name: 'Summit Group',
-  //   logoUrl: '/assets/keyclients/client5.png',
-  //   tier: 'Silver',
-  //   description: 'Strategic business partner',
-  // },
-  // {
-  //   id: 'sponsor-6',
-  //   name: 'Prime Ventures',
-  //   logoUrl: '/assets/keyclients/client6.png',
-  //   tier: 'Partner',
-  //   description: 'Supporting partner',
-  // },
 ];
 
 function getTierClass(tier?: string) {
   if (!tier) return 'event-sponsor-tier-default';
+
   return `event-sponsor-tier-${tier.toLowerCase()}`;
 }
 
-export default function EventSponsorsSection() {
+function getLogoUrl(sponsor: Sponsor | StaticSponsor): string | undefined {
+  if (typeof sponsor.logoUrl === 'string' && sponsor.logoUrl.trim()) {
+    return sponsor.logoUrl;
+  }
+
+  if ('logo' in sponsor && typeof sponsor.logo === 'string' && sponsor.logo.trim()) {
+    return sponsor.logo;
+  }
+
+  if ('logo' in sponsor && typeof sponsor.logo === 'object' && sponsor.logo !== null) {
+    const logo = sponsor.logo as Record<string, unknown>;
+
+    return (
+      (typeof logo.original === 'string' && logo.original) ||
+      (typeof logo.medium === 'string' && logo.medium) ||
+      (typeof logo.small === 'string' && logo.small) ||
+      (typeof logo.thumbnail === 'string' && logo.thumbnail) ||
+      (typeof logo.large === 'string' && logo.large) ||
+      undefined
+    );
+  }
+
+  return undefined;
+}
+
+function getContactName(sponsor: Sponsor | StaticSponsor): string {
+  if ('contactName' in sponsor && typeof sponsor.contactName === 'string' && sponsor.contactName) {
+    return sponsor.contactName;
+  }
+
+  if ('personName' in sponsor && typeof sponsor.personName === 'string' && sponsor.personName) {
+    return sponsor.personName;
+  }
+
+  return sponsor.name || 'Contact';
+}
+
+interface EventSponsorsSectionProps {
+  sponsors?: Sponsor[] | null;
+}
+
+export default function EventSponsorsSection({ sponsors }: EventSponsorsSectionProps) {
+  const displaySponsors: Array<Sponsor | StaticSponsor> =
+    sponsors && sponsors.length > 0 ? sponsors : STATIC_EVENT_SPONSORS;
+
+  const hasRealSponsors = sponsors && sponsors.length > 0;
+  const staticLenovoLogo = '/assets/keyclients/client1.png';
+
+  if (!hasRealSponsors) {
+    return null;
+  }
+
   return (
     <section className="event-sponsors-section" aria-labelledby="event-sponsors-heading">
       <div className="event-details-sidebar-card event-sponsors-card">
@@ -69,31 +289,42 @@ export default function EventSponsorsSection() {
         <p>Our partners supporting this event.</p>
 
         <div className="event-sponsors-grid">
-          {STATIC_EVENT_SPONSORS.map((sponsor) => (
-            <article key={sponsor.id} className="event-sponsor-card">
-              <div className="event-sponsor-logo-wrap">
-                <Image
-                  src={sponsor.logoUrl}
-                  alt={sponsor.name}
-                  width={160}
-                  height={56}
-                  className="event-sponsor-logo"
-                />
-              </div>
+          {displaySponsors.map((sponsor) => {
+            const logoUrl = getLogoUrl(sponsor);
+            const hasLogo = Boolean(logoUrl);
+            const contactName = getContactName(sponsor);
+            const companyName = sponsor.companyName || 'Company';
 
-              <div className="event-sponsor-meta">
-                <strong className="event-sponsor-name">{sponsor.name}</strong>
-                {sponsor.tier ? (
-                  <span className={`event-sponsor-tier ${getTierClass(sponsor.tier)}`}>
-                    {sponsor.tier}
-                  </span>
-                ) : null}
-                {sponsor.description ? (
-                  <p className="event-sponsor-description">{sponsor.description}</p>
-                ) : null}
-              </div>
-            </article>
-          ))}
+            return (
+              <article key={sponsor.id} className="event-sponsor-card">
+                <div className="event-sponsor-logo-wrap">
+                  <Image
+                    src={logoUrl || staticLenovoLogo}
+                    alt={companyName}
+                    width={160}
+                    height={56}
+                    className="event-sponsor-logo"
+                  />
+                </div>
+
+                <div className="event-sponsor-meta">
+                  <strong className="event-sponsor-name">{contactName}</strong>
+
+                  <p style={{ fontSize: '0.9em', color: '#666', margin: '4px 0' }}>{companyName}</p>
+
+                  {sponsor.tier ? (
+                    <span className={`event-sponsor-tier ${getTierClass(sponsor.tier)}`}>
+                      {sponsor.tier}
+                    </span>
+                  ) : null}
+
+                  {hasLogo && sponsor.description ? (
+                    <p className="event-sponsor-description">{sponsor.description}</p>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
