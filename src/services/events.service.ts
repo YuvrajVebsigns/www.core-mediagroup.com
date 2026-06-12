@@ -155,17 +155,33 @@ export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEve
 
     if (!Array.isArray(items)) return [];
 
-    return (items as RawEvent[]).map((it) => ({
-      id: String(it['id'] ?? it['_id'] ?? it['eventId'] ?? it['uid'] ?? ''),
-      title:
-        (it['title'] as string) ??
-        (it['name'] as string) ??
-        (it['eventName'] as string) ??
-        undefined,
-      description: (it['description'] as string) ?? undefined,
-      startsAt: (it['startsAt'] as string) ?? (it['startDate'] as string) ?? undefined,
-      ...it,
-    }));
+    return (items as RawEvent[]).map((it) => {
+      const normalized = {
+        id: String(it['id'] ?? it['_id'] ?? it['eventId'] ?? it['uid'] ?? ''),
+        title:
+          (it['title'] as string) ??
+          (it['name'] as string) ??
+          (it['eventName'] as string) ??
+          undefined,
+        description: (it['description'] as string) ?? undefined,
+        startsAt: (it['startsAt'] as string) ?? (it['startDate'] as string) ?? undefined,
+        ...it,
+      };
+
+      if (typeof window !== 'undefined') {
+        console.log('📌 Event from API:', {
+          title: normalized.title,
+          hasImage: 'image' in normalized,
+          hasHeroImage: 'heroImage' in normalized,
+          hasBanner: 'banner' in normalized,
+          hasFeatureImage: 'featureImage' in normalized,
+          keys: Object.keys(normalized).slice(0, 20),
+          fullObject: normalized,
+        });
+      }
+
+      return normalized;
+    });
   } catch (error: unknown) {
     const statusCode = getApiErrorStatus(error);
 
@@ -192,17 +208,31 @@ export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEve
         const items = isRecord(res) ? (res.data ?? res.items ?? res.results ?? []) : (res ?? []);
         if (!Array.isArray(items)) return [];
 
-        return (items as RawEvent[]).map((it) => ({
-          id: String(it['id'] ?? it['_id'] ?? it['eventId'] ?? it['uid'] ?? ''),
-          title:
-            (it['title'] as string) ??
-            (it['name'] as string) ??
-            (it['eventName'] as string) ??
-            undefined,
-          description: (it['description'] as string) ?? undefined,
-          startsAt: (it['startsAt'] as string) ?? (it['startDate'] as string) ?? undefined,
-          ...it,
-        }));
+        return (items as RawEvent[]).map((it) => {
+          const normalized = {
+            id: String(it['id'] ?? it['_id'] ?? it['eventId'] ?? it['uid'] ?? ''),
+            title:
+              (it['title'] as string) ??
+              (it['name'] as string) ??
+              (it['eventName'] as string) ??
+              undefined,
+            description: (it['description'] as string) ?? undefined,
+            startsAt: (it['startsAt'] as string) ?? (it['startDate'] as string) ?? undefined,
+            ...it,
+          };
+
+          if (typeof window !== 'undefined') {
+            console.log('📌 Event from API (retry):', {
+              title: normalized.title,
+              hasImage: 'image' in normalized,
+              hasHeroImage: 'heroImage' in normalized,
+              hasBanner: 'banner' in normalized,
+              keys: Object.keys(normalized).slice(0, 20),
+            });
+          }
+
+          return normalized;
+        });
       }
     }
 

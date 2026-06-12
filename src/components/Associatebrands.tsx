@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 const associateBrands = [
   {
     name: 'CIO Angel Network',
@@ -49,7 +50,13 @@ export default function AssociateBrandsPage() {
       <section className="associate-brands-hero">
         <div className="associate-brands-container">
           <div className="associate-brands-label">
-            <span>⬢</span>
+            <Image
+              src="/assets/icon.png"
+              alt="About Us"
+              width={20}
+              height={20}
+              className="expertise-label-icon"
+            />
             Associate Brands
           </div>
 

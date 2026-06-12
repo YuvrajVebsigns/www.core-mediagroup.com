@@ -271,7 +271,6 @@ export default function ContactSection() {
       setIsSubmitting(false);
     }
   }
-
   return (
     <section className="contact-section" id="contact-section">
       <div className="contact-container">
@@ -279,7 +278,7 @@ export default function ContactSection() {
         <div className="contact-map-area">
           <div className="contact-map">
             <Image
-              src="/assets/map4-removebg.png"
+              src="/assets/map3.png"
               alt="Global Map"
               width={700}
               height={500}

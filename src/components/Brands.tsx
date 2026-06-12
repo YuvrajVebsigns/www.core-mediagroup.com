@@ -174,7 +174,13 @@ export default function Brands() {
         <div className="dialogue-header" ref={headerRef}>
           <div>
             <span className="dialogue-subtitle">
-              <span className="dialogue-subtitle-mark">⬢</span>
+              <Image
+                src="/assets/icon.png"
+                alt="About Us"
+                width={20}
+                height={20}
+                className="expertise-label-icon"
+              />
               <span className="dialogue-subtitle-text">CLIENTS FEEDBACK</span>
             </span>
 
