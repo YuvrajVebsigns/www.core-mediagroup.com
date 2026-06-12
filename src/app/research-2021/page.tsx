@@ -527,7 +527,7 @@ export default function RegisterPage() {
       setErrors({});
 
       // Show success message
-      setPopupMessage('Form submitted successfully — redirecting to download...');
+      setPopupMessage('Form submitted successfully ');
 
       // Redirect to download page with the URL as query parameter
       setTimeout(() => {
