@@ -363,7 +363,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Country } from 'react-phone-number-input';
 import CountryCodeSelect, { getDialCodeFromCountry } from '@/components/CountryCodeSelect';
-import { submitAttendeeRegistration } from '@/services/attendees.service';
+import { submitReportDownload, getDownloadUrl } from '@/services/reports.service';
+
+// Report ID for CIO Outlook Survey 2021 Business Pulse Report
+const REPORT_ID_2021 = '6a2aa3ea06d86bdecfd21648';
 
 const industries = [
   '',
@@ -497,21 +500,22 @@ export default function RegisterPage() {
     setPopupMessage(null);
 
     try {
-      const response = await submitAttendeeRegistration({
-        eventId: 'business-pulse-report',
-        name: `${firstName.trim()} ${lastName.trim()}`,
+      // Submit report download request (which also tracks the user)
+      const reportResponse = await submitReportDownload({
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         email: email.trim(),
         phoneNumber: trimmedPhone,
         countryCode: dialCode,
-        organization: companyName.trim(),
+        companyName: companyName.trim(),
+        designation: designation.trim(),
+        industry: industry,
+        reportId: REPORT_ID_2021,
       });
 
-      const apiMessage =
-        response && typeof response === 'object' && 'message' in response
-          ? String((response as { message?: string }).message)
-          : '';
+      const downloadUrl = getDownloadUrl(reportResponse);
 
-      setPopupMessage(apiMessage || 'Registration successful — thank you!');
+      // Clear form
       setFirstName('');
       setLastName('');
       setCompanyName('');
@@ -521,7 +525,18 @@ export default function RegisterPage() {
       setPhone('');
       setIndustry('');
       setErrors({});
-      router.push('/research/download-report');
+
+      // Show success message
+      setPopupMessage('Form submitted successfully — redirecting to download...');
+
+      // Redirect to download page with the URL as query parameter
+      setTimeout(() => {
+        if (downloadUrl) {
+          router.push(`/research-2021/download-report?url=${encodeURIComponent(downloadUrl)}`);
+        } else {
+          router.push('/research-2021/download-report');
+        }
+      }, 1000);
     } catch (err) {
       setPopupMessage(err instanceof Error ? err.message : 'Network error. Please try again.');
     } finally {
