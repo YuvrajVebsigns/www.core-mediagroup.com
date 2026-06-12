@@ -771,6 +771,10 @@ export default function EventDetailsPage() {
     sections: normalizedSections,
   };
 
+  // Extract sponsors from event data
+  const sponsorsData = getEventField(event, 'sponsors');
+  const eventSponsors = Array.isArray(sponsorsData) ? sponsorsData : null;
+
   function renderBlock(block: unknown, index: number) {
     if (!isRecord(block)) return null;
 
@@ -882,7 +886,7 @@ export default function EventDetailsPage() {
         <ClientErrorBoundary>
           <EventDetailsAnimated featuredEvent={featuredEvent} readableSlug={readableSlug} />
 
-          <EventSponsorsSection />
+          <EventSponsorsSection sponsors={eventSponsors} />
 
           {contentBlocks.length > 0 ? (
             <div>{contentBlocks.map((block, index) => renderBlock(block, index))}</div>

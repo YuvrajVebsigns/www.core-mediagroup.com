@@ -6668,6 +6668,28 @@ main {
   color: #fff;
   font-weight: 700;
   text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.download-report-btn:hover {
+  background: #6e0000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(142, 1, 1, 0.3);
+}
+
+.download-report-back {
+  display: inline-block;
+  color: #8e0101;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 16px;
+  transition: 0.3s ease;
+}
+
+.download-report-back:hover {
+  text-decoration: underline;
+  color: #6e0000;
 }
 
 @media (max-width: 768px) {
@@ -8872,6 +8894,11 @@ s .dialogues-badge-mark {
   display: inline-flex;
   margin-bottom: 26px;
   /* margin-top: -10px;   */
+}
+
+.footer-logo img {
+  width: auto;
+  height: auto;
 }
 
 .footer-description {
@@ -14495,6 +14522,7 @@ main {
 .map-dot {
   width: 10px;
   height: 10px;
+  background: white;
   border-radius: 50%;
   position: absolute;
   animation: pulseDot 2s infinite;
@@ -14753,6 +14781,20 @@ main {
     min-height: 300px;
   }
 
+  .dot-1 {
+    top: 56%;
+    left: 40%;
+  }
+
+  .dot-2 {
+    top: 50%;
+    left: 67%;
+  }
+
+  .dot-3 {
+    top: 92%;
+    left: 26%;
+  }
   .dot-1 {
     top: 56%;
     left: 40%;
@@ -16658,6 +16700,21 @@ main {
 .download-report-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(76, 175, 80, 0.24);
+}
+
+.download-report-back {
+  display: inline-block;
+  color: #8e0101;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 16px;
+  transition: 0.3s ease;
+}
+
+.download-report-back:hover {
+  text-decoration: underline;
+  color: #6e0000;
 }
 
 .download-report-brand {
@@ -18877,6 +18934,11 @@ s .dialogues-badge-mark {
   display: inline-flex;
   margin-bottom: 26px;
   /* margin-top: -10px;   */
+}
+
+.footer-logo img {
+  width: auto;
+  height: auto;
 }
 
 .footer-description {

@@ -364,7 +364,6 @@ import { useRouter } from 'next/navigation';
 import type { Country } from 'react-phone-number-input';
 import CountryCodeSelect, { getDialCodeFromCountry } from '@/components/CountryCodeSelect';
 import { submitAttendeeRegistration } from '@/services/attendees.service';
-
 const industries = [
   '',
   'ASSET MANAGEMENT (AMC)',
@@ -521,7 +520,17 @@ export default function RegisterPage() {
       setPhone('');
       setIndustry('');
       setErrors({});
-      router.push('/research/download-report');
+      // Show success message
+      setPopupMessage('Form submitted successfully — redirecting to download...');
+
+      // Redirect to download page with the URL as query parameter
+      setTimeout(() => {
+        if (downloadUrl) {
+          router.push(`/research-2020/download-report?url=${encodeURIComponent(downloadUrl)}`);
+        } else {
+          router.push('/research-2020/download-report');
+        }
+      }, 1000);
     } catch (err) {
       setPopupMessage(err instanceof Error ? err.message : 'Network error. Please try again.');
     } finally {
