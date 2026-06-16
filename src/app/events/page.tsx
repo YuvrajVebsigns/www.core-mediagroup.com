@@ -28,33 +28,24 @@
 // function getEventImage(event: WebsiteEvent): string {
 //   const eventObj = event as Record<string, unknown>;
 
-//   // Try to find image in various field names
-//   const image =
-//     typeof eventObj.image === 'string'
-//       ? eventObj.image
-//       : typeof eventObj.heroImage === 'string'
-//         ? eventObj.heroImage
-//         : typeof eventObj.banner === 'string'
-//           ? eventObj.banner
-//           : typeof eventObj.poster === 'string'
-//             ? eventObj.poster
-//             : typeof eventObj.featureImage === 'string'
-//               ? eventObj.featureImage
-//               : null;
+//   // Check direct string image fields
+//   for (const field of ['image', 'heroImage', 'banner', 'poster'] as const) {
+//     const val = eventObj[field];
+//     if (typeof val === 'string' && val.trim()) return val;
+//   }
 
-//   console.log('🖼️ getEventImage:', {
-//     title: eventObj.title,
-//     foundImage: image,
-//     checkedFields: {
-//       image: eventObj.image,
-//       heroImage: eventObj.heroImage,
-//       banner: eventObj.banner,
-//       poster: eventObj.poster,
-//       featureImage: eventObj.featureImage,
-//     },
-//   });
+//   // Handle featureImage which may be a string or an Image object with size variants
+//   const featureImage = eventObj.featureImage;
+//   if (typeof featureImage === 'string' && featureImage.trim()) return featureImage;
+//   if (
+//     typeof featureImage === 'object' &&
+//     featureImage !== null &&
+//     'small' in featureImage &&
+//     typeof (featureImage as Record<string, unknown>).small === 'string'
+//   ) {
+//     return (featureImage as Record<string, unknown>).small as string;
+//   }
 
-//   if (image && image.trim()) return image;
 //   return '/assets/blogs/blog-1.webp';
 // }
 
@@ -93,9 +84,10 @@
 //     fetchWebsiteEvents(getStoredWebsiteId())
 //       .then((data) => {
 //         if (Array.isArray(data) && data.length) {
-//           console.log('Events fetched:', data);
 //           setEvents(data);
-//         } else setEvents([]);
+//         } else {
+//           setEvents([]);
+//         }
 //       })
 //       .catch(() => setEvents([]));
 //   }, []);
@@ -179,8 +171,6 @@
 //                 const imageSrc = getEventImage(item);
 //                 const category = getEventCategory(item);
 
-//                 console.log(`Event: ${title}`, { imageSrc, category, eventObj: item });
-
 //                 return (
 //                   <Link key={slug} href={`/events/${slug}`}>
 //                     <div className="project-card" ref={index === 0 ? leftRef : rightRef}>
@@ -235,55 +225,27 @@ function getStoredWebsiteId(): string | undefined {
 }
 
 function getEventImage(event: WebsiteEvent): string {
-  const eventObj = event as Record<string, unknown>;
+  if (event.bannerImage?.medium) return event.bannerImage.medium;
+  if (event.bannerImage?.small) return event.bannerImage.small;
+  if (event.bannerImage?.original) return event.bannerImage.original;
 
-  // Check direct string image fields
-  for (const field of ['image', 'heroImage', 'banner', 'poster'] as const) {
-    const val = eventObj[field];
-    if (typeof val === 'string' && val.trim()) return val;
-  }
+  if (event.bannerImageId?.urlVariants?.medium) return event.bannerImageId.urlVariants.medium;
+  if (event.bannerImageId?.urlVariants?.small) return event.bannerImageId.urlVariants.small;
+  if (event.bannerImageId?.url) return event.bannerImageId.url;
 
-  // Handle featureImage which may be a string or an Image object with size variants
-  const featureImage = eventObj.featureImage;
-  if (typeof featureImage === 'string' && featureImage.trim()) return featureImage;
-  if (
-    typeof featureImage === 'object' &&
-    featureImage !== null &&
-    'small' in featureImage &&
-    typeof (featureImage as Record<string, unknown>).small === 'string'
-  ) {
-    return (featureImage as Record<string, unknown>).small as string;
-  }
+  if (event.featureImage?.medium) return event.featureImage.medium;
+  if (event.featureImage?.small) return event.featureImage.small;
+  if (event.featureImage?.original) return event.featureImage.original;
 
   return '/assets/blogs/blog-1.webp';
 }
 
 function getEventCategory(event: WebsiteEvent): string {
-  const eventObj = event as Record<string, unknown>;
-
-  const category =
-    typeof eventObj.category === 'string'
-      ? eventObj.category
-      : typeof eventObj.type === 'string'
-        ? eventObj.type
-        : null;
-
-  return category && category.trim() ? category : 'Events';
+  return event.type || 'Events';
 }
 
 function getEventTitle(event: WebsiteEvent): string {
-  const eventObj = event as Record<string, unknown>;
-
-  const title =
-    typeof eventObj.title === 'string'
-      ? eventObj.title
-      : typeof eventObj.name === 'string'
-        ? eventObj.name
-        : typeof eventObj.eventName === 'string'
-          ? eventObj.eventName
-          : null;
-
-  return title && title.trim() ? title : 'Event';
+  return event.title || 'Event';
 }
 
 export default function EventsPage() {
@@ -291,13 +253,7 @@ export default function EventsPage() {
 
   useEffect(() => {
     fetchWebsiteEvents(getStoredWebsiteId())
-      .then((data) => {
-        if (Array.isArray(data) && data.length) {
-          setEvents(data);
-        } else {
-          setEvents([]);
-        }
-      })
+      .then((data) => setEvents(Array.isArray(data) ? data : []))
       .catch(() => setEvents([]));
   }, []);
 
@@ -351,9 +307,7 @@ export default function EventsPage() {
             <Link href="/" className="blog-breadcrumb-home">
               🏦 Home
             </Link>
-
             <span>&gt;</span>
-
             <p>Events</p>
           </div>
         </div>
@@ -367,24 +321,30 @@ export default function EventsPage() {
             ) : events.length === 0 ? (
               <div className="events-empty">No events available at the moment.</div>
             ) : (
-              events.map((item: WebsiteEvent, index: number) => {
+              events.map((item, index) => {
                 const title = getEventTitle(item);
                 const slug =
-                  item.id && typeof item.id === 'string'
-                    ? String(item.id)
-                    : title
-                        .toLowerCase()
-                        .replace(/\s+/g, '-')
-                        .replace(/[^a-z0-9-]/g, '');
+                  item.slug ||
+                  item.id ||
+                  title
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^a-z0-9-]/g, '');
 
                 const imageSrc = getEventImage(item);
                 const category = getEventCategory(item);
 
                 return (
-                  <Link key={slug} href={`/events/${slug}`}>
-                    <div className="project-card" ref={index === 0 ? leftRef : rightRef}>
+                  <Link key={item.id || slug} href={`/events/${slug}`}>
+                    <div className="project-card" ref={index % 2 === 0 ? leftRef : rightRef}>
                       <div className="project-image-wrap">
-                        <Image src={imageSrc} alt={title} fill className="project-image" />
+                        <Image
+                          src={imageSrc}
+                          alt={title}
+                          fill
+                          className="project-image"
+                          unoptimized={imageSrc.startsWith('http')}
+                        />
                       </div>
 
                       <div className="project-overlay">
