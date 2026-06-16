@@ -11,6 +11,9 @@ import EventSponsorsSection from '@/components/EventSponsorsSection';
 import {
   fetchWebsiteEventByIdOrSlug,
   fetchWebsiteEvents,
+  getEventCategory,
+  getEventImage,
+  getEventTitle,
   type WebsiteEvent,
 } from '@/services/events.service';
 
@@ -29,29 +32,6 @@ function getString(value: unknown, fallback = ''): string {
 
 function getEventField(event: WebsiteEvent, key: string): unknown {
   return (event as unknown as Record<string, unknown>)[key];
-}
-
-function getEventImage(event?: WebsiteEvent | null): string {
-  if (!event) return '/assets/blogs/blog-1.webp';
-
-  // Try multiple image field names in priority order
-  const image =
-    getString(getEventField(event, 'image')) ||
-    getString(getEventField(event, 'heroImage')) ||
-    getString(getEventField(event, 'banner')) ||
-    getString(getEventField(event, 'poster'));
-
-  return image || '/assets/blogs/blog-1.webp';
-}
-
-function getEventCategory(event?: WebsiteEvent | null): string {
-  if (!event) return 'Events';
-
-  return (
-    getString(getEventField(event, 'category')) ||
-    getString(getEventField(event, 'type')) ||
-    'Events'
-  );
 }
 
 function openExternal(url: string) {
@@ -270,12 +250,7 @@ export default function EventDetailsPage() {
   }
 
   const featuredEvent = {
-    title: String(
-      getEventField(event, 'title') ??
-        getEventField(event, 'name') ??
-        getEventField(event, 'eventName') ??
-        'Event',
-    ),
+    title: getEventTitle(event),
     author: String(
       getEventField(event, 'organizer') ?? getEventField(event, 'author') ?? 'CORE Media',
     ),

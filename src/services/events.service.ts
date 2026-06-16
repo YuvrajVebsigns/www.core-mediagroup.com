@@ -14,19 +14,164 @@ type WebsiteAuth = {
 export type WebsiteEvent = {
   id: string;
   title?: string;
+  slug?: string;
+  excerpt?: string;
   description?: string;
+  type?: 'OFFLINE' | 'ONLINE' | string;
+  startDate?: string;
+  endDate?: string;
   startsAt?: string;
-  featureImage?: {
+  bannerImageId?: {
+    id: string;
+    metadata?: {
+      width?: number;
+      height?: number;
+      blurhash?: string;
+      alt?: string;
+    };
+    url?: string;
+    urlVariants?: {
+      thumbnail?: string;
+      small?: string;
+      medium?: string;
+      large?: string;
+    };
+  };
+  bannerImage?: {
+    original?: string;
+    thumbnail?: string;
     small?: string;
     medium?: string;
     large?: string;
-    original?: string;
-    thumbnail?: string;
   };
+  totalRegistrations?: number;
+  featureImage?:
+    | string
+    | {
+        small?: string;
+        medium?: string;
+        large?: string;
+        original?: string;
+        thumbnail?: string;
+      };
   [key: string]: unknown;
 };
 
 type RawEvent = Record<string, unknown>;
+
+export function getEventImage(event?: WebsiteEvent | null): string {
+  if (!event) return '/assets/blogs/blog-1.webp';
+
+  // 1. Try bannerImage fields (which are url variants returned in updated API response)
+  const bannerImage = event.bannerImage;
+  if (bannerImage && typeof bannerImage === 'object') {
+    const url =
+      bannerImage.medium ||
+      bannerImage.large ||
+      bannerImage.original ||
+      bannerImage.small ||
+      bannerImage.thumbnail;
+    if (url && url.trim()) return url;
+  }
+
+  // 2. Try bannerImageId url/urlVariants
+  const bannerImageId = event.bannerImageId;
+  if (bannerImageId && typeof bannerImageId === 'object') {
+    if (bannerImageId.urlVariants && typeof bannerImageId.urlVariants === 'object') {
+      const url =
+        bannerImageId.urlVariants.medium ||
+        bannerImageId.urlVariants.large ||
+        bannerImageId.urlVariants.thumbnail ||
+        bannerImageId.urlVariants.small;
+      if (url && url.trim()) return url;
+    }
+    if (typeof bannerImageId.url === 'string' && bannerImageId.url.trim()) {
+      return bannerImageId.url;
+    }
+  }
+
+  // 3. Try featureImage
+  const featureImage = event.featureImage;
+  if (typeof featureImage === 'string' && featureImage.trim()) return featureImage;
+  if (featureImage && typeof featureImage === 'object') {
+    const url =
+      featureImage.small ||
+      featureImage.medium ||
+      featureImage.large ||
+      featureImage.original ||
+      featureImage.thumbnail;
+    if (url && url.trim()) return url;
+  }
+
+  // 4. Try other direct string image fields
+  const eventObj = event as Record<string, unknown>;
+  for (const field of ['image', 'heroImage', 'banner', 'poster'] as const) {
+    const val = eventObj[field];
+    if (typeof val === 'string' && val.trim()) return val;
+  }
+
+  return '/assets/blogs/blog-1.webp';
+}
+
+export function getEventCategory(event?: WebsiteEvent | null): string {
+  if (!event) return 'Events';
+
+  const category =
+    typeof event.category === 'string'
+      ? event.category
+      : typeof event.type === 'string'
+        ? event.type
+        : null;
+
+  return category && category.trim() ? category : 'Events';
+}
+
+export function getEventTitle(event?: WebsiteEvent | null): string {
+  if (!event) return 'Event';
+
+  const title =
+    typeof event.title === 'string'
+      ? event.title
+      : typeof event.name === 'string'
+        ? event.name
+        : typeof event.eventName === 'string'
+          ? event.eventName
+          : null;
+
+  return title && title.trim() ? title : 'Event';
+}
+
+function mapRawToWebsiteEvent(it: RawEvent, fallbackId?: string): WebsiteEvent {
+  const bannerImage = it.bannerImage as Record<string, string> | undefined;
+  const bannerImageId = it.bannerImageId as Record<string, unknown> | undefined;
+
+  const startsAt = (it.startDate as string) ?? (it.startsAt as string) ?? undefined;
+  const title =
+    (it.title as string) ?? (it.name as string) ?? (it.eventName as string) ?? undefined;
+  const description =
+    (it.excerpt as string) ?? (it.description as string) ?? (it.summary as string) ?? undefined;
+
+  // Map bannerImage or bannerImageId.urlVariants to featureImage for backward compatibility
+  const featureImage = it.featureImage ?? bannerImage ?? bannerImageId?.urlVariants;
+
+  return {
+    ...it,
+    id: String(it.id ?? it._id ?? it.eventId ?? it.uid ?? fallbackId ?? ''),
+    title,
+    slug: (it.slug as string) ?? undefined,
+    excerpt: (it.excerpt as string) ?? undefined,
+    description,
+    type: (it.type as string) ?? undefined,
+    startDate: (it.startDate as string) ?? undefined,
+    endDate: (it.endDate as string) ?? undefined,
+    startsAt,
+    bannerImageId: bannerImageId as WebsiteEvent['bannerImageId'],
+    bannerImage: bannerImage as WebsiteEvent['bannerImage'],
+    totalRegistrations:
+      typeof it.totalRegistrations === 'number' ? it.totalRegistrations : undefined,
+    featureImage: featureImage as WebsiteEvent['featureImage'],
+  };
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
@@ -130,6 +275,26 @@ function getApiErrorStatus(error: unknown) {
   return undefined;
 }
 
+function extractEventItems(res: unknown): RawEvent[] {
+  if (Array.isArray(res)) return res as RawEvent[];
+  if (!isRecord(res)) return [];
+
+  if (isRecord(res.data) && Array.isArray(res.data.data)) {
+    return res.data.data as RawEvent[];
+  }
+  if (Array.isArray(res.data)) {
+    return res.data as RawEvent[];
+  }
+  if (Array.isArray(res.items)) {
+    return res.items as RawEvent[];
+  }
+  if (Array.isArray(res.results)) {
+    return res.results as RawEvent[];
+  }
+
+  return [];
+}
+
 export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEvent[]> {
   const domain = getWebsiteDomain();
   let auth: WebsiteAuth | null = null;
@@ -147,7 +312,7 @@ export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEve
 
   try {
     const url = websiteId
-      ? `${API_ENDPOINTS.WEBSITE.EVENTS.BASE}?websiteId=${encodeURIComponent(websiteId)}`
+      ? `${API_ENDPOINTS.WEBSITE.EVENTS.BASE}`
       : API_ENDPOINTS.WEBSITE.EVENTS.BASE;
 
     const res = await apiFetch<unknown>(url, {
@@ -156,20 +321,8 @@ export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEve
       headers,
     });
 
-    const items = isRecord(res) ? (res.data ?? res.items ?? res.results ?? []) : (res ?? []);
-    if (!Array.isArray(items)) return [];
-
-    return (items as RawEvent[]).map((it) => ({
-      id: String(it['id'] ?? it['_id'] ?? it['eventId'] ?? it['uid'] ?? ''),
-      title:
-        (it['title'] as string) ??
-        (it['name'] as string) ??
-        (it['eventName'] as string) ??
-        undefined,
-      description: (it['description'] as string) ?? undefined,
-      startsAt: (it['startsAt'] as string) ?? (it['startDate'] as string) ?? undefined,
-      ...it,
-    }));
+    const items = extractEventItems(res);
+    return items.map((it) => mapRawToWebsiteEvent(it));
   } catch (error: unknown) {
     const statusCode = getApiErrorStatus(error);
 
@@ -195,20 +348,8 @@ export async function fetchWebsiteEvents(websiteId?: string): Promise<WebsiteEve
           },
         );
 
-        const items = isRecord(res) ? (res.data ?? res.items ?? res.results ?? []) : (res ?? []);
-        if (!Array.isArray(items)) return [];
-
-        return (items as RawEvent[]).map((it) => ({
-          id: String(it['id'] ?? it['_id'] ?? it['eventId'] ?? it['uid'] ?? ''),
-          title:
-            (it['title'] as string) ??
-            (it['name'] as string) ??
-            (it['eventName'] as string) ??
-            undefined,
-          description: (it['description'] as string) ?? undefined,
-          startsAt: (it['startsAt'] as string) ?? (it['startDate'] as string) ?? undefined,
-          ...it,
-        }));
+        const items = extractEventItems(res);
+        return items.map((it) => mapRawToWebsiteEvent(it));
       }
     }
 
@@ -242,28 +383,7 @@ export async function fetchWebsiteEventByIdOrSlug(idOrSlug: string): Promise<Web
     const data = isRecord(res) ? (res.data ?? res) : null;
     if (!data) return null;
 
-    return {
-      id: String(
-        getRecordValue(data, 'id') ??
-          getRecordValue(data, '_id') ??
-          getRecordValue(data, 'slug') ??
-          idOrSlug,
-      ),
-      title:
-        getStringValue(getRecordValue(data, 'title')) ??
-        getStringValue(getRecordValue(data, 'name')) ??
-        getStringValue(getRecordValue(data, 'eventName')) ??
-        undefined,
-      description:
-        getStringValue(getRecordValue(data, 'description')) ??
-        getStringValue(getRecordValue(data, 'summary')) ??
-        undefined,
-      startsAt:
-        getStringValue(getRecordValue(data, 'startsAt')) ??
-        getStringValue(getRecordValue(data, 'startDate')) ??
-        undefined,
-      ...(data as RawEvent),
-    };
+    return mapRawToWebsiteEvent(data as RawEvent, idOrSlug);
   } catch (error: unknown) {
     const status = getRecordValue(error, 'status');
 
@@ -289,28 +409,7 @@ export async function fetchWebsiteEventByIdOrSlug(idOrSlug: string): Promise<Web
         const data = isRecord(res) ? (res.data ?? res) : null;
         if (!data) return null;
 
-        return {
-          id: String(
-            getRecordValue(data, 'id') ??
-              getRecordValue(data, '_id') ??
-              getRecordValue(data, 'slug') ??
-              idOrSlug,
-          ),
-          title:
-            getStringValue(getRecordValue(data, 'title')) ??
-            getStringValue(getRecordValue(data, 'name')) ??
-            getStringValue(getRecordValue(data, 'eventName')) ??
-            undefined,
-          description:
-            getStringValue(getRecordValue(data, 'description')) ??
-            getStringValue(getRecordValue(data, 'summary')) ??
-            undefined,
-          startsAt:
-            getStringValue(getRecordValue(data, 'startsAt')) ??
-            getStringValue(getRecordValue(data, 'startDate')) ??
-            undefined,
-          ...(data as RawEvent),
-        };
+        return mapRawToWebsiteEvent(data as RawEvent, idOrSlug);
       }
     }
 

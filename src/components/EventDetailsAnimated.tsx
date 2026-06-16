@@ -58,13 +58,20 @@ export default function EventDetailsAnimated({
     <>
       <div className="event-details-hero" ref={heroRef}>
         <div className="event-details-image-wrap">
-          <Image
-            src={featuredEvent.heroImage}
-            alt={featuredEvent.title}
-            fill
-            priority
-            className="event-details-image"
-          />
+          {featuredEvent.heroImage && featuredEvent.heroImage.trim() !== '' ? (
+            <Image
+              src={featuredEvent.heroImage}
+              alt={featuredEvent.title}
+              fill
+              priority
+              className="event-details-image"
+            />
+          ) : (
+            <div
+              className="event-details-image-placeholder"
+              style={{ width: '100%', height: '100%', background: '#111' }}
+            />
+          )}
         </div>
 
         <div className="event-details-headline">

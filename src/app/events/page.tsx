@@ -213,7 +213,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useEffect, useState } from 'react';
-import { fetchWebsiteEvents, WebsiteEvent } from '@/services/events.service';
+import {
+  fetchWebsiteEvents,
+  getEventCategory,
+  getEventImage,
+  getEventTitle,
+  WebsiteEvent,
+} from '@/services/events.service';
 
 function getStoredWebsiteId(): string | undefined {
   if (typeof window === 'undefined') return undefined;
@@ -232,58 +238,6 @@ function getStoredWebsiteId(): string | undefined {
   }
 
   return undefined;
-}
-
-function getEventImage(event: WebsiteEvent): string {
-  const eventObj = event as Record<string, unknown>;
-
-  // Check direct string image fields
-  for (const field of ['image', 'heroImage', 'banner', 'poster'] as const) {
-    const val = eventObj[field];
-    if (typeof val === 'string' && val.trim()) return val;
-  }
-
-  // Handle featureImage which may be a string or an Image object with size variants
-  const featureImage = eventObj.featureImage;
-  if (typeof featureImage === 'string' && featureImage.trim()) return featureImage;
-  if (
-    typeof featureImage === 'object' &&
-    featureImage !== null &&
-    'small' in featureImage &&
-    typeof (featureImage as Record<string, unknown>).small === 'string'
-  ) {
-    return (featureImage as Record<string, unknown>).small as string;
-  }
-
-  return '/assets/blogs/blog-1.webp';
-}
-
-function getEventCategory(event: WebsiteEvent): string {
-  const eventObj = event as Record<string, unknown>;
-
-  const category =
-    typeof eventObj.category === 'string'
-      ? eventObj.category
-      : typeof eventObj.type === 'string'
-        ? eventObj.type
-        : null;
-
-  return category && category.trim() ? category : 'Events';
-}
-
-function getEventTitle(event: WebsiteEvent): string {
-  const eventObj = event as Record<string, unknown>;
-
-  const title =
-    typeof eventObj.title === 'string'
-      ? eventObj.title
-      : typeof eventObj.name === 'string'
-        ? eventObj.name
-        : typeof eventObj.eventName === 'string'
-          ? eventObj.eventName
-          : null;
-
-  return title && title.trim() ? title : 'Event';
 }
 
 export default function EventsPage() {
@@ -384,7 +338,14 @@ export default function EventsPage() {
                   <Link key={slug} href={`/events/${slug}`}>
                     <div className="project-card" ref={index === 0 ? leftRef : rightRef}>
                       <div className="project-image-wrap">
-                        <Image src={imageSrc} alt={title} fill className="project-image" />
+                        {imageSrc && imageSrc.trim() !== '' ? (
+                          <Image src={imageSrc} alt={title} fill className="project-image" />
+                        ) : (
+                          <div
+                            className="project-image-placeholder"
+                            style={{ width: '100%', height: '100%', background: '#111' }}
+                          />
+                        )}
                       </div>
 
                       <div className="project-overlay">
