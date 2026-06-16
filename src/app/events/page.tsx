@@ -237,20 +237,23 @@ function getStoredWebsiteId(): string | undefined {
 function getEventImage(event: WebsiteEvent): string {
   const eventObj = event as Record<string, unknown>;
 
-  const image =
-    typeof eventObj.image === 'string'
-      ? eventObj.image
-      : typeof eventObj.heroImage === 'string'
-        ? eventObj.heroImage
-        : typeof eventObj.banner === 'string'
-          ? eventObj.banner
-          : typeof eventObj.poster === 'string'
-            ? eventObj.poster
-            : typeof eventObj.featureImage === 'string'
-              ? eventObj.featureImage.small
-              : null;
+  // Check direct string image fields
+  for (const field of ['image', 'heroImage', 'banner', 'poster'] as const) {
+    const val = eventObj[field];
+    if (typeof val === 'string' && val.trim()) return val;
+  }
 
-  if (image && image.trim()) return image;
+  // Handle featureImage which may be a string or an Image object with size variants
+  const featureImage = eventObj.featureImage;
+  if (typeof featureImage === 'string' && featureImage.trim()) return featureImage;
+  if (
+    typeof featureImage === 'object' &&
+    featureImage !== null &&
+    'small' in featureImage &&
+    typeof (featureImage as Record<string, unknown>).small === 'string'
+  ) {
+    return (featureImage as Record<string, unknown>).small as string;
+  }
 
   return '/assets/blogs/blog-1.webp';
 }
