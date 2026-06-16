@@ -46,8 +46,11 @@ function formatPublishedDate(value?: string) {
   });
 }
 
-function getBlogImage(blog?: WebsiteBlogDetailItem | null) {
-  return blog?.featureImage || blog?.seo?.ogImage || '/assets/blogs/blog-1.webp';
+function getBlogImage(blog?: WebsiteBlogDetailItem | null): string {
+  if (blog?.featureImage?.large) return blog.featureImage.large;
+  if (blog?.seo?.ogImage?.original) return blog.seo.ogImage.original;
+  if (blog?.seo?.ogImage?.large) return blog.seo.ogImage.large;
+  return '/assets/blogs/blog-1.webp';
 }
 
 function getBlogCategory(blog?: WebsiteBlogDetailItem | null) {

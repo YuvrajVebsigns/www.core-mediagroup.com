@@ -16,8 +16,12 @@ function getBlogCategory(blog: WebsiteBlogItem) {
   return blog.websites?.[0]?.name || blog.tags?.[0] || 'Blog';
 }
 
-function getBlogImage(blog: WebsiteBlogItem) {
-  return blog.featureImage || blog.seo?.ogImage || '/assets/blogs/blog-1.png';
+function getBlogImage(blog: WebsiteBlogItem): string {
+  if (blog.featureImage?.large) return blog.featureImage.large;
+  if (blog.featureImage?.original) return blog.featureImage.original;
+  if (blog.seo?.ogImage?.original) return blog.seo.ogImage.original;
+  if (blog.seo?.ogImage?.large) return blog.seo.ogImage.large;
+  return '/assets/blogs/blog-1.png';
 }
 
 export default function BlogsSection() {

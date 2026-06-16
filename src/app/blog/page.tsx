@@ -20,7 +20,7 @@ function getBlogAuthor(blog: WebsiteBlogItem) {
 }
 
 function getBlogImage(blog: WebsiteBlogItem) {
-  return blog.featureImage || blog.seo?.ogImage || '/assets/blogs/blog-1.png';
+  return blog.featureImage?.small || blog.seo?.ogImage?.small || '/assets/blogs/blog-1.png';
 }
 
 function getBlogDescription(blog: WebsiteBlogItem) {
