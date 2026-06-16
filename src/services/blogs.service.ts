@@ -304,6 +304,10 @@ function getApiErrorStatus(error: unknown) {
   return undefined;
 }
 
+function makeImageFromUrl(url: string): Image {
+  return { large: url, medium: url, small: url, thumbnail: url, original: url };
+}
+
 const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
   {
     id: '6a0e1fb5957cec506662dd91',
@@ -311,7 +315,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'Building a Global Brand from the Ground Up',
     excerpt:
       'Learn more about Building a Global Brand from the Ground Up and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/19/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/19/1200/630'),
     websites: [
       {
         name: 'MEA CIO Choice',
@@ -340,7 +344,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about Building a Global Brand from the Ground Up on the official blog of MEA CIO Choice.',
       keywords: ['media', 'tech', 'future', 'mea cio choice'],
-      ogImage: 'https://picsum.photos/seed/19/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/19/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -352,7 +356,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'The Importance of Mental Health in High-Stakes Roles',
     excerpt:
       'Learn more about The Importance of Mental Health in High-Stakes Roles and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/18/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/18/1200/630'),
     websites: [
       {
         name: 'MEA CIO Powerlist',
@@ -381,7 +385,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about The Importance of Mental Health in High-Stakes Roles on the official blog of MEA CIO Powerlist.',
       keywords: ['media', 'tech', 'future', 'mea cio powerlist'],
-      ogImage: 'https://picsum.photos/seed/18/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/18/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -393,7 +397,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'Blockchain Beyond Cryptocurrency',
     excerpt:
       'Learn more about Blockchain Beyond Cryptocurrency and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/17/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/17/1200/630'),
     websites: [
       {
         name: 'CXO Capital',
@@ -422,7 +426,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about Blockchain Beyond Cryptocurrency on the official blog of CXO Capital.',
       keywords: ['media', 'tech', 'future', 'cxo capital'],
-      ogImage: 'https://picsum.photos/seed/17/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/17/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -434,7 +438,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'Remote Work: Best Practices for Global Teams',
     excerpt:
       'Learn more about Remote Work: Best Practices for Global Teams and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/16/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/16/1200/630'),
     websites: [
       {
         name: 'CIO Crown',
@@ -463,7 +467,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about Remote Work: Best Practices for Global Teams on the official blog of CIO Crown.',
       keywords: ['media', 'tech', 'future', 'cio crown'],
-      ogImage: 'https://picsum.photos/seed/16/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/16/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -475,7 +479,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'Harnessing Big Data for Marketing Excellence',
     excerpt:
       'Learn more about Harnessing Big Data for Marketing Excellence and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/15/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/15/1200/630'),
     websites: [
       {
         name: 'CIO Choice',
@@ -504,7 +508,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about Harnessing Big Data for Marketing Excellence on the official blog of CIO Choice.',
       keywords: ['media', 'tech', 'future', 'cio choice'],
-      ogImage: 'https://picsum.photos/seed/15/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/15/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -516,7 +520,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'The Evolution of Social Media for Brands',
     excerpt:
       'Learn more about The Evolution of Social Media for Brands and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/12/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/12/1200/630'),
     websites: [
       {
         name: 'CIO Powerlist',
@@ -545,7 +549,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about The Evolution of Social Media for Brands on the official blog of CIO Powerlist.',
       keywords: ['media', 'tech', 'future', 'cio powerlist'],
-      ogImage: 'https://picsum.photos/seed/12/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/12/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -557,7 +561,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'Developing the Next Generation of Leadership',
     excerpt:
       'Learn more about Developing the Next Generation of Leadership and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/11/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/11/1200/630'),
     websites: [
       {
         name: 'CORE Media Group',
@@ -580,7 +584,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about Developing the Next Generation of Leadership on the official blog of CORE Media Group.',
       keywords: ['media', 'tech', 'future', 'core media group'],
-      ogImage: 'https://picsum.photos/seed/11/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/11/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
@@ -592,7 +596,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
     title: 'Strategic Planning in a Volatile Economy',
     excerpt:
       'Learn more about Strategic Planning in a Volatile Economy and its impact on the industry in this insightful article.',
-    featureImage: 'https://picsum.photos/seed/10/1200/630',
+    featureImage: makeImageFromUrl('https://picsum.photos/seed/10/1200/630'),
     websites: [
       {
         name: 'CIO Angel Network',
@@ -621,7 +625,7 @@ const FALLBACK_WEBSITE_BLOGS: WebsiteBlogItem[] = [
       metaDescription:
         'Read about Strategic Planning in a Volatile Economy on the official blog of CIO Angel Network.',
       keywords: ['media', 'tech', 'future', 'cio angel network'],
-      ogImage: 'https://picsum.photos/seed/10/1200/630',
+      ogImage: makeImageFromUrl('https://picsum.photos/seed/10/1200/630'),
       ogImageId: null,
     },
     engagement: { likes: 0, views: 0, commentsCount: 0 },
