@@ -247,7 +247,7 @@ function getEventImage(event: WebsiteEvent): string {
           : typeof eventObj.poster === 'string'
             ? eventObj.poster
             : typeof eventObj.featureImage === 'string'
-              ? eventObj.featureImage
+              ? eventObj.featureImage.small
               : null;
 
   if (image && image.trim()) return image;

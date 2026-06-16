@@ -47,7 +47,7 @@ function formatPublishedDate(value?: string) {
 }
 
 function getBlogImage(blog?: WebsiteBlogDetailItem | null) {
-  return blog?.featureImage || blog?.seo?.ogImage || '/assets/blogs/blog-1.webp';
+  return blog?.featureImage?.large || blog?.seo?.ogImage || '/assets/blogs/blog-1.webp';
 }
 
 function getBlogCategory(blog?: WebsiteBlogDetailItem | null) {
