@@ -97,8 +97,8 @@ export default function OurDialogues() {
         <div className="dialogues-heading" ref={headingRef}>
           <span className="dialogues-badge">
             <Image
-              src="/assets/icon.jpg"
-              alt="About Us"
+              src="/assets/icon.png"
+              alt="Leadership Insights"
               width={20}
               height={20}
               className="expertise-label-icon"
