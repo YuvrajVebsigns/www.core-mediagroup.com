@@ -38,25 +38,25 @@ export default function FoundersMessage() {
           </div>
 
           {/* TITLE */}
-          <h2 className="founder-title">
+          {/* <h2 className="founder-title">
             Building Connections in a<br />
             <span>Digital World.</span>
-          </h2>
+          </h2> */}
 
           {/* DESCRIPTION */}
           <p className="founder-description">
-            For 13 years, CORE Media has innovated at the intersection of ICT and marketing. We
-            don’t just deliver messages; we build bespoke ecosystems that drive impactful results
-            for India’s leading stakeholders.
+            CORE Media was built with a clear purpose to create meaningful platforms that bring
+            together technology leaders, enterprises, and innovators to exchange ideas, celebrate
+            excellence, and drive business growth.
           </p>
 
           {/* QUOTE */}
-          <blockquote className="founder-quote">
+          {/* <blockquote className="founder-quote">
             <p>
               “We innovate to build relationships that deliver exceptional results, every single
               time.”
             </p>
-          </blockquote>
+          </blockquote> */}
 
           {/* AUTHOR */}
           <div className="founder-author">

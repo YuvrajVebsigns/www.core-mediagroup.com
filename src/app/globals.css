@@ -1346,7 +1346,7 @@ main {
 
 .hero-badge-icon {
   font-size: 17px;
-  color: #e72020;
+  color: white;
 }
 
 .hero-badge-text {
@@ -2422,7 +2422,7 @@ main {
 }
 
 .team-title {
-  font-size: 52px;
+  font-size: 42px;
   line-height: 1;
   font-weight: 600;
   color: #1f1f1f;
@@ -3668,6 +3668,58 @@ main {
   background: #000;
 }
 
+/* Interactive gradient border and caption like design */
+.project-card.interactive {
+  --card-border-size: 3px;
+  border-radius: 24px;
+  border: var(--card-border-size) solid transparent;
+  background-image: linear-gradient(#000, #000), linear-gradient(90deg, #9d1111 0%, #8e0101 100%);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    background-image 250ms linear;
+}
+
+.project-card.interactive:hover,
+.project-card.interactive:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 20px 50px rgba(137, 16, 16, 0.12),
+    var(--shadow-lg);
+  background-image: linear-gradient(#000, #000), linear-gradient(90deg, #9d1111 0%, #8e0101 100%);
+}
+
+/* Caption box at bottom-left */
+.project-caption {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.project-caption-inner {
+  pointer-events: auto;
+  background: linear-gradient(180deg, rgba(255, 245, 245, 0.96), rgba(255, 230, 230, 0.96));
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(157, 17, 17, 0.16);
+  border: 1px solid rgba(164, 0, 0, 0.06);
+  min-width: 200px;
+}
+
+.project-caption-title {
+  color: #8e0101;
+  font-weight: 800;
+  font-size: 14px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Link wrapper */
 
 .project-grid > a {
@@ -3696,6 +3748,16 @@ main {
   transform: scale(1.08);
 }
 
+/* stronger interactive transforms when card has interactive class */
+.project-card.interactive .project-image {
+  transform-origin: center center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.project-card.interactive:hover .project-image {
+  transform: scale(1.14) rotateZ(-0.6deg) translateY(-6px);
+}
+
 /* =========================================================
    VIDEO
 ========================================================= */
@@ -3717,6 +3779,28 @@ main {
   height: 100%;
   border: none;
   display: block;
+}
+
+/* zoom iframe on interactive card hover to match image behavior */
+.project-card.interactive .project-video-wrap iframe {
+  transform-origin: center center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.project-card.interactive:hover .project-video-wrap iframe {
+  transform: scale(1.14) rotateZ(-0.6deg) translateY(-6px);
+}
+
+/* play button scale for interactive cards */
+.project-card.interactive .project-video-wrap .play-btn {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.project-card.interactive:hover .project-video-wrap .play-btn {
+  transform: scale(1.06);
+  box-shadow: 0 12px 36px rgba(164, 0, 0, 0.28);
 }
 
 /* =========================================================
@@ -4518,32 +4602,92 @@ main {
   height: auto;
   object-fit: contain;
   margin-top: 37px;
+  position: relative;
+  z-index: 1;
 }
 
 .map-dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   position: absolute;
+  background: #000;
   animation: pulseDot 2s infinite;
+  z-index: 120;
+  pointer-events: none;
+}
+
+/* Map labels shown above each dot */
+
+.map-label {
+  position: absolute !important;
+  display: inline-block !important;
+  z-index: 130 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, -160%) !important;
+  background: transparent !important;
+  color: black !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+/* Position labels matching dots */
+.label-1 {
+  left: 29% !important;
+  top: 79% !important;
+}
+.label-2 {
+  left: 44% !important;
+  top: 48% !important;
+}
+.label-3 {
+  left: 67% !important;
+  top: 38% !important;
+}
+
+@media (max-width: 768px) {
+  .map-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .map-label {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+  .label-1 {
+    left: 52% !important;
+    top: 56% !important;
+  }
+  .label-2 {
+    left: 49% !important;
+    top: 48% !important;
+  }
+  .label-3 {
+    left: 78% !important;
+    top: 80% !important;
+  }
 }
 
 .dot-1 {
-  top: 110%;
-  left: 35%;
-  background-color: #282626;
+  /* India */
+  top: 56%;
+  left: 58%;
 }
 
 .dot-2 {
-  top: 53%;
-  left: 67%;
-  background-color: #353232;
+  /* Dubai */
+  top: 45%;
+  left: 47%;
 }
 
 .dot-3 {
-  top: 120%;
-  left: 26%;
-  background-color: #312f2f;
+  /* Australia */
+  top: 78%;
+  left: 82%;
 }
 
 @keyframes pulseDot {
@@ -4782,18 +4926,21 @@ main {
   }
 
   .dot-1 {
+    /* India */
     top: 56%;
-    left: 40%;
+    left: 58%;
   }
 
   .dot-2 {
-    top: 70%;
-    left: 67%;
+    /* Dubai */
+    top: 45%;
+    left: 47%;
   }
 
   .dot-3 {
-    top: 92%;
-    left: 26%;
+    /* Australia */
+    top: 78%;
+    left: 82%;
   }
 }
 
@@ -8224,6 +8371,8 @@ s .dialogues-badge-mark {
 
   border-radius: 50%;
   object-fit: cover;
+  object-position: top center;
+  display: block;
 }
 
 .dialogue-author {
@@ -11344,8 +11493,8 @@ main {
 }
 
 .hero-badge-icon {
-  font-size: 17px;
-  color: #e72020;
+  font-size: 18px;
+  color: white;
 }
 
 .hero-badge-text {
@@ -12421,7 +12570,7 @@ main {
 }
 
 .team-title {
-  font-size: 52px;
+  font-size: 42px;
   line-height: 1;
   font-weight: 600;
   color: #1f1f1f;
@@ -13563,383 +13712,7 @@ main {
 /* =========================================================
    HEADING
 ========================================================= */
-
-.project-heading {
-  margin-bottom: 50px;
-}
-
-.project-title {
-  font-size: 58px;
-  line-height: 1.1;
-  font-weight: 540;
-  color: #1f1f1f;
-}
-
-.project-title span {
-  color: #8e0101;
-}
-
-.project-subtitle {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-
-  font-size: 16px;
-  font-weight: 600;
-  color: #0c1e21;
-}
-
-.project-subtitle img {
-  flex-shrink: 0;
-}
-
-/* =========================================================
-   TOP BAR
-========================================================= */
-
-.project-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 30px;
-  margin-top: 50px;
-  gap: 20px;
-}
-
-.project-subtitle {
-  font-size: 14px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #8e0101;
-}
-
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.projects-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #111;
-  font-weight: 600;
-}
-
-.projects-btn-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #8e0101;
-  color: #ffffff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: 0.3s ease;
-}
-
-.projects-btn:hover .projects-btn-icon {
-  transform: rotate(45deg);
-}
-
-/* =========================================================
-   GRID
-========================================================= */
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
-}
-
-/* =========================================================
-   CARD
-========================================================= */
-
-.project-card {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #000;
-}
-
-/* Link wrapper */
-
-.project-grid > a {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-.project-image-wrap {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.project-image {
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.project-card:hover .project-image {
-  transform: scale(1.08);
-}
-
-/* =========================================================
-   VIDEO
-========================================================= */
-
-.project-video-wrap {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 1;
-  background: #000;
-}
-
-.project-video-wrap iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-/* =========================================================
-   FULL VIDEO CARD
-========================================================= */
-
-.videos-full-card {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  background: #000;
-  overflow: hidden;
-  border-radius: 24px;
-}
-
-.videos-full-card .project-video-wrap {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* =========================================================
-   PLAY BUTTON
-========================================================= */
-
-.project-video-wrap .play-btn {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
-
-  width: 72px;
-  height: 72px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 999px;
-
-  background: rgba(180, 0, 0, 0.9);
-
-  box-shadow: 0 8px 30px rgba(164, 0, 0, 0.25);
-
-  color: #ffffff;
-  text-decoration: none;
-}
-
-.project-video-wrap .play-btn .play-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* =========================================================
-   OVERLAY
-========================================================= */
-
-.project-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  padding: 30px;
-
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.12), transparent);
-
-  pointer-events: none;
-}
-
-.project-overlay a,
-.project-overlay button {
-  pointer-events: auto;
-}
-
-/* =========================================================
-   RED THEME
-========================================================= */
-
-.red-theme .project-overlay {
-  background: linear-gradient(to top, rgba(164, 0, 0, 0.62), rgba(164, 0, 0, 0.08), transparent);
-}
-
-/* =========================================================
-   CATEGORY
-========================================================= */
-
-.project-category {
-  display: inline-block;
-  width: fit-content;
-
-  padding: 7px 14px;
-
-  border-radius: 40px;
-
-  background: rgba(255, 255, 255, 0.18);
-
-  color: #ffffff;
-
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-
-  margin-bottom: 16px;
-}
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.project-content h3 {
-  font-size: 30px;
-  line-height: 1.2;
-  color: #ffffff;
-  font-weight: 700;
-}
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 992px) {
-  .project-title {
-    font-size: 46px;
-  }
-
-  .project-content h3 {
-    font-size: 24px;
-  }
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 768px) {
-  .project-section {
-    padding: 70px 16px;
-  }
-
-  .project-container {
-    width: 100%;
-  }
-
-  .project-title {
-    font-size: 34px;
-  }
-
-  .project-top-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .project-card {
-    border-radius: 18px;
-    aspect-ratio: 16 / 10;
-  }
-
-  .project-overlay {
-    padding: 20px;
-  }
-
-  .project-content h3 {
-    font-size: 22px;
-  }
-
-  .projects-btn {
-    font-size: 14px;
-  }
-
-  .projects-btn-icon {
-    width: 34px;
-    height: 34px;
-  }
-
-  .project-video-wrap .play-btn {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-  .project-title {
-    font-size: 28px;
-  }
-
-  .project-card {
-    aspect-ratio: 16 / 11;
-  }
-
-  .project-content h3 {
-    font-size: 20px;
-  }
-
-  .project-category {
-    font-size: 10px;
-  }
-
-  .project-overlay {
-    padding: 16px;
-  }
-
-  .project-video-wrap .play-btn {
-    width: 56px;
-    height: 56px;
-  }
-}
-
+/* 
 /* =========================================================
    BRANDS SECTION
 ========================================================= */
@@ -14520,29 +14293,34 @@ main {
 }
 
 .map-dot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   position: absolute;
+  /* background: #c81a1a; */
+  border: 3px solid #5a0000;
+  box-shadow:
+    0 10px 30px rgba(90, 0, 0, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.12);
   animation: pulseDot 2s infinite;
 }
 
 .dot-1 {
-  top: 51%;
-  left: 42%;
-  background-color: #282626;
+  /* India */
+  top: 76%;
+  left: 28%;
 }
 
 .dot-2 {
-  top: 43%;
-  left: 67%;
-  background-color: #353232;
+  /* Dubai */
+  top: 45%;
+  left: 43%;
 }
 
 .dot-3 {
-  top: 81%;
-  left: 26%;
-  background-color: #312f2f;
+  /* Australia */
+  top: 35%;
+  left: 66%;
 }
 
 @keyframes pulseDot {
@@ -14781,18 +14559,21 @@ main {
   }
 
   .dot-1 {
+    /* India */
     top: 56%;
-    left: 40%;
+    left: 58%;
   }
 
   .dot-2 {
-    top: 50%;
-    left: 67%;
+    /* Dubai */
+    top: 45%;
+    left: 47%;
   }
 
   .dot-3 {
-    top: 92%;
-    left: 26%;
+    /* Australia */
+    top: 78%;
+    left: 82%;
   }
 }
 

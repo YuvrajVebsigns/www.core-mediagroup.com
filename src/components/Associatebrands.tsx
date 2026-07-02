@@ -60,9 +60,9 @@ export default function AssociateBrandsPage() {
             Associate Brands
           </div>
 
-          <h1>
+          {/* <h1>
             Our Trusted <span>Associate Brands</span>
-          </h1>
+          </h1> */}
 
           {/* <p>
                 We collaborate with strong partner brands that share our vision for innovation,

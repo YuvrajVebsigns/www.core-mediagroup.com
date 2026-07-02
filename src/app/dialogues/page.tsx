@@ -69,6 +69,25 @@ async function getDialoguesPages(): Promise<DialoguePage[]> {
   }
 }
 
+const DIALOGUES_FALLBACK_IMAGE = '/assets/dialoges/AshokNayak.jpg';
+
+function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
+  const [imgSrc, setImgSrc] = useState<string>(src || DIALOGUES_FALLBACK_IMAGE);
+
+  return (
+    <img
+      src={imgSrc}
+      alt={alt || 'avatar'}
+      width={58}
+      height={58}
+      className="dialogue-avatar"
+      onError={() => {
+        if (imgSrc !== DIALOGUES_FALLBACK_IMAGE) setImgSrc(DIALOGUES_FALLBACK_IMAGE);
+      }}
+    />
+  );
+}
+
 // function extractQuoteFromContent(blocks: ContentBlock[]): string {
 //   if (!blocks.length) return '';
 
@@ -120,6 +139,7 @@ export default function DialoguesPage() {
         author: page.author,
         role: page.role,
         quote: page.quote,
+        avatar: page.avatar,
       }));
 
       setDialogues(mappedDialogues);
@@ -138,6 +158,12 @@ export default function DialoguesPage() {
             alt="Read Dialogues"
             fill
             className="blog-hero-image"
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement | null;
+              if (img && img.src.indexOf(DIALOGUES_FALLBACK_IMAGE) === -1) {
+                img.src = DIALOGUES_FALLBACK_IMAGE;
+              }
+            }}
           />
         </div>
 
@@ -260,17 +286,7 @@ function AnimatedDialogueCard({
       <div className="dialogue-divider" />
 
       <div className="dialogue-footer">
-        {dialogue.avatar ? (
-          <Image
-            src={dialogue.avatar}
-            alt={dialogue.author}
-            width={58}
-            height={58}
-            className="dialogue-avatar"
-          />
-        ) : (
-          <div className="dialogue-avatar dialogue-avatar-placeholder" />
-        )}
+        <FallbackAvatar src={dialogue.avatar} alt={dialogue.author} />
 
         <div className="dialogue-author-info">
           <h4 className="dialogue-author">{dialogue.author}</h4>

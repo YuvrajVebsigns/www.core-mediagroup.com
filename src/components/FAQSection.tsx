@@ -50,21 +50,20 @@ export default function FAQSection() {
               <div className="faq-overlay"></div>
 
               <h2 className="faq-heading">
-                Need
+                {/* Need */} FAQs
                 <br />
-                Help?
                 <br />
-                Start
+                {/* Start */}
                 <br />
-                Here...
+                {/* Here... */}
               </h2>
 
               {/* CALL CARD */}
               <div className="faq-call-card">
                 <h3>
-                  Get Started
+                  Need
                   <br />
-                  Free Call?
+                  Assistance?
                 </h3>
 
                 <div className="faq-call-row">

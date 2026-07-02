@@ -356,7 +356,10 @@ export default function ProjectsSection() {
 
               return (
                 <Link key={slug} href={`/events/${slug}`} className="project-link">
-                  <div className="project-card" ref={index === 0 ? customLeftRef : customRightRef}>
+                  <div
+                    className="project-card interactive"
+                    ref={index === 0 ? customLeftRef : customRightRef}
+                  >
                     <div className="project-image-wrap">
                       <Image src={imageSrc} alt={title} fill className="project-image" />
                     </div>
@@ -367,6 +370,11 @@ export default function ProjectsSection() {
                       <div className="project-content">
                         <h3>{title}</h3>
                       </div>
+                    </div>
+                    <div className="project-caption">
+                      {/* <div className="project-caption-inner">
+                        <span className="project-caption-title">{title}</span>
+                      </div> */}
                     </div>
                   </div>
                 </Link>
@@ -395,7 +403,7 @@ export default function ProjectsSection() {
           {videos.map((item, index) => (
             <div
               key={item.title}
-              className="project-card"
+              className="project-card interactive"
               ref={index === 0 ? videoLeftRef : videoRightRef}
             >
               <div className="project-video-wrap" style={{ position: 'relative' }}>
@@ -431,6 +439,11 @@ export default function ProjectsSection() {
                 <div className="project-content">
                   <h3>{item.title}</h3>
                 </div>
+              </div>
+              <div className="project-caption">
+                {/* <div className="project-caption-inner">
+                  <span className="project-caption-title">{item.title}</span>
+                </div> */}
               </div>
             </div>
           ))}

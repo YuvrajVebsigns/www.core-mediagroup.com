@@ -3,18 +3,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const pathname = usePathname();
 
-  const [isHidden, setIsHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-
-  const lastScrollY = useRef(0);
-  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const servicesCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isServicesPage =
@@ -47,55 +43,10 @@ export default function Navbar() {
   const closeMobileMenu = () => {
     setMobileOpen(false);
     setServicesOpen(false);
-    setIsHidden(false);
   };
 
-  useEffect(() => {
-    lastScrollY.current = window.scrollY;
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      const diff = currentScrollY - lastScrollY.current;
-
-      if (Math.abs(diff) < 8) return;
-
-      if (hideTimer.current) {
-        clearTimeout(hideTimer.current);
-        hideTimer.current = null;
-      }
-
-      if (diff < 0) {
-        setIsHidden(false);
-      }
-
-      if (diff > 0 && currentScrollY > 140 && !mobileOpen) {
-        hideTimer.current = setTimeout(() => {
-          setIsHidden(true);
-        }, 180);
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-
-      if (hideTimer.current) {
-        clearTimeout(hideTimer.current);
-      }
-
-      if (servicesCloseTimer.current) {
-        clearTimeout(servicesCloseTimer.current);
-      }
-    };
-  }, [mobileOpen]);
-
   return (
-    <header
-      className={`navbar ${isHidden ? 'navbar-hide' : ''} ${mobileOpen ? 'mobile-open' : ''}`}
-    >
+    <header className={`navbar ${mobileOpen ? 'mobile-open' : ''}`}>
       <div className="navbar-container">
         <Link href="/" className="navbar-logo" onClick={closeMobileMenu}>
           <Image src="/assets/logo/logo.png" alt="CORE Media" width={150} height={100} priority />
@@ -196,9 +147,9 @@ export default function Navbar() {
           >
             Registration
           </Link>
-          <Link href="/nominate" className="nav-link" onClick={() => setMobileOpen(false)}>
+          {/* <Link href="/nominate" className="nav-link" onClick={() => setMobileOpen(false)}>
             Nomination
-          </Link>
+          </Link> */}
 
           <Link href="/contact" className="nav-link" onClick={closeMobileMenu}>
             Contact
@@ -220,7 +171,6 @@ export default function Navbar() {
             aria-expanded={mobileOpen}
             onClick={() => {
               setMobileOpen((s) => !s);
-              setIsHidden(false);
             }}
           >
             {mobileOpen ? <X size={22} strokeWidth={2} /> : <Menu size={22} strokeWidth={2} />}

@@ -70,9 +70,9 @@ export default function ExpertiseSection() {
           </div>
 
           <h2 className="expertise-title">
-            Connecting Enterprises,
+            Elevating Brands
             <br />
-            Startups & <span>Innovators.</span>
+            Through <span>Strategic Engagement.</span>
           </h2>
         </div>
 

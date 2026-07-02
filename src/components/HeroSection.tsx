@@ -17,10 +17,10 @@ export default function HeroSection() {
         <div className="hero-content">
           <div className="hero-badge">
             <span className="hero-badge-icon">❋</span>
-            <span className="hero-badge-text">ARCHITECTING THE FUTURE</span>
+            <span className="hero-badge-text">POWERING PARTNERSHIPS THAT MATTER</span>
           </div>
 
-          <h1 className="hero-title">Innovating measurable ways to connect with prospects.</h1>
+          <h1 className="hero-title">The Catalyst for Business Conversations.</h1>
 
           <div className="hero-bottom">
             <div className="hero-arrow">

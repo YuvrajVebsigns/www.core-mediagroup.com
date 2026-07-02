@@ -29,11 +29,11 @@ export default function KeyClient() {
               height={20}
               className="expertise-label-icon"
             />
-            <span className="clients-label-text">CLIENT SHOWCASE</span>
+            <span className="clients-label-text">Brands We Work With</span>
           </div>
 
           <h2 className="clients-title">
-            Trusted by <span>Key Clients</span> Across Industries
+            Trusted <span>Across </span> Industries
           </h2>
 
           {/* <h2 className="clients-title">

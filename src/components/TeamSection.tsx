@@ -61,14 +61,13 @@ export default function TeamSection() {
       <div className="team-container">
         <div className="team-layout">
           <div className="team-heading-box">
-            <span className="team-subtitle">MEET OUR TEAM</span>
+            {/* <span className="team-subtitle">LEADERSHIP TEAM</span> */}
 
             <h2 className="team-title">
-              Meet the
+              LEADERSHIP
               <br />
-              Mind Behind
               <br />
-              Our Success.
+              TEAM.
             </h2>
           </div>
 

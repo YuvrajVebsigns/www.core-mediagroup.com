@@ -23,6 +23,8 @@ function getBlogImage(blog: WebsiteBlogItem) {
   return blog.featureImage?.small || blog.seo?.ogImage?.small || '/assets/blogs/blog-1.png';
 }
 
+const BLOG_FALLBACK_IMAGE = '/assets/blogs/blog-3.png';
+
 function getBlogDescription(blog: WebsiteBlogItem) {
   return blog.excerpt || blog.seo?.metaDescription || '';
 }
@@ -141,6 +143,12 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
           height={220}
           className="blogpage-image"
           unoptimized
+          onError={(e) => {
+            const img = e.currentTarget as HTMLImageElement | null;
+            if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) {
+              img.src = BLOG_FALLBACK_IMAGE;
+            }
+          }}
         />
       </div>
 
@@ -286,6 +294,12 @@ export default function BlogPage() {
             fill
             priority
             className="blog-hero-image"
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement | null;
+              if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) {
+                img.src = BLOG_FALLBACK_IMAGE;
+              }
+            }}
           />
         </div>
 

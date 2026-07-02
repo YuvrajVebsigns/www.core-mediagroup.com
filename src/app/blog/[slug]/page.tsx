@@ -53,6 +53,8 @@ function getBlogImage(blog?: WebsiteBlogDetailItem | null): string {
   return '/assets/blogs/blog-1.webp';
 }
 
+const BLOG_FALLBACK_IMAGE = '/assets/blogs/blog-3.png';
+
 function getBlogCategory(blog?: WebsiteBlogDetailItem | null) {
   return blog?.websites?.[0]?.name || blog?.tags?.[0] || 'Blog';
 }
@@ -133,6 +135,10 @@ function renderBlock(block: WebsiteBlogContentBlock | null | undefined, index: n
           height={675}
           className="blog-content-image"
           unoptimized
+          onError={(e) => {
+            const img = e.currentTarget as HTMLImageElement | null;
+            if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) img.src = BLOG_FALLBACK_IMAGE;
+          }}
         />
       </div>
     );
@@ -301,6 +307,10 @@ export default function BlogDetailsPage() {
             priority
             className="blogpage-media-image"
             unoptimized
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement | null;
+              if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) img.src = BLOG_FALLBACK_IMAGE;
+            }}
           />
         </AnimatedBlock>
 

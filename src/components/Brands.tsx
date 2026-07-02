@@ -181,7 +181,7 @@ export default function Brands() {
                 height={20}
                 className="expertise-label-icon"
               />
-              <span className="dialogue-subtitle-text">CLIENTS FEEDBACK</span>
+              <span className="dialogue-subtitle-text">Testimonials</span>
             </span>
 
             <h2 className="dialogue-title">

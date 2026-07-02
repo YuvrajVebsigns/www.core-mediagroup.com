@@ -24,6 +24,8 @@ function getBlogImage(blog: WebsiteBlogItem): string {
   return '/assets/blogs/blog-1.png';
 }
 
+const BLOG_FALLBACK_IMAGE = '/assets/blogs/blog-3.png';
+
 export default function BlogsSection() {
   const [blogs, setBlogs] = useState<WebsiteBlogItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -214,11 +216,11 @@ export default function BlogsSection() {
               height={20}
               className="expertise-label-icon"
             />
-            <span className="blogs-subtitle-text">INSIGHTS & IDEAS</span>
+            <span className="blogs-subtitle-text">Blogs</span>
           </span>
-          <h2 className="blogs-title">
+          {/* <h2 className="blogs-title">
             Our <span>Blogs</span>
-          </h2>
+          </h2> */}
         </div>
 
         <div className="blogs-grid">
@@ -241,6 +243,12 @@ export default function BlogsSection() {
                     height={250}
                     className="blog-image"
                     unoptimized
+                    onError={(e) => {
+                      const img = e.currentTarget as HTMLImageElement | null;
+                      if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) {
+                        img.src = BLOG_FALLBACK_IMAGE;
+                      }
+                    }}
                   />
                 </div>
 
