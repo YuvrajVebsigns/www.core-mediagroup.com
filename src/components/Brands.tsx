@@ -184,9 +184,9 @@ export default function Brands() {
               <span className="dialogue-subtitle-text">Testimonials</span>
             </span>
 
-            <h2 className="dialogue-title">
+            {/* <h2 className="dialogue-title">
               Our <span>Brands</span>
-            </h2>
+            </h2> */}
           </div>
 
           <div className="dialogue-arrows">

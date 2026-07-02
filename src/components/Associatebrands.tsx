@@ -3,45 +3,25 @@
 import Image from 'next/image';
 const associateBrands = [
   {
-    name: 'CIO Angel Network',
-    logo: '/assets/Associatedbrands/CAN.png',
+    name: 'CIO PowerList',
+    logo: '/assets/Associatedbrands/cio-powerlist1.png',
   },
   {
-    name: 'B2B 1K Ventures',
-    logo: '/assets/Associatedbrands/b2b.png',
+    name: 'CXO Capital',
+    logo: '/assets/Associatedbrands/cxo-capital.png',
   },
   {
-    name: 'Brand Three',
-    logo: '/assets/Associatedbrands/CAN.png',
+    name: 'CIO Choice',
+    logo: '/assets/Associatedbrands/cio-choice23.png',
   },
   {
-    name: 'Brand Four',
-    logo: '/assets/Associatedbrands/b2b.png',
+    name: 'CIO powerlist MEA',
+    logo: '/assets/Associatedbrands/cio-powerlist-mea.png',
   },
-  {
-    name: 'Brand Five',
-    logo: '/assets/Associatedbrands/b2b.png',
-  },
-  //   {
-  //     name: 'Brand Six',
-  //     logo: '/assets/associate-brands/brand-6.png',
-  //   },
-  //   {
-  //     name: 'Brand Seven',
-  //     logo: '/assets/associate-brands/brand-7.png',
-  //   },
-  //   {
-  //     name: 'Brand Eight',
-  //     logo: '/assets/associate-brands/brand-8.png',
-  //   },
-  //   {
-  //     name: 'Brand Nine',
-  //     logo: '/assets/associate-brands/brand-9.png',
-  //   },
-  //   {
-  //     name: 'Brand Ten',
-  //     logo: '/assets/associate-brands/brand-10.png',
-  //   },
+  // {
+  //   name: 'Brand Five',
+  //   logo: '/assets/Associatedbrands/b2b.png',
+  // },
 ];
 
 export default function AssociateBrandsPage() {

@@ -8371,8 +8371,6 @@ s .dialogues-badge-mark {
 
   border-radius: 50%;
   object-fit: cover;
-  object-position: top center;
-  display: block;
 }
 
 .dialogue-author {
@@ -8867,8 +8865,9 @@ s .dialogues-badge-mark {
 
 .associate-brands-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 260px);
   gap: 26px;
+  justify-content: center;
 }
 
 /* CARD */
@@ -8948,7 +8947,8 @@ s .dialogues-badge-mark {
 
 @media (max-width: 992px) {
   .associate-brands-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 220px);
+    justify-content: center;
   }
 
   .associate-brands-hero h1 {

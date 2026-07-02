@@ -22,19 +22,22 @@ export default function FAQSection() {
     {
       question: 'What does CORE Media specialize in?',
       answer:
-        'Getting started is easy! Simply reach out to us through our contact form or give us a call.',
+        'Delivering B2B technology events, marketing solutions, and executive engagement platforms.',
     },
     {
-      question: 'How can CORE Media help my business grow?',
-      answer: 'We provide strategic digital marketing, branding, and technology solutions.',
+      question: 'What industries does CORE Media serve?',
+      answer:
+        'Technology, BFSI, manufacturing, healthcare, retail, telecom, and enterprise sectors.',
     },
     {
-      question: 'What makes CORE Media different from other marketing companies?',
-      answer: 'Our innovative strategies and industry expertise help deliver measurable results.',
+      question: 'How can my organization partner with CORE Media?',
+      answer:
+        'Collaborate through sponsorships, speaking opportunities, campaigns, and strategic partnerships.',
     },
     {
-      question: 'Can I track the progress of my project?',
-      answer: 'Yes, we maintain transparent communication and regular updates.',
+      question: 'What are CORE Media flagship events?',
+      answer:
+        'CIO CHOICE India (January), CIO CHOICE MEA (January), CIO CHOICE ASEAN (February), Data Center & Cloud AI World (May), CIO PowerList India (June), BFSI TechWorld (August), CIO PowerList MEA (September), CIO CROWN (October), and CIO PowerList SEA (November)',
     },
   ];
 
