@@ -262,7 +262,7 @@ function AnimatedDialogueCard({
   return (
     <article ref={ref} className="dialogue-card" style={{ transitionDelay: `${index * 60}ms` }}>
       <Image
-        src="/assets/dialoges/quote.png"
+        src="/assets/dialoges/icon.jpg"
         alt="Quote"
         width={56}
         height={56}
