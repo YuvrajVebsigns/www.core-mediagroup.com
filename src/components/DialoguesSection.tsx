@@ -138,7 +138,7 @@ export default function OurDialogues() {
                 return (
                   <article className="dialogue-card" key={dialogue.id}>
                     <Image
-                      src="/assets/dialoges/icon.jpg"
+                      src="/assets/dialoges/icon22.png"
                       alt="Quote"
                       width={56}
                       height={56}
