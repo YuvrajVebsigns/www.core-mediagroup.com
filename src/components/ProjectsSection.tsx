@@ -315,7 +315,7 @@ export default function ProjectsSection() {
               height={22}
               className="expertise-label-icon"
             />
-            <span>Custom Events</span>
+            <span>Our Events</span>
           </h6>
 
           <Link href="/events" className="talk-btn">

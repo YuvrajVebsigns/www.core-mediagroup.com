@@ -130,7 +130,7 @@ export default function Navbar() {
             className={`nav-link ${pathname === '/blog' ? 'active' : ''}`}
             onClick={closeMobileMenu}
           >
-            Blog
+            Blogs
           </Link>
 
           <Link
