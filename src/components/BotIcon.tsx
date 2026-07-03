@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
-import { Bot, ChevronLeft, ChevronRight, MessageCircle, Send, Sparkles, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Bot, ChevronLeft, ChevronRight, MessageCircle, Sparkles, X } from 'lucide-react';
 
 type ChatMessage = {
   id: string;
@@ -85,7 +85,7 @@ function getBotReply(userText: string) {
 export default function BotIcon() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
-  const [input, setInput] = useState('');
+  //   const [setInput] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [hasUnreadMessage, setHasUnreadMessage] = useState(false);
 
@@ -137,7 +137,7 @@ export default function BotIcon() {
 
     setMessages((currentMessages) => [...currentMessages, userMessage]);
 
-    setInput('');
+    // setInput('');
     setIsSending(true);
 
     await new Promise<void>((resolve) => {
@@ -159,16 +159,16 @@ export default function BotIcon() {
     }
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    void handleSend(input);
-  }
+  //   function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  //     event.preventDefault();
+  //     void handleSend(input);
+  //   }
 
-  function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  }
+  //   function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+  //     if (event.key === 'Escape') {
+  //       setOpen(false);
+  //     }
+  //   }
 
   return (
     <div className="wrapper">
@@ -288,7 +288,7 @@ export default function BotIcon() {
             </div>
           </div>
 
-          <form className="form" onSubmit={handleSubmit}>
+          {/* <form className="form" onSubmit={handleSubmit}>
             <label htmlFor="bot-message" className="srOnly">
               Type your message
             </label>
@@ -303,6 +303,8 @@ export default function BotIcon() {
                 onKeyDown={handleInputKeyDown}
                 placeholder="Ask about CORE Media..."
                 maxLength={500}
+
+
                 disabled={isSending}
                 autoComplete="off"
                 className="input"
@@ -317,7 +319,7 @@ export default function BotIcon() {
             >
               <Send size={18} />
             </button>
-          </form>
+          </form> */}
 
           {/* <div className="footer">
             <span>CORE Media digital assistant</span>
