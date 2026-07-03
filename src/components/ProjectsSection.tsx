@@ -300,11 +300,11 @@ export default function ProjectsSection() {
   return (
     <section className="project-section">
       <div className="project-container">
-        <div className="project-heading">
+        {/* <div className="project-heading">
           <h2 className="project-title">
             Our Work <span>Highlights.</span>
           </h2>
-        </div>
+        </div> */}
 
         <div className="project-top-bar">
           <h6 className="project-subtitle">

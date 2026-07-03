@@ -31,7 +31,7 @@ export default function ExpertiseSection() {
     {
       title: 'CIO & ICT Community Reach',
       description:
-        'Engaging over 36,000 ICT decision-makers and influencers across key industries through our trusted platforms and events.',
+        'Every brand, platform, and initiative we have built reflects our customer-first philosophy. From proprietary events and executive communities to bespoke marketing programs and digital engagement solutions, our focus has remained constant: helping our clients deliver the right message to the right audience through experiences that are relevant, engaging, and result-oriented.',
       image: '/assets/aboutus/builb-logo.png',
       hoverImage: '/assets/aboutus/builb-logo-dark.png',
     },
@@ -45,7 +45,7 @@ export default function ExpertiseSection() {
     {
       title: 'Digital & ABM Solutions',
       description:
-        'Delivering impactful ABM campaigns, digital roundtables, and custom content solutions that help brands connect meaningfully.',
+        'In todays fast-evolving digital landscape, expectations continue to rise, challenging us to innovate with purpose. This commitment has enabled us to create community-driven platforms that foster meaningful relationships, facilitate strategic conversations, and generate measurable business impact.',
       image: '/assets/aboutus/dedicated-logo.png',
       hoverImage: '/assets/aboutus/dedicated-logo-dark.png',
     },

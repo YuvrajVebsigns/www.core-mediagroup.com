@@ -74,7 +74,7 @@ export default function FAQSection() {
                     <Phone size={18} />
                   </div>
 
-                  <a href="tel:18884521505">7506035537</a>
+                  <a href="tel:18884521505">22 46080974</a>
                 </div>
               </div>
             </div>
