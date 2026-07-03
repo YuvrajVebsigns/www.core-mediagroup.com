@@ -67,7 +67,7 @@ export default function TeamSection() {
               LEADERSHIP
               <br />
               <br />
-              TEAM.
+              TEAM
             </h2>
           </div>
 
