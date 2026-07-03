@@ -11,6 +11,7 @@ import ContactSection from '@/components/ContactSection';
 import BlogsSection from '@/components/BlogsSection';
 import DialoguesSection from '@/components/DialoguesSection';
 import AssociateBrandsPage from '@/components/Associatebrands';
+import BotIcon from '@/components/BotIcon';
 
 export default function Home() {
   return (
@@ -29,6 +30,7 @@ export default function Home() {
       <BlogsSection />
       <DialoguesSection />
       <AssociateBrandsPage />
+      <BotIcon />
       {/* </div> */}
     </main>
   );
