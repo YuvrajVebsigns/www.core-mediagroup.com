@@ -88,7 +88,9 @@ export default function Footer() {
                 </button>
               </form>
               <br />
-              <h4>Office Address</h4>
+              <h4>
+                <strong>Office Address</strong>
+              </h4>
               <p className="footer-description">
                 Units Nos. 3037 – A1 Wing, 3rd Floor, Oberoi Garden Estate, Near Chandivali Studio,
                 Andheri (East), Mumbai – 400072, INDIA

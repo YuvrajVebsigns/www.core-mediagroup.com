@@ -311,8 +311,8 @@ export default function ProjectsSection() {
             <Image
               src="/assets/icon.png"
               alt="Custom Events"
-              width={20}
-              height={20}
+              width={22}
+              height={22}
               className="expertise-label-icon"
             />
             <span>Custom Events</span>

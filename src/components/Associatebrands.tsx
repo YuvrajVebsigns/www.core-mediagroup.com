@@ -33,8 +33,8 @@ export default function AssociateBrandsPage() {
             <Image
               src="/assets/icon.png"
               alt="About Us"
-              width={20}
-              height={20}
+              width={22}
+              height={22}
               className="expertise-label-icon"
             />
             Associate Brands

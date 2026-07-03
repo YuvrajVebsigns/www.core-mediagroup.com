@@ -61,6 +61,14 @@ export default function Navbar() {
             Home
           </Link>
 
+          <Link
+            href="/about-us"
+            className={`nav-link ${pathname === '/about-us' ? 'active' : ''}`}
+            onClick={closeMobileMenu}
+          >
+            About
+          </Link>
+
           <div
             className={`nav-dropdown ${servicesOpen ? 'open' : ''}`}
             onMouseEnter={openServices}
@@ -157,6 +165,10 @@ export default function Navbar() {
         </nav>
 
         <div className="navbar-actions">
+          {/* <Link href="/about-us" className="about-btn" onClick={closeMobileMenu}>
+            About Us
+          </Link> */}
+
           <Link href="/#contact-section" className="talk-btn" onClick={closeMobileMenu}>
             <span>Let’s Talk</span>
 

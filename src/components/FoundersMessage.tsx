@@ -58,6 +58,12 @@ export default function FoundersMessage() {
             </p>
           </blockquote> */}
 
+          <div className="founder-readmore-wrap">
+            <Link href="/about-us" className="founder-readmore-btn">
+              Read more
+            </Link>
+          </div>
+
           {/* AUTHOR */}
           <div className="founder-author">
             <h3>Anoop Mathur</h3>

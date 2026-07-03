@@ -212,11 +212,11 @@ export default function BlogsSection() {
             <Image
               src="/assets/icon.png"
               alt="About Us"
-              width={20}
-              height={20}
+              width={22}
+              height={22}
               className="expertise-label-icon"
             />
-            <span className="blogs-subtitle-text">Blogs</span>
+            <span className="blogs-subtitle-text">BLOGS</span>
           </span>
           {/* <h2 className="blogs-title">
             Our <span>Blogs</span>

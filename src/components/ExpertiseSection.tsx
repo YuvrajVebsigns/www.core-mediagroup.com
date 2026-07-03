@@ -1,7 +1,7 @@
 'use client';
 
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 export default function ExpertiseSection() {
   const sectionRef = useScrollAnimation<HTMLDivElement>({
@@ -57,7 +57,7 @@ export default function ExpertiseSection() {
     <section ref={sectionRef} className="expertise-section">
       <div className="expertise-container">
         <div className="expertise-heading">
-          <div className="expertise-label">
+          {/* <div className="expertise-label">
             <Image
               src="/assets/icon.png"
               alt="About Us"
@@ -67,7 +67,7 @@ export default function ExpertiseSection() {
             />
 
             <span className="expertise-label-text">About Us</span>
-          </div>
+          </div> */}
 
           <h2 className="expertise-title">
             Elevating Brands

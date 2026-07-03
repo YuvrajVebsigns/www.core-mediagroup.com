@@ -99,11 +99,11 @@ export default function OurDialogues() {
             <Image
               src="/assets/icon.png"
               alt="Leadership Insights"
-              width={20}
-              height={20}
+              width={22}
+              height={22}
               className="expertise-label-icon"
             />
-            <span className="dialogues-badge-text">Leadership Insights</span>
+            <span className="dialogues-badge-text">LEADERSHIP INSIGHTS</span>
           </span>
         </div>
 
