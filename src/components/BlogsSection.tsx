@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowUpRight, Heart, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
@@ -27,6 +28,7 @@ function getBlogImage(blog: WebsiteBlogItem): string {
 const BLOG_FALLBACK_IMAGE = '/assets/blogs/blog-3.png';
 
 export default function BlogsSection() {
+  const router = useRouter();
   const [blogs, setBlogs] = useState<WebsiteBlogItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [likedBlogs, setLikedBlogs] = useState<Set<string>>(new Set());
@@ -235,7 +237,17 @@ export default function BlogsSection() {
 
             return (
               <div className="blog-card" key={String(blog.id)} ref={blogRefs[index]}>
-                <div className="blog-image-wrapper">
+                <div
+                  className="blog-image-wrapper"
+                  role="link"
+                  tabIndex={0}
+                  aria-label={`Open blog ${blog.title}`}
+                  onClick={() => router.push(`/blog/${blog.slug}`)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') router.push(`/blog/${blog.slug}`);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
                   <Image
                     src={getBlogImage(blog)}
                     alt={blog.title}

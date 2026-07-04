@@ -136,20 +136,22 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
   return (
     <article ref={ref} className="blogpage-card" style={{ transitionDelay: `${index * 60}ms` }}>
       <div className="blogpage-image-wrap">
-        <Image
-          src={getBlogImage(blog)}
-          alt={blog.title}
-          width={400}
-          height={220}
-          className="blogpage-image"
-          unoptimized
-          onError={(e) => {
-            const img = e.currentTarget as HTMLImageElement | null;
-            if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) {
-              img.src = BLOG_FALLBACK_IMAGE;
-            }
-          }}
-        />
+        <Link href={`/blog/${blog.slug}`} aria-label={`Open blog ${blog.title}`}>
+          <Image
+            src={getBlogImage(blog)}
+            alt={blog.title}
+            width={400}
+            height={220}
+            className="blogpage-image"
+            unoptimized
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement | null;
+              if (img && img.src.indexOf(BLOG_FALLBACK_IMAGE) === -1) {
+                img.src = BLOG_FALLBACK_IMAGE;
+              }
+            }}
+          />
+        </Link>
       </div>
 
       <div className="blogpage-content">
