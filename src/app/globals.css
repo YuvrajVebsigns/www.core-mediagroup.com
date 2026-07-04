@@ -22034,3 +22034,19 @@ html {
     transform: none;
   }
 }
+
+.dialogue-readmore {
+  margin-top: 8px;
+}
+
+.dialogue-readmore a {
+  color: #8e0101;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dialogue-readmore a:hover {
+  color: #6f0000;
+  text-decoration: underline;
+}

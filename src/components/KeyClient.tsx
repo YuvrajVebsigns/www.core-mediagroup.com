@@ -32,9 +32,9 @@ export default function KeyClient() {
             <span className="clients-label-text">Brands We Work With</span>
           </div>
 
-          <h2 className="clients-title">
+          {/* <h2 className="clients-title">
             Trusted <span>Across </span> Industries
-          </h2>
+          </h2> */}
 
           {/* <h2 className="clients-title">
             Trusted By Industry
