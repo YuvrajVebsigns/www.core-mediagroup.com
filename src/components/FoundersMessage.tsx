@@ -48,21 +48,10 @@ export default function FoundersMessage() {
             CORE Media was built with a clear purpose to create meaningful platforms that bring
             together technology leaders, enterprises, and innovators to exchange ideas, celebrate
             excellence, and drive business growth.
-          </p>
-
-          {/* QUOTE */}
-          {/* <blockquote className="founder-quote">
-            <p>
-              “We innovate to build relationships that deliver exceptional results, every single
-              time.”
-            </p>
-          </blockquote> */}
-
-          <div className="founder-readmore-wrap">
-            <Link href="/about-us" className="founder-readmore-btn">
-              Read more
+            <Link href="/Founder-Message" className="founder-readmore-link">
+              Read more...
             </Link>
-          </div>
+          </p>
 
           {/* AUTHOR */}
           <div className="founder-author">
