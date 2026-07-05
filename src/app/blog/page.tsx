@@ -35,6 +35,47 @@ type AnimatedBlogCardProps = {
   variant?: string;
 };
 
+const LIKED_KEY = 'likedBlogs';
+
+function readLikedSet(): Set<string> {
+  try {
+    const raw = typeof window !== 'undefined' ? window.localStorage.getItem(LIKED_KEY) : null;
+    if (!raw) return new Set();
+
+    const arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return new Set();
+
+    return new Set(arr.map(String));
+  } catch {
+    return new Set();
+  }
+}
+
+function markBlogLiked(id: string | number) {
+  try {
+    const set = readLikedSet();
+    set.add(String(id));
+    window.localStorage.setItem(LIKED_KEY, JSON.stringify(Array.from(set)));
+  } catch {
+    // ignore
+  }
+}
+
+function removeBlogLiked(id: string | number) {
+  try {
+    const set = readLikedSet();
+    set.delete(String(id));
+    window.localStorage.setItem(LIKED_KEY, JSON.stringify(Array.from(set)));
+  } catch {
+    // ignore
+  }
+}
+
+function isBlogLiked(id?: string | number) {
+  if (!id) return false;
+  return readLikedSet().has(String(id));
+}
+
 function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: AnimatedBlogCardProps) {
   const likesCount =
     typeof blog.engagement?.likes === 'number' && blog.engagement.likes > 0
@@ -47,48 +88,6 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
   const [localLikes, setLocalLikes] = useState<number>(likesCount);
   const [liked, setLiked] = useState<boolean>(false);
 
-  const LIKED_KEY = 'likedBlogs';
-
-  function readLikedSet(): Set<string> {
-    try {
-      const raw = typeof window !== 'undefined' ? window.localStorage.getItem(LIKED_KEY) : null;
-      if (!raw) return new Set();
-
-      const arr = JSON.parse(raw);
-      if (!Array.isArray(arr)) return new Set();
-
-      return new Set(arr.map(String));
-    } catch {
-      return new Set();
-    }
-  }
-
-  function markBlogLiked(id: string | number) {
-    try {
-      const set = readLikedSet();
-      set.add(String(id));
-      window.localStorage.setItem(LIKED_KEY, JSON.stringify(Array.from(set)));
-    } catch {
-      // ignore
-    }
-  }
-
-  function removeBlogLiked(id: string | number) {
-    try {
-      const set = readLikedSet();
-      set.delete(String(id));
-      window.localStorage.setItem(LIKED_KEY, JSON.stringify(Array.from(set)));
-    } catch {
-      // ignore
-    }
-  }
-
-  function isBlogLiked(id?: string | number) {
-    if (!id) return false;
-    return readLikedSet().has(String(id));
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     setLiked(isBlogLiked(blog.id));
     setLocalLikes(likesCount);

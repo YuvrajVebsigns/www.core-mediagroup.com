@@ -139,6 +139,7 @@
 
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
@@ -184,12 +185,12 @@ export default function VideosPage() {
       {/* HERO */}
       <section className="blog-hero">
         <div className="blog-hero-media" ref={heroMediaRef}>
-          <img
+          <Image
             src="/assets/blogs/blog-1.webp"
             alt="Read Videos"
+            fill
+            className="blog-hero-image"
             style={{
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
             }}
           />

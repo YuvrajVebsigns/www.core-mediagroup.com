@@ -57,7 +57,13 @@ export default function AssociateBrandsPage() {
             {associateBrands.map((brand, index) => (
               <div className="associate-brand-card" key={index}>
                 <div className="associate-brand-logo-box">
-                  <img src={brand.logo} alt={brand.name} />
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={200}
+                    height={80}
+                    style={{ objectFit: 'contain' }}
+                  />
                 </div>
 
                 <h3>{brand.name}</h3>

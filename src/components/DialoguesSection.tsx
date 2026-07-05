@@ -23,12 +23,13 @@ function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
 
   return (
     // use native img to make error handling straightforward
-    <img
+    <Image
       src={imgSrc}
       alt={alt || 'avatar'}
       width={58}
       height={58}
       className="dialogue-avatar"
+      unoptimized
       onError={() => {
         if (imgSrc !== DIALOGUES_FALLBACK_IMAGE) setImgSrc(DIALOGUES_FALLBACK_IMAGE);
       }}

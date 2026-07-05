@@ -75,12 +75,13 @@ function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
   const [imgSrc, setImgSrc] = useState<string>(src || DIALOGUES_FALLBACK_IMAGE);
 
   return (
-    <img
+    <Image
       src={imgSrc}
       alt={alt || 'avatar'}
       width={58}
       height={58}
       className="dialogue-avatar"
+      unoptimized
       onError={() => {
         if (imgSrc !== DIALOGUES_FALLBACK_IMAGE) setImgSrc(DIALOGUES_FALLBACK_IMAGE);
       }}
