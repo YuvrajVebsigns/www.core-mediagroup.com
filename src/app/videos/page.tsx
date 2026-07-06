@@ -174,10 +174,181 @@ export default function VideosPage() {
   });
 
   useEffect(() => {
-    fetch('/api/videos')
-      .then((res) => res.json())
-      .then((data) => setVideos(data))
-      .catch(() => setVideos([]));
+    // Replace API fetch with fixed list of provided YouTube videos
+    const list: VideoItem[] = [
+      {
+        id: 1,
+        slug: 'v1',
+        title: 'Video 1',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/KEpYlaux9rc',
+      },
+      {
+        id: 2,
+        slug: 'v2',
+        title: 'Video 2',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/xiJs0XmPJyE',
+      },
+      {
+        id: 3,
+        slug: 'v3',
+        title: 'Video 3',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/JBdGQoGFJqU',
+      },
+      {
+        id: 4,
+        slug: 'v4',
+        title: 'Video 4',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/jiJYiesC42s',
+      },
+      {
+        id: 5,
+        slug: 'v5',
+        title: 'Video 5',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/H_2UBj6k5oE',
+      },
+      {
+        id: 6,
+        slug: 'v6',
+        title: 'Video 6',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/vq01USo0Rno',
+      },
+      {
+        id: 7,
+        slug: 'v7',
+        title: 'Video 7',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/czlsVK63gkk',
+      },
+      {
+        id: 8,
+        slug: 'v8',
+        title: 'Video 8',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/vGV0GsV0y0E',
+      },
+      {
+        id: 9,
+        slug: 'v9',
+        title: 'Video 9',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/vGV0GsV0y0E',
+      },
+      {
+        id: 10,
+        slug: 'v10',
+        title: 'Video 10',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/o4LM01aE1PQ',
+      },
+      {
+        id: 11,
+        slug: 'v11',
+        title: 'Video 11',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/LzAe0IFyJHQ',
+      },
+      {
+        id: 12,
+        slug: 'v12',
+        title: 'Video 12',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/t0G9AuwNJyI',
+      },
+      {
+        id: 13,
+        slug: 'v13',
+        title: 'Video 13',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/-tW3ffpdTpE',
+      },
+      {
+        id: 14,
+        slug: 'v14',
+        title: 'Video 14',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/aQbU67vShTo',
+      },
+      {
+        id: 15,
+        slug: 'v15',
+        title: 'Video 15',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/hqLGiBrTOxU',
+      },
+      {
+        id: 16,
+        slug: 'v16',
+        title: 'Video 16',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/_3LCkVImqBM',
+      },
+      {
+        id: 17,
+        slug: 'v17',
+        title: 'Video 17',
+        category: '',
+        author: '',
+        date: '',
+        image: '',
+        videoUrl: 'https://www.youtube.com/embed/LjHzt9BNqS4',
+      },
+    ];
+
+    setVideos(list);
   }, []);
 
   return (
@@ -217,7 +388,7 @@ export default function VideosPage() {
       <section className="videopage-section" style={{ margin: '40px 24px 0' }}>
         <div className="videopage-container">
           <div className="videopage-grid">
-            {videos.slice(0, 6).map((v) => (
+            {videos.map((v) => (
               <article key={v.id} className="videopage-card">
                 <div className="videopage-video-wrap">
                   {/* VIDEO */}

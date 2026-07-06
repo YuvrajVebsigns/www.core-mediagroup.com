@@ -40,7 +40,6 @@ function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
 export default function OurDialogues() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dialogues, setDialogues] = useState<Dialogue[]>([]);
-  const [expandedCard, setExpandedCard] = useState<string | number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const headingRef = useScrollAnimation<HTMLDivElement>({
@@ -133,47 +132,44 @@ export default function OurDialogues() {
                 No dialogues available
               </div>
             ) : (
-              dialogues.map((dialogue) => {
-                const isExpanded = expandedCard === dialogue.id;
+              dialogues.map((dialogue) => (
+                <article className="dialogue-card" key={dialogue.id}>
+                  <Image
+                    src="/assets/dialoges/icon22.png"
+                    alt="Quote"
+                    width={56}
+                    height={56}
+                    className="dialogue-quote"
+                  />
 
-                return (
-                  <article className="dialogue-card" key={dialogue.id}>
-                    <Image
-                      src="/assets/dialoges/icon22.png"
-                      alt="Quote"
-                      width={56}
-                      height={56}
-                      className="dialogue-quote"
-                    />
+                  <div className="dialogue-text">
+                    <p className="dialogue-description">{dialogue.quote}</p>
 
-                    <div className="dialogue-text">
-                      <p
-                        className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}
-                      >
-                        {dialogue.quote}
-                      </p>
+                    <button
+                      type="button"
+                      className="dialogue-read-more"
+                      onClick={() =>
+                        window.open(
+                          'https://ciodialogues.com/index.php/category/cio-voice/',
+                          '_blank',
+                        )
+                      }
+                    >
+                      Read More
+                    </button>
+                  </div>
 
-                      <button
-                        type="button"
-                        className="dialogue-read-more"
-                        onClick={() => setExpandedCard(isExpanded ? null : dialogue.id)}
-                      >
-                        {isExpanded ? 'Read Less' : 'Read More'}
-                      </button>
+                  <div className="dialogue-divider" />
+                  <div className="dialogue-footer">
+                    <FallbackAvatar src={dialogue.avatar} alt={dialogue.author} />
+
+                    <div>
+                      <h4 className="dialogue-author">{dialogue.author}</h4>
+                      <p className="dialogue-role">{dialogue.role}</p>
                     </div>
-
-                    <div className="dialogue-divider" />
-                    <div className="dialogue-footer">
-                      <FallbackAvatar src={dialogue.avatar} alt={dialogue.author} />
-
-                      <div>
-                        <h4 className="dialogue-author">{dialogue.author}</h4>
-                        <p className="dialogue-role">{dialogue.role}</p>
-                      </div>
-                    </div>
-                  </article>
-                );
-              })
+                  </div>
+                </article>
+              ))
             )}
           </div>
         </div>

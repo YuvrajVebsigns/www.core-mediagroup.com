@@ -111,7 +111,6 @@ function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
 
 export default function DialoguesPage() {
   const [dialogues, setDialogues] = useState<DialogueCard[]>([]);
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const heroMediaRef = useScrollAnimation<HTMLDivElement>({
@@ -211,12 +210,9 @@ export default function DialoguesPage() {
                 return (
                   <AnimatedDialogueCard
                     key={dialogue.id}
-                    cardKey={dialogue.id}
                     dialogue={dialogue}
                     index={index}
                     variant={variant}
-                    expandedCard={expandedCard}
-                    setExpandedCard={setExpandedCard}
                   />
                 );
               })
@@ -229,21 +225,15 @@ export default function DialoguesPage() {
 }
 
 type AnimatedDialogueCardProps = {
-  cardKey: string;
   dialogue: DialogueCard;
   index: number;
   variant?: string;
-  expandedCard: string | null;
-  setExpandedCard: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 function AnimatedDialogueCard({
-  cardKey,
   dialogue,
   index,
   variant = 'animate-fade-in',
-  expandedCard,
-  setExpandedCard,
 }: AnimatedDialogueCardProps) {
   const initialTransform = variant.includes('left')
     ? 'translateX(-40px)'
@@ -258,7 +248,7 @@ function AnimatedDialogueCard({
     once: false,
   });
 
-  const isExpanded = expandedCard === cardKey;
+  const isExpanded = false;
 
   return (
     <article ref={ref} className="dialogue-card" style={{ transitionDelay: `${index * 60}ms` }}>
@@ -278,9 +268,11 @@ function AnimatedDialogueCard({
         <button
           type="button"
           className="dialogue-read-more"
-          onClick={() => setExpandedCard(isExpanded ? null : cardKey)}
+          onClick={() =>
+            window.open('https://ciodialogues.com/index.php/category/cio-voice/', '_blank')
+          }
         >
-          {isExpanded ? 'Read Less' : 'Read More'}
+          Read More
         </button>
       </div>
 
