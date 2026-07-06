@@ -15,24 +15,54 @@ type Dialogue = {
   role: string;
   avatar?: string;
 };
-
-const DIALOGUES_FALLBACK_IMAGE = '/assets/dialoges/AshokNayak.jpg';
-
 function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
-  const [imgSrc, setImgSrc] = useState<string>(src || DIALOGUES_FALLBACK_IMAGE);
+  const [hasError, setHasError] = useState(false);
+
+  const getInitials = (name?: string) => {
+    if (!name) return 'YS';
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return 'YS';
+    if (parts.length === 1) return parts[0]?.slice(0, 2).toUpperCase() ?? 'YS';
+    const first = parts[0]?.[0] ?? '';
+    const last = parts[parts.length - 1]?.[0] ?? '';
+    return (first + last).toUpperCase() || 'YS';
+  };
+
+  const initials = getInitials(alt);
+
+  if (!src || hasError) {
+    return (
+      <div
+        className="dialogue-avatar-fallback"
+        style={{
+          width: 58,
+          height: 58,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 9999,
+          background: '#222',
+          color: '#fff',
+          fontWeight: 700,
+          fontSize: 18,
+        }}
+        aria-hidden
+        title={alt}
+      >
+        {initials}
+      </div>
+    );
+  }
 
   return (
-    // use native img to make error handling straightforward
     <Image
-      src={imgSrc}
+      src={src}
       alt={alt || 'avatar'}
       width={58}
       height={58}
       className="dialogue-avatar"
       unoptimized
-      onError={() => {
-        if (imgSrc !== DIALOGUES_FALLBACK_IMAGE) setImgSrc(DIALOGUES_FALLBACK_IMAGE);
-      }}
+      onError={() => setHasError(true)}
     />
   );
 }
