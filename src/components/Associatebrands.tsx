@@ -3,21 +3,26 @@
 import Image from 'next/image';
 const associateBrands = [
   {
-    name: 'CIO PowerList',
-    logo: '/assets/Associatedbrands/cio-powerlist1.png',
-  },
-  {
     name: 'CXO Capital',
     logo: '/assets/Associatedbrands/cxo-capital.png',
   },
   {
-    name: 'CIO Choice',
+    name: 'CIO PowerList Middle East & Africa',
+    logo: '/assets/Associatedbrands/cio-powerlist-mea.png',
+  },
+  {
+    name: 'CIO CHOICE Southeast Asia',
     logo: '/assets/Associatedbrands/cio-choice23.png',
   },
   {
-    name: 'CIO powerlist MEA',
-    logo: '/assets/Associatedbrands/cio-powerlist-mea.png',
+    name: 'CIO PowerList Southeast Asia',
+    logo: '/assets/Associatedbrands/cio-powerlist1.png',
   },
+  {
+    name: 'CIO CHOICE Middle East & Africa',
+    logo: '/assets/Associatedbrands/cio-choice23.png',
+  },
+
   // {
   //   name: 'Brand Five',
   //   logo: '/assets/Associatedbrands/b2b.png',

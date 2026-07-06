@@ -87,12 +87,12 @@ export default function FounderMessagePage() {
     };
   }, []);
 
-  const scrollToMessage = () => {
-    document.getElementById('founder-message-content')?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-  };
+  // const scrollToMessage = () => {
+  //   document.getElementById('founder-message-content')?.scrollIntoView({
+  //     behavior: 'smooth',
+  //     block: 'start',
+  //   });
+  // };
 
   return (
     <main ref={pageRef} className="founder-message-page">
@@ -109,33 +109,6 @@ export default function FounderMessagePage() {
       <div className="founder-background-shape founder-shape-one" aria-hidden="true" />
 
       <div className="founder-background-shape founder-shape-two" aria-hidden="true" />
-
-      {/* Hero section */}
-      <section className="founder-page-hero">
-        <div className="founder-page-container">
-          <div className="founder-hero-content" data-reveal>
-            <p className="founder-eyebrow">
-              <span aria-hidden="true" />
-              Leadership Insights
-              <span aria-hidden="true" />
-            </p>
-
-            <h1>
-              Founder&apos;s <span>Message</span>
-            </h1>
-
-            <p className="founder-hero-description">
-              A message about meaningful connections, trusted partnerships, community-driven
-              platforms and the future of business.
-            </p>
-
-            <button type="button" className="founder-read-button" onClick={scrollToMessage}>
-              Read the Message
-              <span aria-hidden="true">↓</span>
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Founder message section */}
       <section id="founder-message-content" className="founder-page-message-section">
@@ -154,15 +127,11 @@ export default function FounderMessagePage() {
                     className="founder-page-image"
                   />
                 </div>
+                <br></br>
 
                 <div className="founder-page-details">
                   <p>Founder, CORE Media</p>
-
                   <h2>Anoop Mathur</h2>
-
-                  <span>
-                    Building meaningful connections that create meaningful business outcomes.
-                  </span>
                 </div>
               </div>
             </aside>
@@ -173,9 +142,10 @@ export default function FounderMessagePage() {
                 <p className="founder-eyebrow">
                   <span aria-hidden="true" />
                   Founder&apos;s Message
+                  <span aria-hidden="true" />
                 </p>
 
-                <h2>Connecting people, ideas and opportunities.</h2>
+                {/* <h2>Connecting people, ideas and opportunities.</h2> */}
               </header>
 
               <div className="founder-paragraph-list">
@@ -210,8 +180,8 @@ export default function FounderMessagePage() {
                 <span className="founder-quote-mark" aria-hidden="true">
                   “
                 </span>
-
-                <p>Meaningful connections create meaningful business outcomes.</p>
+                {/* 
+                <p>Meaningful connections create meaningful business outcomes.</p> */}
 
                 <footer className="founder-signature">
                   <strong>Anoop Mathur</strong>

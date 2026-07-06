@@ -108,16 +108,20 @@ export default function Navbar() {
                   </li>
 
                   <li>
-                    <Link href="/bespoke-events" className="mega-item" onClick={closeMobileMenu}>
+                    <Link
+                      href="https://ciodialogues.com/index.php/category/events/bespoke/"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
                       <span className="mega-icon" aria-hidden />
                       <span>Bespoke Events</span>
                     </Link>
                   </li>
 
                   <li>
-                    <Link href="/social-media" className="mega-item" onClick={closeMobileMenu}>
+                    <Link href="/digital-marketing" className="mega-item" onClick={closeMobileMenu}>
                       <span className="mega-icon" aria-hidden />
-                      <span>Social Media</span>
+                      <span>Digital Marketing</span>
                     </Link>
                   </li>
                 </ul>

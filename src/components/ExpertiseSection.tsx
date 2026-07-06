@@ -29,23 +29,23 @@ export default function ExpertiseSection() {
 
   const features = [
     {
-      title: 'CIO & ICT Community Reach',
+      title: 'CXO Connect:',
       description:
-        'Every brand, platform, and initiative we have built reflects our customer-first philosophy. From proprietary events and executive communities to bespoke marketing programs and digital engagement solutions, our focus has remained constant: helping our clients deliver the right message to the right audience through experiences that are relevant, engaging, and result-oriented.',
+        'Facilitating exclusive interactions between technology leaders through executive events, roundtables, and strategic networking platforms.',
       image: '/assets/aboutus/builb-logo.png',
       hoverImage: '/assets/aboutus/builb-logo-dark.png',
     },
     {
-      title: 'Flagship Recognition Platforms',
+      title: 'Strategic Brand Visibility:',
       description:
-        'From CIO Choice to CIO Power List and Digital Genius Awards, we celebrate excellence across enterprises and startups.',
+        'Strengthen your brand through thought leadership, industry recognition, digital campaigns, and targeted engagement with influential technology leaders.',
       image: '/assets/aboutus/Award-logo1.png',
       hoverImage: '/assets/aboutus/Award-logo-dark1.png',
     },
     {
-      title: 'Digital & ABM Solutions',
+      title: 'Data-Driven Growth:',
       description:
-        'In todays fast-evolving digital landscape, expectations continue to rise, challenging us to innovate with purpose. This commitment has enabled us to create community-driven platforms that foster meaningful relationships, facilitate strategic conversations, and generate measurable business impact.',
+        'Accelerate business growth with Account-Based Marketing, custom content, and targeted campaigns that generate high-quality leads and measurable results.',
       image: '/assets/aboutus/dedicated-logo.png',
       hoverImage: '/assets/aboutus/dedicated-logo-dark.png',
     },

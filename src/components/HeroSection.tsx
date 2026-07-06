@@ -34,8 +34,8 @@ export default function HeroSection() {
             </div>
 
             <p className="hero-description">
-              Represents growth, expansion, and modern business solution present growth, present
-              growth, expansion.
+              Creating influential platforms for executive engagement, brand growth, and business
+              success.
             </p>
           </div>
 

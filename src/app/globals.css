@@ -21495,9 +21495,9 @@ html {
   position: relative;
   z-index: 3;
 
-  width: calc(100% - 32px);
+  width: calc(93% - 32px);
   margin: -20px 0 0 32px;
-  padding: 26px 28px;
+  padding: 26px 26px;
 
   border: 1px solid var(--fm-border);
   background: #ffffff;
@@ -21526,7 +21526,6 @@ html {
 
 .founder-page-details h2 {
   margin: 0;
-
   color: var(--fm-text);
   font-size: 32px;
   letter-spacing: -1px;
@@ -21535,7 +21534,6 @@ html {
 .founder-page-details > span {
   display: block;
   margin-top: 10px;
-
   color: var(--fm-muted);
   font-size: 15px;
   line-height: 1.6;

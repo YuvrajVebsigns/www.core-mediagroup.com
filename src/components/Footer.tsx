@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, Send } from 'lucide-react';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 
 export default function Footer() {
   return (
@@ -48,7 +48,7 @@ export default function Footer() {
                 </li>
 
                 <li>
-                  <Link href="/social-media">Social Media</Link>
+                  <Link href="/digital-marketing">Digital Marketing</Link>
                 </li>
               </ul>
             </div>
@@ -121,10 +121,15 @@ export default function Footer() {
                 <Phone size={15} />
               </span>
 
-              <span className="footer-contact-text">+91 7506035537</span>
+              <span className="footer-contact-text">+91 22 4608 0974</span>
             </a>
 
-            <a href="mailto:info@coremedia.com" className="footer-contact-item">
+            <a
+              href="https://mail.google.com/mail/u/0/?view=cm&fs=1&to=contact@core-mediagroup.com"
+              className="footer-contact-item"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span className="footer-contact-icon">
                 <Mail size={15} />
               </span>
@@ -135,25 +140,49 @@ export default function Footer() {
 
           {/* SOCIAL */}
           <div className="footer-socials">
-            <a href="https://www.facebook.com/" aria-label="Facebook">
+            <a
+              href="https://www.facebook.com/coremediaindia/"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaFacebookF />
             </a>
 
-            <a href="https://www.instagram.com/" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/core_media_/"
+              aria-label="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaInstagram />
             </a>
 
-            <a href="https://x.com/" aria-label="Twitter">
+            <a
+              href="https://x.com/CIOChoice"
+              aria-label="Twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaXTwitter />
             </a>
 
-            <a href="https://www.linkedin.com/" aria-label="LinkedIn">
+            <a
+              href="https://www.linkedin.com/company/core-mediagroup/"
+              aria-label="LinkedIn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaLinkedinIn />
+            </a>
+
+            <a href="https://www.youtube.com/@coremedia228" aria-label="YouTube">
+              <FaYoutube />
             </a>
           </div>
 
           {/* COPYRIGHT */}
-          <div className="footer-copy">© 2026 CORE Media.. All Rights Reserved.</div>
+          <div className="footer-copy">© 2026 CORE Media. All Rights Reserved.</div>
         </div>
       </div>
     </footer>

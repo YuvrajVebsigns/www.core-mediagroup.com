@@ -13,17 +13,21 @@ const INITIAL_MESSAGES: ChatMessage[] = [
   {
     id: 'welcome-message',
     role: 'bot',
-    text: 'Hi! I’m the CORE Media assistant. Ask me about events, services, partnerships, or how to get in touch.',
+    text: 'Welcome to CORE Media! How can we help you today?',
   },
 ];
 
 const SUGGESTIONS = [
-  'Tell me about your events',
-  'How can I contact sales?',
-  'What services do you offer?',
-  'What industries do you serve?',
-  'How do I sponsor an event?',
-  'Can I book a meeting with your team?',
+  'Which industries do you serve?',
+  'Why should I partner with CORE Media?',
+  'How do I stay updated on your events?',
+  'How can I contact CORE Media?',
+  'How can I participate in your events?',
+  'Who attends CORE Media events?',
+  'How can I sponsor an event?',
+  'What is CORE Media?',
+  'Do you offer Account-Based Marketing (ABM)?',
+  'Can I request a proposal?',
 ];
 
 function createMessageId() {
@@ -36,6 +40,46 @@ function createMessageId() {
 
 function getBotReply(userText: string) {
   const normalized = userText.toLowerCase();
+
+  if (normalized.includes('which industries do you serve')) {
+    return 'We work with organizations across IT, BFSI, manufacturing, healthcare, telecom, retail, government, and other enterprise sectors.';
+  }
+
+  if (normalized.includes('why should i partner with core media')) {
+    return 'Our strong technology leadership network, trusted platforms, and customer-focused approach help brands build credibility, visibility, and measurable business impact.';
+  }
+
+  if (normalized.includes('how do i stay updated on your events')) {
+    return 'Subscribe to our newsletter or follow our website and social media channels for the latest event announcements and industry insights.';
+  }
+
+  if (normalized.includes('how can i contact core media')) {
+    return 'You can reach us through our Contact Us page, email, or phone.';
+  }
+
+  if (normalized.includes('how can i participate in your events')) {
+    return 'You can register as a delegate, speaker, sponsor, or partner. Visit the Events page or contact our team for details.';
+  }
+
+  if (normalized.includes('who attends core media events')) {
+    return 'Our events bring together CIOs, CXOs, CISOs, IT leaders, founders, technology providers, and senior business decision-makers across industries.';
+  }
+
+  if (normalized.includes('how can i sponsor an event')) {
+    return "Simply fill out our Contact Us form or reach out to our partnerships team, and we'll recommend the right sponsorship opportunities.";
+  }
+
+  if (normalized.includes('what is core media')) {
+    return 'CORE Media is a leading B2B technology media and marketing company connecting enterprises, technology leaders, and brands through events, digital platforms, and strategic marketing solutions.';
+  }
+
+  if (normalized.includes('do you offer account-based marketing') || normalized.includes('abm')) {
+    return 'Yes. Our ABM solutions help brands engage high-value accounts with personalized marketing campaigns.';
+  }
+
+  if (normalized.includes('can i request a proposal')) {
+    return 'Absolutely. Share your requirements, and our team will prepare a customized proposal for your business.';
+  }
 
   if (
     normalized.includes('event') ||

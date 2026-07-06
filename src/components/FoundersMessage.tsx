@@ -45,9 +45,8 @@ export default function FoundersMessage() {
 
           {/* DESCRIPTION */}
           <p className="founder-description">
-            CORE Media was built with a clear purpose to create meaningful platforms that bring
-            together technology leaders, enterprises, and innovators to exchange ideas, celebrate
-            excellence, and drive business growth.
+            At CORE Media, our journey has always been driven by a simple belief—meaningful
+            connections create meaningful business outcomes.
             <Link href="/Founder-Message" className="founder-readmore-link">
               Read more...
             </Link>
