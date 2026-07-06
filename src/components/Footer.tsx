@@ -44,7 +44,9 @@ export default function Footer() {
                 </li>
 
                 <li>
-                  <Link href="/bespoke-events">Bespoke Events</Link>
+                  <Link href="https://ciodialogues.com/index.php/category/events/bespoke/">
+                    Bespoke Events
+                  </Link>
                 </li>
 
                 <li>

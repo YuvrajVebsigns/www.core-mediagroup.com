@@ -146,11 +146,11 @@ export default function TrackingAndConsent() {
 
   return (
     <div
-      className={`fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl z-50 transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1) transform ${
-        isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+      className={`fixed bottom-4 right-4 z-50 transition-all duration-500 ease-out ${
+        isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
       }`}
     >
-      <div className="bg-white border border-slate-200/80 rounded-3xl !p-6 md:!p-8 lg:!p-10 shadow-[0_25px_60px_rgba(0,0,0,0.12)] flex flex-col !gap-6">
+      <div className="w-[min(92vw,24rem)] rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_20px_45px_rgba(0,0,0,0.16)] sm:p-5 flex flex-col gap-4">
         {/* Header with Title and Close Button */}
         <div className="flex items-center justify-between">
           <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 flex items-center !gap-2">
