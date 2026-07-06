@@ -19887,11 +19887,20 @@ s .dialogues-badge-mark {
 
 .botRow {
   justify-content: flex-start;
+  flex-direction: row;
+}
+
+.botRow .messageBubble {
+  margin-right: auto;
 }
 
 .userRow {
   justify-content: flex-end;
   flex-direction: row-reverse;
+}
+
+.userRow .messageBubble {
+  margin-left: auto;
 }
 
 .smallAvatar {
@@ -20007,7 +20016,7 @@ s .dialogues-badge-mark {
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 8px;
-  align-items: center;
+  align-items: start;
 }
 
 .scrollButton {
@@ -20058,22 +20067,34 @@ s .dialogues-badge-mark {
 }
 
 .suggestions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  grid-auto-rows: auto;
   gap: 10px;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 2px;
-  white-space: nowrap;
+  white-space: normal;
   -webkit-overflow-scrolling: touch;
+  max-height: calc(2 * 68px + 12px);
 }
 
 .suggestions::-webkit-scrollbar {
-  display: none;
+  height: 6px;
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+  background: rgba(142, 1, 1, 0.3);
+  border-radius: 999px;
+}
+
+.suggestions::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .suggestionButton {
   position: relative;
-  flex: 0 0 auto;
+  width: 100%;
   overflow: hidden;
 
   padding: 10px 14px;
@@ -20089,7 +20110,7 @@ s .dialogues-badge-mark {
   font-weight: 600;
   line-height: 1.4;
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
 
   cursor: pointer;
 
