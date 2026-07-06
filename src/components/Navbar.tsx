@@ -17,7 +17,6 @@ export default function Navbar() {
     pathname === '/survey-study' ||
     pathname === '/video' ||
     pathname === '/bespoke-events' ||
-    pathname === '/social-media' ||
     pathname === '/dialoges';
 
   const openServices = () => {
