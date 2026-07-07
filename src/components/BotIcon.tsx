@@ -55,6 +55,7 @@ function createMessageId() {
 
 export default function BotIcon() {
   const [open, setOpen] = useState(false);
+  const [showBot, setShowBot] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
   const [input, setInput] = useState('');
   const [questionItems, setQuestionItems] = useState<QuestionItem[]>([]);
@@ -79,6 +80,26 @@ export default function BotIcon() {
       block: 'end',
     });
   }, [messages, isSending]);
+
+  useEffect(() => {
+    const consent =
+      typeof window !== 'undefined'
+        ? window.localStorage.getItem('core_media_cookie_consent')
+        : null;
+
+    setShowBot(consent !== null);
+
+    const handleConsentChanged = () => {
+      const updatedConsent = window.localStorage.getItem('core_media_cookie_consent');
+      setShowBot(updatedConsent !== null);
+    };
+
+    window.addEventListener('cookieConsentChanged', handleConsentChanged);
+
+    return () => {
+      window.removeEventListener('cookieConsentChanged', handleConsentChanged);
+    };
+  }, []);
 
   useEffect(() => {
     if (!open) {
@@ -214,6 +235,10 @@ export default function BotIcon() {
   //       setOpen(false);
   //     }
   //   }
+
+  if (!showBot) {
+    return null;
+  }
 
   return (
     <div className="wrapper">

@@ -173,7 +173,7 @@ export default function Brands() {
 
             <div className="dialogue-brand-info">
               <h4>{item.name}</h4>
-              <span>{item.role}</span>
+              {/* <span>{item.role}</span> */}
             </div>
           </div>
         </div>
