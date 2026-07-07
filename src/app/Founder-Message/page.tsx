@@ -316,7 +316,7 @@ export default function FounderMessagePage() {
               <div className="founder-page-profile-sticky">
                 <div className="founder-page-image-frame">
                   <Image
-                    src="/assets/team/4.png"
+                    src="/assets/team/22.png"
                     alt="Anoop Mathur, Founder of CORE Media"
                     fill
                     priority

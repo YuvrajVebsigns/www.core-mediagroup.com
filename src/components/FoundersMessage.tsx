@@ -19,7 +19,7 @@ export default function FoundersMessage() {
         <div className="founder-image-wrapper">
           <div className="founder-image-frame">
             <Image
-              src="/assets/team/4.png"
+              src="/assets/team/22.png"
               alt="Anoop Mathur - Founder"
               width={700}
               height={700}

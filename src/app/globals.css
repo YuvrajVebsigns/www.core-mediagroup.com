@@ -11736,7 +11736,7 @@ main {
   width: 450px;
   height: 450px;
   padding: 0px;
-  background: #ffffff;
+  background: transparent;
   overflow: hidden;
 
   display: flex;
@@ -11753,7 +11753,7 @@ main {
 }
 
 .founder-message-section {
-  opacity: 1;
+  opacity: 0;
   transform: none;
 }
 

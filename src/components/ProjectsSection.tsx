@@ -43,7 +43,7 @@ export default function ProjectsSection() {
     {
       category: 'Videos',
       title: '',
-      videoUrl: 'https://www.youtube.com/embed/KEpYlaux9rc',
+      videoUrl: 'https://www.youtube.com/embed/JBdGQoGFJqU',
     },
     {
       category: 'Videos',

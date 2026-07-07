@@ -184,7 +184,8 @@ export default function VideosPage() {
         author: '',
         date: '',
         image: '',
-        videoUrl: 'https://www.youtube.com/embed/KEpYlaux9rc',
+        // videoUrl: 'https://www.youtube.com/embed/KEpYlaux9rc',
+        videoUrl: 'https://www.youtube.com/embed/JBdGQoGFJqU',
       },
       {
         id: 2,
@@ -204,7 +205,8 @@ export default function VideosPage() {
         author: '',
         date: '',
         image: '',
-        videoUrl: 'https://www.youtube.com/embed/JBdGQoGFJqU',
+        // videoUrl: 'https://www.youtube.com/embed/JBdGQoGFJqU',
+        videoUrl: 'https://www.youtube.com/embed/KEpYlaux9rc',
       },
       {
         id: 4,

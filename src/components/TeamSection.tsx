@@ -9,7 +9,7 @@ export default function TeamSection() {
     {
       name: 'Anoop Mathur',
       role: 'Founder',
-      image: '/assets/team/4.png',
+      image: '/assets/team/22.png',
       linkedin: 'https://www.linkedin.com/in/mathuranoop',
     },
     {
@@ -21,7 +21,7 @@ export default function TeamSection() {
     {
       name: 'Sadanand Manda',
       role: 'Head Sales & Event Operations',
-      image: '/assets/team/6.png',
+      image: '/assets/team/Sadanand.png',
       linkedin: 'https://www.linkedin.com/in/sadanandmanda',
     },
   ];
