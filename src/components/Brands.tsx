@@ -62,11 +62,11 @@ export default function Brands() {
       image: '/assets/brands/CIO-Powerlist.png',
     },
     {
-      heading: 'IT Genius Award',
+      heading: 'Digital Genius Award',
       text: 'The awards recognise ICT leaders who have implemented transformational, critical, and disruptive projects with revolutionary impact. Day-to-day IT implementation projects are excluded from consideration.',
-      name: 'IT Genius Award',
+      name: 'Digital Genius Award',
       role: 'CTO | Tech Solutions',
-      image: '/assets/brands/Genius.png',
+      image: '/assets/brands/Digital-Genius.png',
     },
     {
       heading: 'CIO Dialogues',

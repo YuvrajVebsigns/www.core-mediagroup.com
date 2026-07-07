@@ -9,19 +9,19 @@ export default function TeamSection() {
     {
       name: 'Anoop Mathur',
       role: 'Founder',
-      image: '/assets/team/Anoop-Mathur.png',
+      image: '/assets/team/4.png',
       linkedin: 'https://www.linkedin.com/in/mathuranoop',
     },
     {
       name: 'Sudhir Kamath',
       role: 'Country Director',
-      image: '/assets/team/Sudhir-Kamath.png',
+      image: '/assets/team/5.png',
       linkedin: 'https://www.linkedin.com/in/sudhir-kamath-9a6baa4',
     },
     {
       name: 'Sadanand Manda',
       role: 'Head Sales & Event Operations',
-      image: '/assets/team/Sadanand-Manda.png',
+      image: '/assets/team/6.png',
       linkedin: 'https://www.linkedin.com/in/sadanandmanda',
     },
   ];

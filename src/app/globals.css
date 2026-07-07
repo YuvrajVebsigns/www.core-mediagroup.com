@@ -2222,6 +2222,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: transform 0.5s ease;
 }
 
@@ -4117,7 +4118,7 @@ main {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 240px;
+  width: 321px;
   background: #970909;
   color: white;
   padding: 34px;
@@ -4270,7 +4271,7 @@ main {
   }
 
   .faq-call-card {
-    width: 200px;
+    width: 310px;
     padding: 24px;
   }
 
@@ -11732,8 +11733,8 @@ main {
 
 .founder-image-frame {
   border: 10px solid #8e0101;
-  width: 350px;
-  height: 350px;
+  width: 450px;
+  height: 450px;
   padding: 0px;
   background: #ffffff;
   overflow: hidden;
@@ -12368,6 +12369,7 @@ main {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   transition: transform 0.5s ease;
 }
 
@@ -13803,7 +13805,7 @@ main {
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 240px;
+  width: 282px;
   background: #970909;
   color: white;
   padding: 34px;
@@ -22070,6 +22072,7 @@ html {
   color: #6f0000;
   text-decoration: underline;
 }
+
 /* Cookie consent banner */
 .cookie-consent-banner {
   position: fixed;

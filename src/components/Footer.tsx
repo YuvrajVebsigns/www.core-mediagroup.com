@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, Send } from 'lucide-react';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter, FaYoutube } from 'react-icons/fa6';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa6';
 
 export default function Footer() {
   return (
@@ -160,14 +160,14 @@ export default function Footer() {
               <FaInstagram />
             </a>
 
-            <a
+            {/* <a
               href="https://x.com/CIOChoice"
               aria-label="Twitter"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaXTwitter />
-            </a>
+            </a> */}
 
             <a
               href="https://www.linkedin.com/company/core-mediagroup/"

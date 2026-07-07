@@ -29,21 +29,21 @@ export default function ExpertiseSection() {
 
   const features = [
     {
-      title: 'CXO Connect:',
+      title: 'CXO Connect',
       description:
         'Facilitating exclusive interactions between technology leaders through executive events, roundtables, and strategic networking platforms.',
       image: '/assets/aboutus/builb-logo.png',
       hoverImage: '/assets/aboutus/builb-logo-dark.png',
     },
     {
-      title: 'Strategic Brand Visibility:',
+      title: 'Strategic Brand Visibility',
       description:
         'Strengthen your brand through thought leadership, industry recognition, digital campaigns, and targeted engagement with influential technology leaders.',
       image: '/assets/aboutus/Award-logo1.png',
       hoverImage: '/assets/aboutus/Award-logo-dark1.png',
     },
     {
-      title: 'Data-Driven Growth:',
+      title: 'Data-Driven Growth',
       description:
         'Accelerate business growth with Account-Based Marketing, custom content, and targeted campaigns that generate high-quality leads and measurable results.',
       image: '/assets/aboutus/dedicated-logo.png',
