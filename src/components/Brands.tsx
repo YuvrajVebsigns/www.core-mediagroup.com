@@ -171,7 +171,7 @@ export default function Brands() {
               className="dialogue-user-image"
             />
 
-            <div>
+            <div className="dialogue-brand-info">
               <h4>{item.name}</h4>
               <span>{item.role}</span>
             </div>

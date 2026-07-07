@@ -22259,12 +22259,23 @@ html {
   }
 }
 /* Brands testimonial override */
+.brands-testimonials .dialogue-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.brands-testimonials .dialogue-card-content {
+  flex: 1;
+}
+
 .brands-testimonials .dialogue-user {
   display: block;
+  margin-top: auto;
 }
 
 .brands-testimonials .dialogue-user-meta {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .brands-testimonials .dialogue-user-meta p,
@@ -22279,11 +22290,31 @@ html {
 .brands-testimonials .dialogue-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
-.brands-testimonials .dialogue-brand h4 {
+.brands-testimonials .dialogue-brand .dialogue-user-image {
+  width: auto;
+  height: 70px;
+  max-width: 70px;
+  border-radius: 0;
+  object-fit: contain;
+  background: transparent;
+}
+
+.brands-testimonials .dialogue-brand-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.brands-testimonials .dialogue-brand-info h4 {
   font-size: 18px;
   font-weight: 700;
-  margin: 0;
+  margin: 0 0 4px;
+}
+
+.brands-testimonials .dialogue-brand-info span {
+  font-size: 14px;
+  color: #666;
 }
