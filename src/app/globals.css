@@ -22258,3 +22258,32 @@ html {
     grid-template-columns: 1fr;
   }
 }
+/* Brands testimonial override */
+.brands-testimonials .dialogue-user {
+  display: block;
+}
+
+.brands-testimonials .dialogue-user-meta {
+  margin-bottom: 16px;
+}
+
+.brands-testimonials .dialogue-user-meta p,
+.brands-testimonials .dialogue-user-meta span {
+  display: block;
+}
+
+.brands-testimonials .dialogue-user-meta p {
+  margin-bottom: 6px;
+}
+
+.brands-testimonials .dialogue-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brands-testimonials .dialogue-brand h4 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}

@@ -158,18 +158,23 @@ export default function Brands() {
         <div className="dialogue-divider" />
 
         <div className="dialogue-user">
-          <Image
-            src={item.image}
-            alt={item.name}
-            width={70}
-            height={70}
-            className="dialogue-user-image"
-          />
-
-          <div>
+          <div className="dialogue-user-meta">
             <p>{item.writerName}</p>
-            <h4>{item.name}</h4>
-            <span>{item.role}</span>
+          </div>
+
+          <div className="dialogue-brand">
+            <Image
+              src={item.image}
+              alt={item.name}
+              width={70}
+              height={70}
+              className="dialogue-user-image"
+            />
+
+            <div>
+              <h4>{item.name}</h4>
+              <span>{item.role}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -284,7 +289,7 @@ export default function Brands() {
   };
 
   return (
-    <section className="dialogue-section">
+    <section className="dialogue-section brands-testimonials">
       <div className="dialogue-container">
         <div className="dialogue-header" ref={headerRef}>
           <div>
