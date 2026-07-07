@@ -151,13 +151,13 @@ export default function Navbar() {
             Video
           </Link>
 
-          <Link
+          {/* <Link
             href="/register"
             className={`nav-link ${pathname === '/register' ? 'active' : ''}`}
             onClick={closeMobileMenu}
           >
             Registration
-          </Link>
+          </Link> */}
           {/* <Link href="/nominate" className="nav-link" onClick={() => setMobileOpen(false)}>
             Nomination
           </Link> */}
