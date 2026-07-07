@@ -8202,6 +8202,28 @@ s .dialogues-badge-mark {
 }
 
 /* =========================================================
+   DIALOGUES / TESTIMONIALS part -1 
+========================================================= */
+
+.dialogue-readmore-inline {
+  display: inline;
+  margin-left: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #a00000;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+.dialogue-readmore-inline:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =========================================================
    DIALOGUES / TESTIMONIALS
 ========================================================= */
 

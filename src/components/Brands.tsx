@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState, useLayoutEffect, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
@@ -9,7 +9,9 @@ export default function Brands() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const isPausedRef = useRef(false);
   const [activePage, setActivePage] = useState(0);
+
   const cardsPerPage = 3;
+  const previewWordLimit = 28;
 
   const headerRef = useScrollAnimation<HTMLDivElement>({
     animationClass: 'animate-fade-in-left',
@@ -26,162 +28,181 @@ export default function Brands() {
   const testimonials = [
     {
       heading: 'CIO Choice',
-      text: 'India’s largest online pan-India voting platform, where CIOs vote for their preferred and trusted ICT brands. The voting determines which ICT brands are presented with the CIO Choice recognition at the annual Red Carpet Night.',
+      text: 'CIO CHOICE is a very good platform for encouraging ICT brands and shows the trust they have earned from the CIO community. It’s also a great way for CIOs to learn about new products that are trusted by their peers.',
       name: 'CIO Choice',
+      writerName: 'Kersi Tavadia | CIO | BSE',
       role: 'CIO Choice',
       image: '/assets/brands/CIO-Choice.png',
     },
-
-    // {
-    //   heading: 'CFO Powerlist',
-    //   text: 'CFO Power List, an initiative by CORE Media, is a forum for CFO leaders who are committed to addressing major digital world opportunities as part of their core business strategies. Companies value the hard data and empirical mind-set that a finance chief can lend to strategic planning, especially around forecasting trends, building strategic capabilities, or managing government and regulatory relationships.Todays CFOs are responsible for much more than finance. As the new owners of data in a networked economy, CFOs have an unprecedented opportunity to chart the roadmap, add insight and value to the transformation of their enterprise digital agenda. Faced with advances in technology and growing responsibilities, many CFOs are bracing themselves for more change ahead—and understand that they must adapt to be effective.CFO Power List is about honouring the CFOs who are ready for tomorrows demands on finance in the new digital world.CFO Power List aims to bring together Indias top CFO business leaders, influencers, and experts.',
-    //   name: 'CIO Powerlist',
-    //   role: 'VP IT | Shriram Value Services',
-    //   image: '/assets/brands/CFO.png',
-    // },
+    {
+      heading: 'CIO Choice',
+      text: 'Its extremely rewarding because of all the effort we put in over the years and getting the trust of the CIOs is extremely satisfying. CIO CHOICE is very well recognized by all the leading CIOs in the country. We have been winners in the past also and that has helped us a lot. So, we absolutely plan to leverage this to the maximum in all our branding, collaterals, and presentations to CIOs.',
+      name: 'CIO Choice',
+      writerName: 'Sharad Sanghi | MD & CEO | NTT-Netmagic',
+      role: 'CIO Choice',
+      image: '/assets/brands/CIO-Choice.png',
+    },
     {
       heading: 'CIO Crown',
-      text: 'Meticulously curated gathering of CIOs and CTOs looking to explore, discover, and collaborate through highly interactive formats designed to provide a deeper understanding of new emerging technologies and leadership issues.',
+      text: 'The event was insightful and outstanding. Thank you, team CORE Media, for celebrating and encouraging innovation and service. Keep up the good work!',
       name: 'CIO Crown',
+      writerName: 'Pankaj Khare | IT Head | Pine Labs',
       role: 'VP IT | Shriram Value Services',
       image: '/assets/brands/CIO-Crown.png',
     },
-
+    {
+      heading: 'CIO Crown',
+      text: 'CIO CROWN is an engaging platform that has been instrumental in initiating productive conversations with CIOs of some of the top and leading enterprises across verticals. The interactive sessions on the main stage as well as on the sidelines helped us better communicate and understand issues concerning CIOs.',
+      name: 'CIO Crown',
+      writerName: 'Kaustubh Chandra | Head Marketing & Communications | Dimension Data India',
+      role: 'VP IT | Shriram Value Services',
+      image: '/assets/brands/CIO-Crown.png',
+    },
     {
       heading: 'Hospitality & Healthcare Honours',
-      text: 'The honours recognise outstanding ICT leaders in the hospitality and healthcare industry who have helped drive their organisations to new levels of differentiation and performance.',
-      name: 'Hospitality & Healthcare Honours ',
+      text: 'The nominees were extremely impressive. The awards will act as a mark of approval that sets them above the rest and cement their position as IT pathbreakers in the healthcare domain.',
+      name: 'Hospitality & Healthcare Honours',
+      writerName:
+        'Vikas Gadre | Adjunct Faculty & Chairperson for IS | NMIMS School of Business Management',
+      role: 'H H H',
+      image: '/assets/brands/HHH.png',
+    },
+    {
+      heading: 'Hospitality & Healthcare Honours',
+      text: 'It is an immense honour to win this prestigious recognition. It spurs us on to go the extra mile and consistently deliver in these constantly changing times.',
+      name: 'Hospitality & Healthcare Honours',
+      writerName: 'Sumit Singh | CIO | Wockhardt Hospital',
       role: 'H H H',
       image: '/assets/brands/HHH.png',
     },
     {
       heading: 'CIO Powerlist',
-      text: 'India’s only algorithm-based selection and annual shortlist of India’s most influential technology leaders.',
+      text: 'I feel excited and elated at being a part of CIO PowerList, because it’s one list prepared with the most comprehensive and thorough evaluation.',
       name: 'CIO Powerlist',
+      writerName: 'Rajesh Uppal | Senior ED – IT, HR & Education & Training | Maruti Suzuki India',
+      role: 'VP IT | Shriram Value Services',
+      image: '/assets/brands/CIO-Powerlist.png',
+    },
+    {
+      heading: 'CIO Powerlist',
+      text: 'CIO PowerList brought together the leading technologists of the country and provided an excellent platform for exchanging ideas and points of views. The panel discussions and sessions were quite thought provoking and intense with a number of emerging themes that helped understand some of the expected future developments.',
+      name: 'CIO Powerlist',
+      writerName: 'Rohan Padhi | Director | KPMG',
       role: 'VP IT | Shriram Value Services',
       image: '/assets/brands/CIO-Powerlist.png',
     },
     {
       heading: 'Digital Genius Award',
-      text: 'The awards recognise ICT leaders who have implemented transformational, critical, and disruptive projects with revolutionary impact. Day-to-day IT implementation projects are excluded from consideration.',
+      text: 'I was impressed with the quality and quantity of the nominations. The awards were very well planned and executed, and the sessions and panel discussions were quite relevant and engaging.',
       name: 'Digital Genius Award',
+      writerName: 'Anil Jaggia | COO | Avendus Capital & former CIO of HDFC Bank',
+      role: 'CTO | Tech Solutions',
+      image: '/assets/brands/Digital-Genius.png',
+    },
+    {
+      heading: 'Digital Genius Award',
+      text: 'Its an amazing feeling to receive this award, after selection by an imminent jury panel. This is a recognition of all the hard work my team and I have put in to give our business a competitive edge',
+      name: 'Digital Genius Award',
+      writerName: 'Pravin Savant | Group CTO | Mullen Lowe Lintas Group',
       role: 'CTO | Tech Solutions',
       image: '/assets/brands/Digital-Genius.png',
     },
     {
       heading: 'CIO Dialogues',
-      text: 'Informal, highly interactive sessions limited to a select few CIOs to engage in candid conversations and build connections in a relaxed setting crafted to deliver a unique experience. No more than 10 CIOs participate in each evening session, designed to enable knowledge sharing and gain insights on a specific topic. Each of these sessions is in exclusive partnership with ICT brands and held across multiple cities.',
+      text: 'It was a great experience being a part of CIO Dialogues. It provides an interesting informal opportunity for knowledge sharing, learning from industry peers, and opens ones mind to new possibilities.',
       name: 'CIO Dialogues',
+      writerName: 'Sendil Kumar Venkatesan | VP IT | Shriram Value Services',
       role: 'CTO | Tech Solutions',
       image: '/assets/brands/CIO-Dialogues.png',
     },
     {
-      heading: 'Leadernext',
-      text: 'LeaderNext is an innovative platform dedicated to recognizing and propelling the professional growth of senior IT & digital executives. With a vision set on the future, it is all about nurturing the next wave of technology leaders who are poised to revolutionize business with their forward-thinking approach and adeptness in emerging technologies.LeaderNext is more than an acknowledgement – it is the beginning of a journey towards leadership excellence. Do not miss the chance to be part of this transformative experience. Join us and shape the future of the ICT sector!',
-      name: 'Leadernext',
+      heading: 'CIO Dialogues',
+      text: 'CIO Dialogues is a unique experience that helped us in connecting with top CIOs and to better understand each other through an intimate conversation. It is one of a kind focused discussion and the networking post event help organization like us to break ice to explore business opportunities as well as to build close relationship with CIOs.',
+      name: 'CIO Dialogues',
+      writerName:
+        'Ankesh Kumar | AGM Channel Marketing & Program Management Greater India Region | Schneider Electric',
       role: 'CTO | Tech Solutions',
-      image: '/assets/brands/Leadernext.png',
+      image: '/assets/brands/CIO-Dialogues.png',
     },
   ];
 
-  // We'll access vendor-specific style properties via a narrow local cast to avoid `any` and
-  // to prevent extending DOM types incorrectly.
-
   function DialogueCard({ item }: { item: (typeof testimonials)[number] }) {
-    const pRef = useRef<HTMLParagraphElement | null>(null);
-    const [isOverflow, setIsOverflow] = useState(false);
-    const [applyClamp, setApplyClamp] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    useLayoutEffect(() => {
-      const p = pRef.current;
-      if (!p) return;
+    const words = item.text.split(' ');
+    const isLongText = words.length > previewWordLimit;
 
-      // Measure full height without clamp by temporarily disabling clamp
-      const prevDisplay = p.style.display;
-      const style = p.style as unknown as {
-        webkitLineClamp?: string | number | undefined;
-        webkitBoxOrient?: string | undefined;
-      };
-      const prevWebkitBoxOrient = style.webkitBoxOrient;
-      const prevWebkitLineClamp = style.webkitLineClamp;
-
-      // Ensure full natural height is measurable
-      p.style.display = 'block';
-      style.webkitLineClamp = 'none';
-      style.webkitBoxOrient = 'vertical';
-
-      const computed = getComputedStyle(p);
-      const lineHeight = parseFloat(computed.lineHeight || '18');
-      const lines = Math.round(p.scrollHeight / lineHeight);
-
-      // restore any inline styles we changed (we'll apply clamp via state)
-      p.style.display = prevDisplay;
-      style.webkitLineClamp = prevWebkitLineClamp;
-      style.webkitBoxOrient = prevWebkitBoxOrient;
-
-      if (lines > 7) setIsOverflow(true);
-      // apply clamp after measurement to avoid layout jump
-      setApplyClamp(true);
-    }, [item.text]);
+    const previewText = isLongText ? words.slice(0, previewWordLimit).join(' ') : item.text;
 
     return (
-      <div
-        className="dialogue-card"
-        style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-      >
-        <div style={{ flex: '1 1 auto' }}>
-          <p
-            ref={pRef}
-            className="dialogue-text"
-            style={
-              applyClamp && !isExpanded
-                ? ({
-                    display: '-webkit-box',
-                    WebkitLineClamp: 7,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  } as React.CSSProperties)
-                : undefined
-            }
-          >
-            {item.text}
+      <div className="dialogue-card">
+        <div className="dialogue-card-content">
+          <p className="dialogue-text">
+            {isExpanded || !isLongText ? item.text : previewText}
+
+            {isLongText && (
+              <>
+                {!isExpanded && ' '}
+                <button
+                  type="button"
+                  className="dialogue-readmore-inline"
+                  onClick={() => setIsExpanded((value) => !value)}
+                >
+                  {isExpanded ? 'Show less' : 'Read more...'}
+                </button>
+              </>
+            )}
           </p>
         </div>
-        {isOverflow && (
-          <div className="dialogue-readmore" style={{ marginTop: 5 }}>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsExpanded((v) => !v);
-              }}
-            >
-              {isExpanded ? 'Show less' : 'Read more...'}
-            </a>
-          </div>
-        )}
+
         <div className="dialogue-divider" />
 
-        <div style={{ marginTop: 12 }}>
-          <div className="dialogue-user" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <Image
-              src={item.image}
-              alt={item.name}
-              width={70}
-              height={70}
-              className="dialogue-user-image"
-            />
+        <div className="dialogue-user">
+          <Image
+            src={item.image}
+            alt={item.name}
+            width={70}
+            height={70}
+            className="dialogue-user-image"
+          />
 
-            <div>
-              <h4>{item.name}</h4>
-              <span>{item.role}</span>
-            </div>
+          <div>
+            <p>{item.writerName}</p>
+            <h4>{item.name}</h4>
+            <span>{item.role}</span>
           </div>
         </div>
       </div>
     );
   }
+
+  const getPageCount = useCallback(
+    () => Math.ceil(testimonials.length / cardsPerPage),
+    [testimonials.length],
+  );
+
+  const scrollToPage = useCallback(
+    (pageIndex: number) => {
+      const slider = sliderRef.current;
+
+      if (!slider) return;
+
+      const maxPage = getPageCount() - 1;
+      const nextPage = Math.max(0, Math.min(pageIndex, maxPage));
+      const targetIndex = nextPage * cardsPerPage;
+      const child = slider.children[targetIndex] as HTMLElement;
+
+      if (!child) return;
+
+      slider.scrollTo({
+        left: child.offsetLeft,
+        behavior: 'smooth',
+      });
+
+      setActivePage(nextPage);
+    },
+    [getPageCount],
+  );
 
   const scrollLeft = () => {
     scrollToPage(activePage - 1);
@@ -190,29 +211,6 @@ export default function Brands() {
   const scrollRight = () => {
     scrollToPage(activePage + 1);
   };
-
-  const getPageCount = useCallback(
-    () => Math.ceil(testimonials.length / cardsPerPage),
-    [testimonials.length, cardsPerPage],
-  );
-
-  const scrollToPage = useCallback(
-    (pageIndex: number) => {
-      const el = sliderRef.current;
-      if (!el) return;
-
-      const maxPage = getPageCount() - 1;
-      const nextPage = Math.max(0, Math.min(pageIndex, maxPage));
-      const targetIndex = nextPage * cardsPerPage;
-      const child = el.children[targetIndex] as HTMLElement;
-
-      if (!child) return;
-
-      el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
-      setActivePage(nextPage);
-    },
-    [cardsPerPage, getPageCount],
-  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -232,25 +230,29 @@ export default function Brands() {
   }, [activePage, getPageCount, scrollToPage]);
 
   useEffect(() => {
-    const el = sliderRef.current;
-    if (!el) return;
+    const slider = sliderRef.current;
+
+    if (!slider) return;
 
     const onScroll = () => {
-      const children = Array.from(el.children) as HTMLElement[];
+      const children = Array.from(slider.children) as HTMLElement[];
+
       if (!children.length) return;
 
-      const scrollLeftPos = el.scrollLeft;
+      const scrollLeftPosition = slider.scrollLeft;
       let nearestPage = 0;
-      let nearestDist = Infinity;
+      let nearestDistance = Infinity;
 
       for (let page = 0; page < getPageCount(); page += 1) {
         const targetIndex = page * cardsPerPage;
         const child = children[targetIndex];
+
         if (!child) continue;
 
-        const dist = Math.abs(child.offsetLeft - scrollLeftPos);
-        if (dist < nearestDist) {
-          nearestDist = dist;
+        const distance = Math.abs(child.offsetLeft - scrollLeftPosition);
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
           nearestPage = page;
         }
       }
@@ -258,21 +260,27 @@ export default function Brands() {
       setActivePage(nearestPage);
     };
 
-    el.addEventListener('scroll', onScroll);
+    slider.addEventListener('scroll', onScroll);
     onScroll();
 
-    return () => el.removeEventListener('scroll', onScroll);
+    return () => slider.removeEventListener('scroll', onScroll);
   }, [getPageCount]);
 
-  const scrollToIndex = (idx: number) => {
-    const el = sliderRef.current;
-    if (!el) return;
+  const scrollToIndex = (index: number) => {
+    const slider = sliderRef.current;
 
-    const child = el.children[idx * cardsPerPage] as HTMLElement;
+    if (!slider) return;
+
+    const child = slider.children[index * cardsPerPage] as HTMLElement;
+
     if (!child) return;
 
-    el.scrollTo({ left: child.offsetLeft, behavior: 'smooth' });
-    setActivePage(idx);
+    slider.scrollTo({
+      left: child.offsetLeft,
+      behavior: 'smooth',
+    });
+
+    setActivePage(index);
   };
 
   return (
@@ -283,25 +291,22 @@ export default function Brands() {
             <span className="dialogue-subtitle">
               <Image
                 src="/assets/icon.png"
-                alt="About Us"
+                alt="Testimonials"
                 width={20}
                 height={20}
                 className="expertise-label-icon"
               />
+
               <span className="dialogue-subtitle-text">TESTIMONIALS</span>
             </span>
-
-            {/* <h2 className="dialogue-title">
-              Our <span>Brands</span>
-            </h2> */}
           </div>
 
           <div className="dialogue-arrows">
-            <button className="dialogue-arrow-btn" onClick={scrollLeft}>
+            <button type="button" className="dialogue-arrow-btn" onClick={scrollLeft}>
               <ChevronLeft size={22} />
             </button>
 
-            <button className="dialogue-arrow-btn" onClick={scrollRight}>
+            <button type="button" className="dialogue-arrow-btn" onClick={scrollRight}>
               <ChevronRight size={22} />
             </button>
           </div>
@@ -311,20 +316,25 @@ export default function Brands() {
           <div
             className="dialogue-slider"
             ref={sliderRef}
-            onMouseEnter={() => (isPausedRef.current = true)}
-            onMouseLeave={() => (isPausedRef.current = false)}
+            onMouseEnter={() => {
+              isPausedRef.current = true;
+            }}
+            onMouseLeave={() => {
+              isPausedRef.current = false;
+            }}
           >
             {testimonials.map((item, index) => (
-              <DialogueCard item={item} key={index} />
+              <DialogueCard item={item} key={`${item.name}-${index}`} />
             ))}
           </div>
 
           <div className="dialogue-dots">
-            {Array.from({ length: getPageCount() }).map((_, idx) => (
+            {Array.from({ length: getPageCount() }).map((_, index) => (
               <button
-                key={idx}
-                className={idx === activePage ? 'dialogue-dot active' : 'dialogue-dot'}
-                onClick={() => scrollToIndex(idx)}
+                type="button"
+                key={index}
+                className={index === activePage ? 'dialogue-dot active' : 'dialogue-dot'}
+                onClick={() => scrollToIndex(index)}
               />
             ))}
           </div>
