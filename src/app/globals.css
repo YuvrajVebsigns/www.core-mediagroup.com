@@ -4307,11 +4307,7 @@ main {
    CONTACT SECTION
 ========================================================= */
 
-/* =========================================================
-   CONTACT SECTION
-========================================================= */
-
-.contact-section {
+/* .contact-section {
   background: #a40000;
   padding: 90px 40px;
 }
@@ -4360,7 +4356,7 @@ main {
   pointer-events: none;
 }
 
-/* Map labels shown above each dot */
+
 
 .map-label {
   position: absolute !important;
@@ -4378,7 +4374,7 @@ main {
   box-shadow: none !important;
 }
 
-/* Position labels matching dots */
+
 .label-1 {
   left: 29% !important;
   top: 79% !important;
@@ -4416,19 +4412,19 @@ main {
 }
 
 .dot-1 {
-  /* India */
+
   top: 56%;
   left: 58%;
 }
 
 .dot-2 {
-  /* Dubai */
+
   top: 45%;
   left: 47%;
 }
 
 .dot-3 {
-  /* Australia */
+
   top: 78%;
   left: 82%;
 }
@@ -4669,27 +4665,20 @@ main {
   }
 
   .dot-1 {
-    /* India */
     top: 56%;
     left: 58%;
   }
 
   .dot-2 {
-    /* Dubai */
     top: 45%;
     left: 47%;
   }
 
   .dot-3 {
-    /* Australia */
     top: 78%;
     left: 82%;
   }
-}
-
-/* =========================
-   BLOG SECTION
-========================= */
+} */
 
 /* =========================
    BLOG SECTION
@@ -14016,10 +14005,6 @@ main {
    CONTACT SECTION
 ========================================================= */
 
-/* =========================================================
-   CONTACT SECTION
-========================================================= */
-
 .contact-section {
   background: #a40000;
   padding: 90px 40px;
@@ -14057,34 +14042,59 @@ main {
 }
 
 .map-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
   position: absolute;
-  /* background: #c81a1a; */
-  border: 3px solid #5a0000;
-  box-shadow:
-    0 10px 30px rgba(90, 0, 0, 0.35),
-    0 2px 6px rgba(0, 0, 0, 0.12);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #282727;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.15);
   animation: pulseDot 2s infinite;
 }
 
+/* india */
 .dot-1 {
-  /* India */
-  top: 76%;
-  left: 28%;
+  top: 49%;
+  left: 77%;
 }
-
+/* dubai */
 .dot-2 {
-  /* Dubai */
-  top: 45%;
-  left: 43%;
+  top: 40%;
+  left: 60%;
 }
 
 .dot-3 {
-  /* Australia */
-  top: 35%;
-  left: 66%;
+  top: 45%;
+  left: 69%;
+}
+
+.map-label {
+  position: absolute !important;
+  display: inline-block !important;
+  z-index: 130 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, -160%) !important;
+  background: transparent !important;
+  color: black !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+/* Position labels matching dots */
+.label-1 {
+  top: 47% !important;
+  left: 70% !important;
+}
+.label-2 {
+  top: 42% !important;
+  left: 60% !important;
+}
+.label-3 {
+  top: 51% !important;
+  left: 81% !important;
 }
 
 @keyframes pulseDot {
@@ -14095,8 +14105,31 @@ main {
   }
 
   50% {
-    transform: scale(1.5);
+    transform: scale(1.7);
     opacity: 0.6;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-dot {
+    width: 8px;
+    height: 8px;
+  }
+  .map-label {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  .label-1 {
+    top: 55% !important;
+    left: 70% !important;
+  }
+  .label-2 {
+    top: 52% !important;
+    left: 55% !important;
+  }
+  .label-3 {
+    top: 60% !important;
+    left: 84% !important;
   }
 }
 
@@ -14324,26 +14357,22 @@ main {
 
   .dot-1 {
     /* India */
-    top: 56%;
-    left: 58%;
+    top: 49%;
+    left: 68%;
   }
 
   .dot-2 {
     /* Dubai */
-    top: 45%;
-    left: 47%;
+    top: 46%;
+    left: 52%;
   }
 
   .dot-3 {
-    /* Australia */
-    top: 78%;
-    left: 82%;
+    /* Singapur */
+    top: 56%;
+    left: 77%;
   }
 }
-
-/* =========================
-   BLOG SECTION
-========================= */
 
 /* =========================
    BLOG SECTION
