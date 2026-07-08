@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { fetchDialoguesFromPage } from '@/services/dialogues.service';
@@ -16,6 +15,16 @@ type Dialogue = {
   role: string;
   avatar?: string;
 };
+
+type DialogueRawItem = {
+  id?: string | number;
+  slug?: string;
+  quote?: string;
+  author?: string;
+  role?: string;
+  avatar?: string;
+};
+
 function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
   const [hasError, setHasError] = useState(false);
 
@@ -68,9 +77,33 @@ function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
   );
 }
 
+function renderQuoteWithLinks(text: string) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+
+  return parts.map((part, idx) => {
+    if (urlRegex.test(part)) {
+      return (
+        <a
+          key={`${part}-${idx}`}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="dialogue-link"
+        >
+          {part}
+        </a>
+      );
+    }
+
+    return <span key={`${part}-${idx}`}>{part}</span>;
+  });
+}
+
 export default function OurDialogues() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dialogues, setDialogues] = useState<Dialogue[]>([]);
+  const [expandedIds, setExpandedIds] = useState<Set<number | string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
 
   const headingRef = useScrollAnimation<HTMLDivElement>({
@@ -85,17 +118,23 @@ export default function OurDialogues() {
     threshold: 0.1,
   });
 
-  const router = useRouter();
-
   useEffect(() => {
     const loadDialogues = async () => {
       try {
         setIsLoading(true);
 
-        const items = await fetchDialoguesFromPage('dialogues');
+        const items = (await fetchDialoguesFromPage('dialogues')) as DialogueRawItem[];
 
         if (Array.isArray(items) && items.length > 0) {
-          setDialogues(items.slice(0, 3));
+          const mapped = items.slice(0, 3).map((item) => ({
+            id: item.id ?? String(Math.random()),
+            slug: item.slug ?? String(item.id ?? ''),
+            quote: item.quote ?? '',
+            author: item.author ?? 'Unknown',
+            role: item.role ?? '',
+            avatar: item.avatar ?? '',
+          }));
+          setDialogues(mapped);
         } else {
           setDialogues([]);
         }
@@ -108,6 +147,18 @@ export default function OurDialogues() {
 
     loadDialogues();
   }, []);
+
+  const toggleExpanded = (id: number | string) => {
+    setExpandedIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
 
   const scrollByCard = (direction: number) => {
     const el = containerRef.current;
@@ -140,12 +191,6 @@ export default function OurDialogues() {
           </span>
         </div>
 
-        {/* <div className="dialogues-top-bar">
-          <h2 className="dialogues-title">
-            Our <span>Dialogues</span>
-          </h2>
-        </div> */}
-
         <div className="dialogues-controls">
           <button aria-label="Previous" className="dialogues-nav" onClick={() => scrollByCard(-1)}>
             <ChevronLeft />
@@ -165,56 +210,55 @@ export default function OurDialogues() {
                 No dialogues available
               </div>
             ) : (
-              dialogues.map((dialogue) => (
-                <article className="dialogue-card" key={dialogue.id}>
-                  <Image
-                    src="/assets/dialoges/icon22.png"
-                    alt="Quote"
-                    width={56}
-                    height={56}
-                    className="dialogue-quote"
-                  />
+              dialogues.map((dialogue) => {
+                const isExpanded = expandedIds.has(dialogue.id);
+                const previewText =
+                  dialogue.quote.length > 180
+                    ? `${dialogue.quote.slice(0, 180).trim()}...`
+                    : dialogue.quote;
+                const displayedQuote = isExpanded ? dialogue.quote : previewText;
 
-                  <div className="dialogue-text">
-                    <p className="dialogue-description">{dialogue.quote}</p>
+                return (
+                  <article className="dialogue-card" key={dialogue.id}>
+                    <Image
+                      src="/assets/dialoges/icon22.png"
+                      alt="Quote"
+                      width={56}
+                      height={56}
+                      className="dialogue-quote"
+                    />
 
-                    <button
-                      type="button"
-                      className="dialogue-read-more"
-                      onClick={async () => {
-                        try {
-                          // Call the page dialogues API which will obtain and cache the
-                          // website token (via ensureWebsiteAuth) so subsequent API calls
-                          // or the dialogues page can use the same token.
-                          await fetchDialoguesFromPage('dialogues');
-                        } catch (e) {
-                          // ignore errors — we'll still navigate to the dialogues page
-                        }
+                    <div className="dialogue-text">
+                      <p
+                        className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}
+                      >
+                        {renderQuoteWithLinks(displayedQuote)}
+                      </p>
 
-                        // Navigate to the local dialogues route which will render content
-                        // and can use the cached website token to call the API.
-                        try {
-                          router.push('/dialogues');
-                        } catch (err) {
-                          window.location.href = '/dialogues';
-                        }
-                      }}
-                    >
-                      Read More
-                    </button>
-                  </div>
-
-                  <div className="dialogue-divider" />
-                  <div className="dialogue-footer">
-                    <FallbackAvatar src={dialogue.avatar} alt={dialogue.author} />
-
-                    <div>
-                      <h4 className="dialogue-author">{dialogue.author}</h4>
-                      <p className="dialogue-role">{dialogue.role}</p>
+                      {dialogue.quote.length > 180 ? (
+                        <button
+                          type="button"
+                          className="dialogue-read-more"
+                          onClick={() => toggleExpanded(dialogue.id)}
+                          aria-expanded={isExpanded}
+                        >
+                          {isExpanded ? 'Show Less' : 'Read More'}
+                        </button>
+                      ) : null}
                     </div>
-                  </div>
-                </article>
-              ))
+
+                    <div className="dialogue-divider" />
+                    <div className="dialogue-footer">
+                      <FallbackAvatar src={dialogue.avatar} alt={dialogue.author} />
+
+                      <div>
+                        <h4 className="dialogue-author">{dialogue.author}</h4>
+                        <p className="dialogue-role">{dialogue.role}</p>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })
             )}
           </div>
         </div>
@@ -222,8 +266,6 @@ export default function OurDialogues() {
         <div className="blogs-more">
           <Link href="/dialogues" className="blogs-more-btn">
             <span>Read More </span>
-            {/* <span>Read More</span> */}
-
             <span className="blogs-more-icon">
               <ArrowUpRight size={16} />
             </span>
