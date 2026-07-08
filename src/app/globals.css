@@ -3993,6 +3993,22 @@ main {
   margin-bottom: 28px;
 }
 
+/* Ensure footer sits at the bottom of each card regardless of text length */
+.dialogue-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dialogue-text {
+  /* allow the text area to grow and push the footer down */
+  flex: 1 1 auto;
+}
+
+.dialogue-footer {
+  margin-top: 16px;
+}
+
 .dialogue-divider {
   border-top: 1px dashed #d8cfcf;
   margin-bottom: 24px;
