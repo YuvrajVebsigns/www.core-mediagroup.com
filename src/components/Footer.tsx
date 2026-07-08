@@ -68,9 +68,9 @@ export default function Footer() {
                   <Link href="/blog">Blogs</Link>
                 </li>
 
-                <li>
+                {/* <li>
                   <Link href="/register">Registration</Link>
-                </li>
+                </li> */}
 
                 {/* <li>
                   <Link href="/nominate">Nominate</Link>

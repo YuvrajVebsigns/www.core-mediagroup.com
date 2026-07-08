@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { fetchDialoguesFromPage } from '@/services/dialogues.service';
 
 // type ContentBlock = {
 //   type?: string;
@@ -47,23 +48,29 @@ type DialogueCard = {
   role: string;
   avatar?: string;
 };
+
+type DialogueRawItem = {
+  id?: string | number;
+  slug?: string;
+  quote?: string;
+  author?: string;
+  role?: string;
+  avatar?: string;
+};
+
 async function getDialoguesPages(): Promise<DialoguePage[]> {
   try {
-    const response = await fetch('/api/dialogues', {
-      method: 'GET',
-      cache: 'no-store',
-    });
+    const items = (await fetchDialoguesFromPage('dialogues')) as DialogueRawItem[];
 
-    if (!response.ok) return [];
-
-    const result: unknown = await response.json();
-
-    if (typeof result === 'object' && result !== null && 'data' in result) {
-      const data = (result as { data?: DialoguePage[] }).data;
-      return Array.isArray(data) ? data : [];
-    }
-
-    return Array.isArray(result) ? (result as DialoguePage[]) : [];
+    // fetchDialoguesFromPage returns an array of items with id, author, role, quote, avatar
+    return items.map((it) => ({
+      id: typeof it.id === 'number' ? it.id : Number(String(it.id || 0)),
+      slug: it.slug ?? String(it.id ?? ''),
+      quote: it.quote ?? '',
+      author: it.author ?? 'Unknown',
+      role: it.role ?? '',
+      avatar: it.avatar ?? '',
+    }));
   } catch {
     return [];
   }
@@ -146,6 +153,9 @@ function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
 export default function DialoguesPage() {
   const [dialogues, setDialogues] = useState<DialogueCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const PAGE_SIZE = 9;
+  const [searchTerm, setSearchTerm] = useState('');
 
   const heroMediaRef = useScrollAnimation<HTMLDivElement>({
     animationClass: 'animate-fade-in-right',
@@ -182,6 +192,26 @@ export default function DialoguesPage() {
 
     fetchDialogues();
   }, []);
+
+  const filteredDialogues = dialogues.filter((d) => {
+    const v = searchTerm.trim().toLowerCase();
+    if (!v) return true;
+    return [d.author, d.role, d.quote].join(' ').toLowerCase().includes(v);
+  });
+
+  const totalPages = Math.max(1, Math.ceil(filteredDialogues.length / PAGE_SIZE));
+
+  const visibleDialogues = filteredDialogues.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
+  const goToPage = (p: number) => {
+    if (p < 1) p = 1;
+    if (p > totalPages) p = totalPages;
+    setCurrentPage(p);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -220,6 +250,27 @@ export default function DialoguesPage() {
 
       <section className="dialogues-section">
         <div className="dialogues-container">
+          <form
+            className="blogpage-searchbar"
+            onSubmit={(event) => {
+              event.preventDefault();
+              setCurrentPage(1);
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Search dialogues here"
+              value={searchTerm}
+              onChange={(event) => {
+                setSearchTerm(event.target.value);
+                setCurrentPage(1);
+              }}
+            />
+
+            <button type="submit" aria-label="Search dialogues">
+              Search
+            </button>
+          </form>
           <br />
           <br />
 
@@ -233,7 +284,7 @@ export default function DialoguesPage() {
                 No dialogues available
               </div>
             ) : (
-              dialogues.map((dialogue, index) => {
+              visibleDialogues.map((dialogue, index) => {
                 const variant =
                   index % 3 === 0
                     ? 'animate-fade-in-left'
@@ -252,6 +303,85 @@ export default function DialoguesPage() {
               })
             )}
           </div>
+
+          {/* Pagination controls */}
+          {dialogues.length > PAGE_SIZE && (
+            <div
+              className="pagination"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 12,
+                marginTop: 24,
+              }}
+            >
+              <button
+                className="pagination-btn pagination-nav"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                aria-label="Previous"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden
+                >
+                  <path
+                    d="M15 18L9 12L15 6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+
+              <div className="pagination-pages" style={{ display: 'flex', gap: 8 }}>
+                {Array.from({ length: totalPages }).map((_, i) => {
+                  const page = i + 1;
+                  return (
+                    <button
+                      key={page}
+                      aria-current={currentPage === page ? 'page' : undefined}
+                      onClick={() => goToPage(page)}
+                      className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
+                      aria-label={`Go to page ${page}`}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                className="pagination-btn pagination-nav"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                aria-label="Next"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden
+                >
+                  <path
+                    d="M9 6L15 12L9 18"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>
@@ -282,7 +412,33 @@ function AnimatedDialogueCard({
     once: false,
   });
 
-  const isExpanded = false;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const previewText =
+    dialogue.quote.length > 180 ? `${dialogue.quote.slice(0, 180).trim()}...` : dialogue.quote;
+  const displayedQuote = isExpanded ? dialogue.quote : previewText;
+
+  const renderQuoteWithLinks = (text: string) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+
+    return parts.map((part, idx) => {
+      if (urlRegex.test(part)) {
+        return (
+          <a
+            key={`${part}-${idx}`}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dialogue-link"
+          >
+            {part}
+          </a>
+        );
+      }
+
+      return <span key={`${part}-${idx}`}>{part}</span>;
+    });
+  };
 
   return (
     <article ref={ref} className="dialogue-card" style={{ transitionDelay: `${index * 60}ms` }}>
@@ -296,18 +452,19 @@ function AnimatedDialogueCard({
 
       <div className="dialogue-text">
         <p className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}>
-          {dialogue.quote}
+          {renderQuoteWithLinks(displayedQuote)}
         </p>
 
-        <button
-          type="button"
-          className="dialogue-read-more"
-          onClick={() =>
-            window.open('https://ciodialogues.com/index.php/category/cio-voice/', '_blank')
-          }
-        >
-          Read More
-        </button>
+        {dialogue.quote.length > 180 ? (
+          <button
+            type="button"
+            className="dialogue-read-more"
+            onClick={() => setIsExpanded((prev) => !prev)}
+            aria-expanded={isExpanded}
+          >
+            {isExpanded ? 'Show Less' : 'Read More'}
+          </button>
+        ) : null}
       </div>
 
       <div className="dialogue-divider" />

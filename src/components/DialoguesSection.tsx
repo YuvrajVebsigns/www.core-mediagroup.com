@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import useScrollAnimation from '@/hooks/useScrollAnimation';
 import { fetchDialoguesFromPage } from '@/services/dialogues.service';
@@ -83,6 +84,8 @@ export default function OurDialogues() {
     initialTransform: 'translateY(24px)',
     threshold: 0.1,
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     const loadDialogues = async () => {
@@ -178,12 +181,24 @@ export default function OurDialogues() {
                     <button
                       type="button"
                       className="dialogue-read-more"
-                      onClick={() =>
-                        window.open(
-                          'https://ciodialogues.com/index.php/category/cio-voice/',
-                          '_blank',
-                        )
-                      }
+                      onClick={async () => {
+                        try {
+                          // Call the page dialogues API which will obtain and cache the
+                          // website token (via ensureWebsiteAuth) so subsequent API calls
+                          // or the dialogues page can use the same token.
+                          await fetchDialoguesFromPage('dialogues');
+                        } catch (e) {
+                          // ignore errors — we'll still navigate to the dialogues page
+                        }
+
+                        // Navigate to the local dialogues route which will render content
+                        // and can use the cached website token to call the API.
+                        try {
+                          router.push('/dialogues');
+                        } catch (err) {
+                          window.location.href = '/dialogues';
+                        }
+                      }}
                     >
                       Read More
                     </button>

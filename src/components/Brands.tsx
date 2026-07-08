@@ -27,19 +27,19 @@ export default function Brands() {
 
   const testimonials = [
     {
-      heading: 'CIO Choice',
+      heading: 'CIO CHOICE',
       text: 'CIO CHOICE is a very good platform for encouraging ICT brands and shows the trust they have earned from the CIO community. It’s also a great way for CIOs to learn about new products that are trusted by their peers.',
-      name: 'CIO Choice',
+      name: 'CIO CHOICE',
       writerName: 'Kersi Tavadia | CIO | BSE',
-      role: 'CIO Choice',
+      role: 'CIO CHOICE',
       image: '/assets/brands/CIO-Choice.png',
     },
     {
-      heading: 'CIO Choice',
+      heading: 'CIO CHOICE',
       text: 'Its extremely rewarding because of all the effort we put in over the years and getting the trust of the CIOs is extremely satisfying. CIO CHOICE is very well recognized by all the leading CIOs in the country. We have been winners in the past also and that has helped us a lot. So, we absolutely plan to leverage this to the maximum in all our branding, collaterals, and presentations to CIOs.',
-      name: 'CIO Choice',
+      name: 'CIO CHOICE',
       writerName: 'Sharad Sanghi | MD & CEO | NTT-Netmagic',
-      role: 'CIO Choice',
+      role: 'CIO CHOICE',
       image: '/assets/brands/CIO-Choice.png',
     },
     {
@@ -76,17 +76,17 @@ export default function Brands() {
       image: '/assets/brands/HHH.png',
     },
     {
-      heading: 'CIO Powerlist',
+      heading: 'CIO PowerList',
       text: 'I feel excited and elated at being a part of CIO PowerList, because it’s one list prepared with the most comprehensive and thorough evaluation.',
-      name: 'CIO Powerlist',
+      name: 'CIO PowerList',
       writerName: 'Rajesh Uppal | Senior ED – IT, HR & Education & Training | Maruti Suzuki India',
       role: 'VP IT | Shriram Value Services',
       image: '/assets/brands/CIO-Powerlist.png',
     },
     {
-      heading: 'CIO Powerlist',
+      heading: 'CIO PowerList',
       text: 'CIO PowerList brought together the leading technologists of the country and provided an excellent platform for exchanging ideas and points of views. The panel discussions and sessions were quite thought provoking and intense with a number of emerging themes that helped understand some of the expected future developments.',
-      name: 'CIO Powerlist',
+      name: 'CIO PowerList',
       writerName: 'Rohan Padhi | Director | KPMG',
       role: 'VP IT | Shriram Value Services',
       image: '/assets/brands/CIO-Powerlist.png',

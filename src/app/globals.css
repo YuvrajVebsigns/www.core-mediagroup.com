@@ -733,6 +733,80 @@ main {
   gap: 14px;
 }
 
+/* Pagination styles for dialogues page */
+.pagination {
+  margin-top: 24px;
+}
+
+.pagination-btn {
+  min-width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.pagination-btn:hover:not([disabled]) {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.pagination-btn[disabled] {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.pagination-btn.active,
+.pagination-btn[aria-current='page'] {
+  background: #8e0101; /* red */
+  color: #fff;
+  box-shadow: 0 12px 28px rgba(226, 11, 11, 0.18);
+  transform: translateY(-6px);
+  border-color: transparent;
+}
+
+.pagination .pagination-btn + .pagination-btn {
+  margin-left: 8px;
+}
+
+/* Nav (chevron) specific styles */
+.pagination-nav {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+}
+
+.pagination-nav svg {
+  display: block;
+}
+
+.pagination-pages .pagination-btn {
+  min-width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .pagination-nav,
+  .pagination-pages .pagination-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
 .search-btn {
   width: 46px;
   height: 46px;
@@ -20478,6 +20552,16 @@ s .dialogues-badge-mark {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
   animation: notificationBounce 650ms ease;
+}
+
+.dialogue-link {
+  color: #0077cc;
+  text-decoration: underline;
+}
+
+.dialogue-link:hover,
+.dialogue-link:focus {
+  color: #005fa3;
 }
 
 /* ==========================================================================
