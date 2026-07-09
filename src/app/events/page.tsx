@@ -204,6 +204,7 @@ import Link from 'next/link';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { useEffect, useState } from 'react';
 import { fetchWebsiteEvents, WebsiteEvent } from '@/services/events.service';
+import FallbackImage from '@/components/FallbackImage';
 
 function getStoredWebsiteId(): string | undefined {
   if (typeof window === 'undefined') return undefined;
@@ -338,7 +339,7 @@ export default function EventsPage() {
                   <Link key={item.id || slug} href={`/events/${slug}`}>
                     <div className="project-card" ref={index % 2 === 0 ? leftRef : rightRef}>
                       <div className="project-image-wrap">
-                        <Image
+                        <FallbackImage
                           src={imageSrc}
                           alt={title}
                           fill

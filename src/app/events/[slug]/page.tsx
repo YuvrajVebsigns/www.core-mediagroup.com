@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 import EventDetailsAnimated from '@/components/EventDetailsAnimated';
 import EventSponsorsSection from '@/components/EventSponsorsSection';
+import FallbackImage from '@/components/FallbackImage';
 import {
   fetchWebsiteEventByIdOrSlug,
   fetchWebsiteEvents,
@@ -393,11 +394,12 @@ export default function EventDetailsPage() {
 
       return (
         <div key={key} style={{ margin: '24px 0' }}>
-          <Image
+          <FallbackImage
             src={url}
             alt={typeof data?.caption === 'string' ? data.caption : 'Event image'}
             width={1200}
             height={675}
+            fallbackSrc="/assets/blogs/blog-1.webp"
             unoptimized
           />
         </div>

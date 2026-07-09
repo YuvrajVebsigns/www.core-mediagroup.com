@@ -3,7 +3,7 @@
 // import React from 'react';
 import Link from 'next/link';
 import useScrollAnimation from '../hooks/useScrollAnimation';
-import Image from 'next/image';
+import FallbackImage from '@/components/FallbackImage';
 
 type Section = {
   heading: string;
@@ -59,7 +59,7 @@ export default function EventDetailsAnimated({
     <>
       <div className="event-details-hero" ref={heroRef}>
         <div className="event-details-image-wrap">
-          <Image
+          <FallbackImage
             src={featuredEvent.heroImage}
             alt={featuredEvent.title}
             fill
