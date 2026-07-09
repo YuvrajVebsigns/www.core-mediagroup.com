@@ -14,6 +14,7 @@ type FeaturedEvent = {
   title: string;
   author: string;
   date: string;
+  city: string;
   comments?: string;
   heroImage: string;
   badge?: string;
@@ -86,9 +87,15 @@ export default function EventDetailsAnimated({
           <strong>{featuredEvent.author}</strong>
         </div>
         <div className="event-details-meta-card">
-          <span className="event-details-meta-label">Date Released</span>
+          <span className="event-details-meta-label">Event Date</span>
           <strong>{featuredEvent.date}</strong>
         </div>
+        {featuredEvent.city?.trim() && (
+          <div className="event-details-meta-card">
+            <span className="event-details-meta-label">City</span>
+            <strong>{featuredEvent.city}</strong>
+          </div>
+        )}
       </div>
 
       <article className="event-details-article">

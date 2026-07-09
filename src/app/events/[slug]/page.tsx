@@ -313,6 +313,14 @@ export default function EventDetailsPage() {
         getEventField(event, 'date') ??
         '',
     ),
+    city: String(
+      getString((getEventField(event, 'location') as Record<string, unknown>)?.city) ??
+        getString(getEventField(event, 'city')) ??
+        getString(getEventField(event, 'venue')) ??
+        getString(getEventField(event, 'place')) ??
+        getString(getEventField(event, 'address')) ??
+        '',
+    ),
     heroImage: getEventImage(event),
     badge: getEventCategory(event),
     summary: extractTextFromContent(

@@ -5,22 +5,27 @@ const associateBrands = [
   {
     name: 'CXO Capital',
     logo: '/assets/Associatedbrands/cxo-capital.png',
+    displayName: ['CXO Capital'],
   },
   {
     name: 'CIO PowerList Middle East & Africa',
     logo: '/assets/Associatedbrands/cio-powerlist-mea.png',
+    displayName: ['CIO PowerList', 'Middle East & Africa'],
   },
   {
     name: 'CIO CHOICE Southeast Asia',
     logo: '/assets/Associatedbrands/cio-choice23.png',
+    displayName: ['CIO CHOICE', 'Southeast Asia'],
   },
   {
     name: 'CIO PowerList Southeast Asia',
     logo: '/assets/Associatedbrands/cio-powerlist1.png',
+    displayName: ['CIO PowerList', 'Southeast Asia'],
   },
   {
     name: 'CIO CHOICE Middle East & Africa',
     logo: '/assets/Associatedbrands/cio-choice23.png',
+    displayName: ['CIO CHOICE', 'Middle East & Africa'],
   },
 
   // {
@@ -71,7 +76,11 @@ export default function AssociateBrandsPage() {
                   />
                 </div>
 
-                <h3>{brand.name}</h3>
+                <h3>
+                  {brand.displayName
+                    ? brand.displayName.map((line, idx) => <div key={idx}>{line}</div>)
+                    : brand.name}
+                </h3>
               </div>
             ))}
           </div>
