@@ -11,7 +11,9 @@ export default function Navbar() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [platformsOpen, setPlatformsOpen] = useState(false);
   const servicesCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const platformsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isServicesPage =
     pathname === '/survey-study' ||
@@ -39,9 +41,30 @@ export default function Navbar() {
     }, 140);
   };
 
+  const openPlatforms = () => {
+    if (platformsCloseTimer.current) {
+      clearTimeout(platformsCloseTimer.current);
+      platformsCloseTimer.current = null;
+    }
+
+    setPlatformsOpen(true);
+  };
+
+  const closePlatforms = () => {
+    if (platformsCloseTimer.current) {
+      clearTimeout(platformsCloseTimer.current);
+    }
+
+    platformsCloseTimer.current = setTimeout(() => {
+      setPlatformsOpen(false);
+      platformsCloseTimer.current = null;
+    }, 140);
+  };
+
   const closeMobileMenu = () => {
     setMobileOpen(false);
     setServicesOpen(false);
+    setPlatformsOpen(false);
   };
 
   return (
@@ -165,6 +188,167 @@ export default function Navbar() {
           <Link href="/contact" className="nav-link" onClick={closeMobileMenu}>
             Contact
           </Link>
+
+          <div
+            className={`nav-dropdown ${platformsOpen ? 'open' : ''}`}
+            onMouseEnter={openPlatforms}
+            onMouseLeave={closePlatforms}
+          >
+            <button
+              type="button"
+              className="nav-link"
+              aria-expanded={platformsOpen}
+              onClick={() => setPlatformsOpen((s) => !s)}
+            >
+              Our Platforms
+              <ChevronDown
+                size={16}
+                style={{
+                  transform: platformsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: '0.3s ease',
+                }}
+              />
+            </button>
+
+            <div className="mega-panel" onMouseEnter={openPlatforms} onMouseLeave={closePlatforms}>
+              <div className="mega-column">
+                <ul>
+                  <li>
+                    <a
+                      href="https://coremedia.uatcoremedia.vebsigns.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>Core Media</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://www.ciopowerlist.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CIO powerlist</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://cio-choice.uatcoremedia.vebsigns.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CIO Choice</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://leader-next.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>Leader Next</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://ciocrown.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CIO Crown</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://ciodialogues.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CIO Dialogues</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://cxo-capital.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CXO Capital</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://cxo-capital.com/ciopowerlistmea/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>MEA CIO Powerlist</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://mea.cio-choice.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>MEA CIO Choice</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://core-mediagroup.com/dccai2026/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>DCCAI 2026</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://cioangelnetwork.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CIO Angel Network</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </nav>
 
         <div className="navbar-actions">
