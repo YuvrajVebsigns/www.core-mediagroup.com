@@ -103,7 +103,6 @@ function renderQuoteWithLinks(text: string) {
 export default function OurDialogues() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [dialogues, setDialogues] = useState<Dialogue[]>([]);
-  const [expandedIds, setExpandedIds] = useState<Set<number | string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
 
   const headingRef = useScrollAnimation<HTMLDivElement>({
@@ -148,16 +147,17 @@ export default function OurDialogues() {
     loadDialogues();
   }, []);
 
-  const toggleExpanded = (id: number | string) => {
-    setExpandedIds((current) => {
-      const next = new Set(current);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
+  const extractFirstLink = (text: string): string | null => {
+    const urlRegex = /(https?:\/\/[^\s]+)/;
+    const match = text.match(urlRegex);
+    return match ? match[0] : null;
+  };
+
+  const toggleExpanded = (id: number | string, quote: string) => {
+    const link = extractFirstLink(quote);
+    if (link) {
+      window.open(link, '_blank', 'noopener noreferrer');
+    }
   };
 
   const scrollByCard = (direction: number) => {
@@ -211,12 +211,10 @@ export default function OurDialogues() {
               </div>
             ) : (
               dialogues.map((dialogue) => {
-                const isExpanded = expandedIds.has(dialogue.id);
                 const previewText =
                   dialogue.quote.length > 180
                     ? `${dialogue.quote.slice(0, 180).trim()}...`
                     : dialogue.quote;
-                const displayedQuote = isExpanded ? dialogue.quote : previewText;
 
                 return (
                   <article className="dialogue-card" key={dialogue.id}>
@@ -229,20 +227,15 @@ export default function OurDialogues() {
                     />
 
                     <div className="dialogue-text">
-                      <p
-                        className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}
-                      >
-                        {renderQuoteWithLinks(displayedQuote)}
-                      </p>
+                      <p className="dialogue-description">{renderQuoteWithLinks(previewText)}</p>
 
                       {dialogue.quote.length > 180 ? (
                         <button
                           type="button"
                           className="dialogue-read-more"
-                          onClick={() => toggleExpanded(dialogue.id)}
-                          aria-expanded={isExpanded}
+                          onClick={() => toggleExpanded(dialogue.id, dialogue.quote)}
                         >
-                          {isExpanded ? 'Show Less' : 'Read More'}
+                          Read More
                         </button>
                       ) : null}
                     </div>

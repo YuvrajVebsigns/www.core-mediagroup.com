@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowUpRight, Heart, MessageCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import BlogCommentsPanel from '@/components/BlogCommentsPanel';
+// import BlogCommentsPanel from '@/components/BlogCommentsPanel';
 import {
   fetchWebsiteBlogs,
   submitWebsiteBlogLike,
@@ -32,7 +32,6 @@ export default function BlogsSection() {
   const [blogs, setBlogs] = useState<WebsiteBlogItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [likedBlogs, setLikedBlogs] = useState<Set<string>>(new Set());
-  const [openCommentsBlogId, setOpenCommentsBlogId] = useState<string | null>(null);
 
   const LIKED_KEY = 'likedBlogs';
 
@@ -171,15 +170,6 @@ export default function BlogsSection() {
     }
   }
 
-  function handleCommentToggle(e: React.MouseEvent<HTMLButtonElement>, blogId?: string) {
-    e.stopPropagation();
-    e.preventDefault();
-
-    if (!blogId) return;
-
-    setOpenCommentsBlogId((current) => (current === blogId ? null : blogId));
-  }
-
   useEffect(() => {
     let isMounted = true;
 
@@ -291,21 +281,15 @@ export default function BlogsSection() {
                         <span>{getLikesCount(blog)}</span>
                       </button>
 
-                      <button
-                        type="button"
+                      <span
                         className="blog-engagement-item"
                         aria-label={`${getCommentsCount(blog)} comments`}
-                        onClick={(e) => handleCommentToggle(e, blog.id)}
                       >
                         <MessageCircle size={14} />
                         <span>{getCommentsCount(blog)}</span>
-                      </button>
+                      </span>
                     </span>
                   </div>
-
-                  {openCommentsBlogId === blog.id && blog.id ? (
-                    <BlogCommentsPanel blogId={String(blog.id)} />
-                  ) : null}
                 </div>
               </div>
             );

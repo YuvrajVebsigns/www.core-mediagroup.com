@@ -412,10 +412,21 @@ function AnimatedDialogueCard({
     once: false,
   });
 
-  const [isExpanded, setIsExpanded] = useState(false);
   const previewText =
     dialogue.quote.length > 180 ? `${dialogue.quote.slice(0, 180).trim()}...` : dialogue.quote;
-  const displayedQuote = isExpanded ? dialogue.quote : previewText;
+
+  const extractFirstLink = (text: string): string | null => {
+    const urlRegex = /(https?:\/\/[^\s]+)/;
+    const match = text.match(urlRegex);
+    return match ? match[0] : null;
+  };
+
+  const handleReadMore = (quote: string) => {
+    const link = extractFirstLink(quote);
+    if (link) {
+      window.open(link, '_blank', 'noopener noreferrer');
+    }
+  };
 
   const renderQuoteWithLinks = (text: string) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -451,18 +462,15 @@ function AnimatedDialogueCard({
       />
 
       <div className="dialogue-text">
-        <p className={`dialogue-description ${isExpanded ? 'expanded' : 'collapsed'}`}>
-          {renderQuoteWithLinks(displayedQuote)}
-        </p>
+        <p className="dialogue-description">{renderQuoteWithLinks(previewText)}</p>
 
         {dialogue.quote.length > 180 ? (
           <button
             type="button"
             className="dialogue-read-more"
-            onClick={() => setIsExpanded((prev) => !prev)}
-            aria-expanded={isExpanded}
+            onClick={() => handleReadMore(dialogue.quote)}
           >
-            {isExpanded ? 'Show Less' : 'Read More'}
+            Read More
           </button>
         ) : null}
       </div>
