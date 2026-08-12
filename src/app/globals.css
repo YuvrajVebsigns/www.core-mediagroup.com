@@ -22723,3 +22723,79 @@ html {
   font-size: 14px;
   color: #666;
 }
+
+/* =========================================================
+   SUBSCRIBE POPUP STYLES
+========================================================= */
+
+.subscribe-popup {
+  position: fixed;
+  margin-top: 90px;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 360px;
+  width: auto;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.98);
+  color: #7a0d0d;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+  animation: popupSlideIn 0.3s ease-out;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.subscribe-popup p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.subscribe-popup-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #a6191b;
+  flex-shrink: 0;
+  animation: dotPulse 2s infinite;
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    background: #a6191b;
+  }
+  50% {
+    background: #d63638;
+  }
+}
+
+.subscribe-popup button {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease;
+}
+
+.subscribe-popup button:hover {
+  transform: scale(1.2);
+}

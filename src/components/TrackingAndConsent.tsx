@@ -313,10 +313,7 @@ export default function CookieConsentBanner() {
             content and a smoother browsing experience.
           </p>
 
-          <p>
-            View our Cookie Policy 
-            to update or disable preferences anytime.
-          </p>
+          <p>View our Cookie Policy to update or disable preferences anytime.</p>
         </div>
 
         {showPreferences && (
