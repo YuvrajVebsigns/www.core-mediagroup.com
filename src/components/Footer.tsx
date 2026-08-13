@@ -4,10 +4,64 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Mail, Send } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa6';
+import { useState, useEffect } from 'react';
+import { submitSubscribe } from '@/services/subscribes.service';
 
 export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [popupMessage, setPopupMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!popupMessage) return;
+
+    const timer = window.setTimeout(() => {
+      setPopupMessage(null);
+    }, 3200);
+
+    return () => window.clearTimeout(timer);
+  }, [popupMessage]);
+
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Clear message
+    setPopupMessage(null);
+
+    // Validate email
+    if (!email || !email.includes('@')) {
+      setPopupMessage('Please enter a valid email address');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await submitSubscribe({ email });
+      setPopupMessage('Successfully subscribed!.');
+      setEmail('');
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Failed to subscribe. Please try again.';
+      setPopupMessage(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <footer className="footer-section">
+      {/* POPUP NOTIFICATION */}
+      {popupMessage ? (
+        <div className="subscribe-popup" role="status" aria-live="polite">
+          <span className="subscribe-popup-dot" aria-hidden="true" />
+          <p>{popupMessage}</p>
+          <button type="button" onClick={() => setPopupMessage(null)} aria-label="Close message">
+            ×
+          </button>
+        </div>
+      ) : null}
+
       {/* MAIN FOOTER */}
       <div className="footer-main">
         <div className="footer-container">
@@ -82,13 +136,27 @@ export default function Footer() {
             <div className="footer-widget">
               <h4 className="footer-title">Subscribe</h4>
 
-              <form className="footer-subscribe">
-                <input type="email" placeholder="Enter your email" className="footer-input" />
+              <form className="footer-subscribe" onSubmit={handleSubscribe}>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="footer-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isLoading}
+                  required
+                />
 
-                <button type="submit" className="footer-submit" aria-label="Subscribe">
+                <button
+                  type="submit"
+                  className="footer-submit"
+                  aria-label="Subscribe"
+                  disabled={isLoading}
+                >
                   <Send size={18} />
                 </button>
               </form>
+
               <br />
               <h4>
                 <strong>Office Address</strong>
