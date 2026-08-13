@@ -227,7 +227,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://www.ciopowerlist.com"
+                      href="https://ciopowerlist.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -251,7 +251,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://leader-next.com"
+                      href="https://leader-next.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -263,7 +263,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://ciocrown.com"
+                      href="https://cio-crown.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -275,7 +275,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://ciodialogues.com/"
+                      href="https://cio-dialogues.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -287,7 +287,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://cxo-capital.com"
+                      href="https://cxo-capital.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -299,7 +299,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://cxo-capital.com/ciopowerlistmea/"
+                      href="https://mea.ciopowerlist.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -311,7 +311,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://mea.cio-choice.com"
+                      href="https://mea.ciochoice.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -323,7 +323,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://core-mediagroup.com/dccai2026/"
+                      href="https://dccai-2026.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
@@ -335,7 +335,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
-                      href="https://cioangelnetwork.com"
+                      href="https://cio-angelnetwork.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
