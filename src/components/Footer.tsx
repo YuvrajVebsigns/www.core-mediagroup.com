@@ -51,17 +51,6 @@ export default function Footer() {
 
   return (
     <footer className="footer-section">
-      {/* POPUP NOTIFICATION */}
-      {popupMessage ? (
-        <div className="subscribe-popup" role="status" aria-live="polite">
-          <span className="subscribe-popup-dot" aria-hidden="true" />
-          <p>{popupMessage}</p>
-          <button type="button" onClick={() => setPopupMessage(null)} aria-label="Close message">
-            ×
-          </button>
-        </div>
-      ) : null}
-
       {/* MAIN FOOTER */}
       <div className="footer-main">
         <div className="footer-container">
@@ -156,8 +145,21 @@ export default function Footer() {
                   <Send size={18} />
                 </button>
               </form>
+              {/* POPUP NOTIFICATION */}
+              {popupMessage ? (
+                <div className="subscribe-popup" role="status" aria-live="polite">
+                  <span className="subscribe-popup-dot" aria-hidden="true" />
+                  <p>{popupMessage}</p>
+                  <button
+                    type="button"
+                    onClick={() => setPopupMessage(null)}
+                    aria-label="Close message"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : null}
 
-              <br />
               <h4>
                 <strong>Office Address</strong>
               </h4>
