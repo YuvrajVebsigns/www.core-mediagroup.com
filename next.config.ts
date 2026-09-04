@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: {
     remotePatterns: [
+      { protocol: 'https', hostname: 's3.core-mediagroup.com' },
+      { protocol: 'https', hostname: 'coremediagroup.sgp1.digitaloceanspaces.com' },
       { protocol: 'https', hostname: 'cioangelnetwork.com' },
       { protocol: 'https', hostname: 'core-mediagroup.com' },
       { protocol: 'https', hostname: 'mea.cio-choice.com' },
