@@ -215,30 +215,6 @@ export default function Navbar() {
                 <ul>
                   <li>
                     <a
-                      href="https://coremedia.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>Core Media</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://ciopowerlist.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CIO powerlist</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
                       href="https://cio-choice.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -249,16 +225,17 @@ export default function Navbar() {
                       <span>CIO Choice</span>
                     </a>
                   </li>
+
                   <li>
                     <a
-                      href="https://leader-next.uatcoremedia.vebsigns.com/"
+                      href="https://ciopowerlist.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
                       onClick={closeMobileMenu}
                     >
                       <span className="mega-icon" aria-hidden />
-                      <span>Leader Next</span>
+                      <span>CIO powerlist</span>
                     </a>
                   </li>
                   <li>
@@ -275,6 +252,32 @@ export default function Navbar() {
                   </li>
                   <li>
                     <a
+                      href="https://dccai-2026.uatcoremedia.vebsigns.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>BFSI</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
+                      href="https://dccai-2026.uatcoremedia.vebsigns.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>DCCAI 2026</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
                       href="https://cio-dialogues.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -283,30 +286,6 @@ export default function Navbar() {
                     >
                       <span className="mega-icon" aria-hidden />
                       <span>CIO Dialogues</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://cxo-capital.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CXO Capital</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://mea.ciopowerlist.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>MEA CIO Powerlist</span>
                     </a>
                   </li>
                   <li>
@@ -321,18 +300,46 @@ export default function Navbar() {
                       <span>MEA CIO Choice</span>
                     </a>
                   </li>
+
                   <li>
                     <a
-                      href="https://dccai-2026.uatcoremedia.vebsigns.com/"
+                      href="https://mea.ciopowerlist.uatcoremedia.vebsigns.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mega-item"
                       onClick={closeMobileMenu}
                     >
                       <span className="mega-icon" aria-hidden />
-                      <span>DCCAI 2026</span>
+                      <span>MEA CIO Powerlist</span>
                     </a>
                   </li>
+
+                  <li>
+                    <a
+                      href="https://leader-next.uatcoremedia.vebsigns.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>Leader Next</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a
+                      href="https://cxo-capital.uatcoremedia.vebsigns.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CXO Capital</span>
+                    </a>
+                  </li>
+
                   <li>
                     <a
                       href="https://cio-angelnetwork.uatcoremedia.vebsigns.com/"
