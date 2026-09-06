@@ -725,6 +725,51 @@ main {
   color: #8e0101;
 }
 
+.platform-region-options {
+  display: grid;
+  gap: 8px;
+}
+
+.platform-region-option,
+.platform-region-back {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.platform-region-option:hover,
+.platform-region-back:hover {
+  background: rgba(164, 0, 0, 0.06);
+  color: #8e0101;
+}
+
+.platform-region-back {
+  justify-content: flex-start;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.platform-region-back svg {
+  transform: rotate(90deg);
+}
+
+.platform-region-option:focus-visible,
+.platform-region-back:focus-visible {
+  outline: 2px solid #8e0101;
+  outline-offset: 2px;
+}
+
 /* ACTIONS */
 
 .navbar-actions {
@@ -2187,7 +2232,7 @@ main {
 
 .team-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
   border-top: 1px solid #d9cccc;
   border-left: 1px solid #d9cccc;
 }
@@ -2250,7 +2295,8 @@ main {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  min-width: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 /* =========================================================
@@ -2258,6 +2304,7 @@ main {
 ========================================================= */
 
 .team-card {
+  min-width: 0;
   padding: 34px 24px;
   border-right: 1px solid #d9cccc;
   border-bottom: 1px solid #d9cccc;
@@ -2283,8 +2330,9 @@ main {
 ========================================================= */
 
 .team-image-wrap {
-  width: 280px;
-  height: 290px;
+  width: min(280px, 100%);
+  aspect-ratio: 1 / 1;
+  height: auto;
   margin: 0 auto 28px;
   border-radius: 50%;
   overflow: hidden;
@@ -12030,7 +12078,7 @@ main {
 
 .team-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
   border-top: 1px solid #d9cccc;
   border-left: 1px solid #d9cccc;
 }
@@ -12093,7 +12141,8 @@ main {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  min-width: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 /* =========================================================
@@ -12101,6 +12150,7 @@ main {
 ========================================================= */
 
 .team-card {
+  min-width: 0;
   padding: 34px 24px;
   border-right: 1px solid #d9cccc;
   border-bottom: 1px solid #d9cccc;
@@ -12126,8 +12176,9 @@ main {
 ========================================================= */
 
 .team-image-wrap {
-  width: 280px;
-  height: 290px;
+  width: min(280px, 100%);
+  aspect-ratio: 1 / 1;
+  height: auto;
   margin: 0 auto 28px;
   border-radius: 50%;
   overflow: hidden;

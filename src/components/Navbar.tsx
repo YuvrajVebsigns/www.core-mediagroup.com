@@ -12,8 +12,28 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [platformsOpen, setPlatformsOpen] = useState(false);
+  const [platformRegion, setPlatformRegion] = useState<'india' | 'mea' | null>(null);
   const servicesCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const platformsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const platformGroups = {
+    india: [
+      { name: 'CORE Media', href: 'https://www.core-mediagroup.com' },
+      { name: 'CIO CROWN', href: 'https://www.ciocrown.com' },
+      { name: 'CIO POWERLIST', href: 'https://www.ciopowerlist.com' },
+      { name: 'CIO CHOICE', href: 'https://www.cio-choice.in' },
+      { name: 'CIO DIALOGUES', href: 'https://www.ciodialogues.com' },
+      { name: 'DCCAI', href: 'https://www.core-mediagroup.com/dccai2026' },
+      { name: 'BFSI TechWorld', href: 'https://www.core-mediagroup.com/bfsitechworld' },
+      { name: 'CFO POWER LIST', href: 'https://www.cfo-powerlist.com' },
+    ],
+    mea: [
+      { name: 'CXO CAPITAL', href: 'https://www.cxo-capital.com' },
+      { name: 'CIO POWERLIST', href: 'https://www.cxo-capital.com/ciopowerlistmea' },
+      { name: 'CIO CROWN', href: 'https://www.cxo-capital.com/ciocrown' },
+      { name: 'CIO CHOICE', href: 'https://mea.cio-choice.com' },
+    ],
+  };
 
   const isServicesPage =
     pathname === '/survey-study' ||
@@ -65,6 +85,7 @@ export default function Navbar() {
     setMobileOpen(false);
     setServicesOpen(false);
     setPlatformsOpen(false);
+    setPlatformRegion(null);
   };
 
   return (
@@ -129,12 +150,19 @@ export default function Navbar() {
                     </Link>
                   </li>
 
-                  <li>
+                  {/* <li>
                     <Link
                       href="https://ciodialogues.com/index.php/category/events/bespoke/"
                       className="mega-item"
                       onClick={closeMobileMenu}
                     >
+                      <span className="mega-icon" aria-hidden />
+                      <span>Bespoke Events</span>
+                    </Link>
+                  </li> */}
+
+                  <li>
+                    <Link href="/bespoke-events" className="mega-item" onClick={closeMobileMenu}>
                       <span className="mega-icon" aria-hidden />
                       <span>Bespoke Events</span>
                     </Link>
@@ -185,10 +213,6 @@ export default function Navbar() {
             Nomination
           </Link> */}
 
-          <Link href="/contact" className="nav-link" onClick={closeMobileMenu}>
-            Contact
-          </Link>
-
           <div
             className={`nav-dropdown ${platformsOpen ? 'open' : ''}`}
             onMouseEnter={openPlatforms}
@@ -212,150 +236,61 @@ export default function Navbar() {
 
             <div className="mega-panel" onMouseEnter={openPlatforms} onMouseLeave={closePlatforms}>
               <div className="mega-column">
-                <ul>
-                  <li>
-                    <a
-                      href="https://cio-choice.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
+                {!platformRegion ? (
+                  <div className="platform-region-options" aria-label="Platform region">
+                    <button
+                      type="button"
+                      className="platform-region-option"
+                      onClick={() => setPlatformRegion('india')}
                     >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CIO Choice</span>
-                    </a>
-                  </li>
+                      India
+                      <ChevronDown size={15} />
+                    </button>
+                    <button
+                      type="button"
+                      className="platform-region-option"
+                      onClick={() => setPlatformRegion('mea')}
+                    >
+                      MEA
+                      <ChevronDown size={15} />
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="platform-region-back"
+                      onClick={() => setPlatformRegion(null)}
+                    >
+                      <ChevronDown size={15} />
+                      {platformRegion === 'india' ? 'India' : 'MEA'}
+                    </button>
 
-                  <li>
-                    <a
-                      href="https://ciopowerlist.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CIO powerlist</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://cio-crown.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CIO Crown</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://dccai-2026.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>BFSI</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="https://dccai-2026.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>DCCAI 2026</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="https://cio-dialogues.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CIO Dialogues</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://mea.ciochoice.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>MEA CIO Choice</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="https://mea.ciopowerlist.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>MEA CIO Powerlist</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="https://leader-next.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>Leader Next</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="https://cxo-capital.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CXO Capital</span>
-                    </a>
-                  </li>
-
-                  <li>
-                    <a
-                      href="https://cio-angelnetwork.uatcoremedia.vebsigns.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mega-item"
-                      onClick={closeMobileMenu}
-                    >
-                      <span className="mega-icon" aria-hidden />
-                      <span>CIO Angel Network</span>
-                    </a>
-                  </li>
-                </ul>
+                    <ul>
+                      {platformGroups[platformRegion].map((platform) => (
+                        <li key={platform.name}>
+                          <a
+                            href={platform.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mega-item"
+                            onClick={closeMobileMenu}
+                          >
+                            <span className="mega-icon" aria-hidden />
+                            <span>{platform.name}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
           </div>
+
+          <Link href="/contact" className="nav-link" onClick={closeMobileMenu}>
+            Contact
+          </Link>
         </nav>
 
         <div className="navbar-actions">

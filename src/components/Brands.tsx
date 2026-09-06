@@ -61,7 +61,7 @@ export default function Brands() {
     {
       heading: 'Hospitality & Healthcare Honours',
       text: 'The nominees were extremely impressive. The awards will act as a mark of approval that sets them above the rest and cement their position as IT pathbreakers in the healthcare domain.',
-      name: 'Hospitality & Healthcare Honours',
+      name: 'HHH',
       writerName:
         'Vikas Gadre | Adjunct Faculty & Chairperson for IS | NMIMS School of Business Management',
       role: 'H H H',
@@ -70,7 +70,7 @@ export default function Brands() {
     {
       heading: 'Hospitality & Healthcare Honours',
       text: 'It is an immense honour to win this prestigious recognition. It spurs us on to go the extra mile and consistently deliver in these constantly changing times.',
-      name: 'Hospitality & Healthcare Honours',
+      name: 'HHH',
       writerName: 'Sumit Singh | CIO | Wockhardt Hospital',
       role: 'H H H',
       image: '/assets/brands/HHH.png',

@@ -248,7 +248,12 @@ export default function Footer() {
               <FaLinkedinIn />
             </a>
 
-            <a href="https://www.youtube.com/@coremedia228" aria-label="YouTube">
+            <a
+              href="https://www.youtube.com/@coremedia228"
+              aria-label="YouTube"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <FaYoutube />
             </a>
           </div>
