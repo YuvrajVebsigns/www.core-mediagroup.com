@@ -730,6 +730,52 @@ main {
   gap: 8px;
 }
 
+.platform-mega-panel {
+  width: 260px;
+  overflow: visible;
+}
+
+.platform-menu-layout {
+  position: relative;
+}
+
+.platform-items-panel {
+  position: absolute;
+  top: -28px;
+  left: calc(100% + 8px);
+  width: 260px;
+  min-height: 100%;
+  padding: 28px;
+  border-radius: 16px;
+  background: #f7efef;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  animation: platform-flyout-in 0.2s ease-out;
+}
+
+@keyframes platform-flyout-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.platform-items-panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.platform-items-placeholder {
+  padding: 12px;
+  color: #777;
+  font-size: 14px;
+}
+
 .platform-region-option,
 .platform-region-back {
   display: flex;
@@ -749,9 +795,19 @@ main {
 }
 
 .platform-region-option:hover,
+.platform-region-option.active,
 .platform-region-back:hover {
   background: rgba(164, 0, 0, 0.06);
   color: #8e0101;
+}
+
+.platform-region-option svg {
+  transition: transform 0.2s ease;
+}
+
+.platform-region-option:hover svg,
+.platform-region-option.active svg {
+  transform: translateX(3px);
 }
 
 .platform-region-back {
@@ -1329,13 +1385,29 @@ main {
   .nav-dropdown.open .mega-panel {
     opacity: 1;
     visibility: visible;
-    max-height: 300px;
+    max-height: 520px;
     padding: 12px;
   }
 
   .mega-column ul li a,
   .mega-item {
     padding: 10px 12px;
+  }
+
+  .platform-mega-panel {
+    width: 100%;
+  }
+
+  .platform-menu-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .platform-items-panel {
+    padding-top: 12px;
+    padding-left: 0;
+    border-top: 1px solid rgba(142, 1, 1, 0.12);
+    border-left: 0;
   }
 }
 
@@ -10414,6 +10486,11 @@ main {
   scrollbar-color: #8e0101 #eadede;
 }
 
+.navbar .platform-mega-panel {
+  width: 260px;
+  overflow: visible;
+}
+
 /* Chrome, Edge, Safari */
 .mega-panel::-webkit-scrollbar {
   width: 6px;
@@ -10953,6 +11030,26 @@ main {
 
       max-height: 300px;
       padding: 12px;
+    }
+
+    .navbar .platform-mega-panel {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .platform-menu-layout {
+      position: static;
+    }
+
+    .platform-items-panel {
+      position: static;
+      width: 100%;
+      min-height: auto;
+      margin-top: 12px;
+      padding: 12px 0 0;
+      border-top: 1px solid rgba(142, 1, 1, 0.12);
+      border-radius: 0;
+      box-shadow: none;
     }
   }
 

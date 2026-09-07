@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronRight, ArrowUpRight } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
@@ -12,26 +12,25 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [platformsOpen, setPlatformsOpen] = useState(false);
+  const [associateOpen, setAssociateOpen] = useState(false);
+  const [digitalPlatformOpen, setDigitalPlatformOpen] = useState(false);
   const [platformRegion, setPlatformRegion] = useState<'india' | 'mea' | null>(null);
   const servicesCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const platformsCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const associateCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const digitalPlatformCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const platformGroups = {
     india: [
-      { name: 'CORE Media', href: 'https://aui.core-mediagroup.com' },
-      { name: 'CIO CROWN', href: 'https://www.ciocrown.com' },
-      { name: 'CIO POWERLIST', href: 'https://www.ciopowerlist.com' },
       { name: 'CIO CHOICE', href: 'https://www.cio-choice.in' },
-      { name: 'CIO DIALOGUES', href: 'https://www.ciodialogues.com' },
-      { name: 'DCCAI', href: 'https://www.core-mediagroup.com/dccai2026' },
+      { name: 'CIO POWERLIST', href: 'https://www.ciopowerlist.com' },
+      { name: 'CIO CROWN', href: 'https://www.ciocrown.com' },
       { name: 'BFSI TechWorld', href: 'https://www.core-mediagroup.com/bfsitechworld' },
-      { name: 'CFO POWER LIST', href: 'https://www.cfo-powerlist.com' },
+      { name: 'DCCAI', href: 'https://www.core-mediagroup.com/dccai2026' },
     ],
     mea: [
-      { name: 'CXO CAPITAL', href: 'https://www.cxo-capital.com' },
-      { name: 'CIO POWERLIST', href: 'https://www.cxo-capital.com/ciopowerlistmea' },
-      { name: 'CIO CROWN', href: 'https://www.cxo-capital.com/ciocrown' },
-      { name: 'CIO CHOICE', href: 'https://mea.cio-choice.com' },
+      { name: 'MEA CIO CHOICE', href: 'https://mea.cio-choice.com' },
+      { name: 'MEA CIO POWERLIST', href: 'https://www.cxo-capital.com/ciopowerlistmea' },
     ],
   };
 
@@ -81,10 +80,52 @@ export default function Navbar() {
     }, 140);
   };
 
+  const openAssociate = () => {
+    if (associateCloseTimer.current) {
+      clearTimeout(associateCloseTimer.current);
+      associateCloseTimer.current = null;
+    }
+
+    setAssociateOpen(true);
+  };
+
+  const closeAssociate = () => {
+    if (associateCloseTimer.current) {
+      clearTimeout(associateCloseTimer.current);
+    }
+
+    associateCloseTimer.current = setTimeout(() => {
+      setAssociateOpen(false);
+      associateCloseTimer.current = null;
+    }, 140);
+  };
+
+  const openDigitalPlatform = () => {
+    if (digitalPlatformCloseTimer.current) {
+      clearTimeout(digitalPlatformCloseTimer.current);
+      digitalPlatformCloseTimer.current = null;
+    }
+
+    setDigitalPlatformOpen(true);
+  };
+
+  const closeDigitalPlatform = () => {
+    if (digitalPlatformCloseTimer.current) {
+      clearTimeout(digitalPlatformCloseTimer.current);
+    }
+
+    digitalPlatformCloseTimer.current = setTimeout(() => {
+      setDigitalPlatformOpen(false);
+      digitalPlatformCloseTimer.current = null;
+    }, 140);
+  };
+
   const closeMobileMenu = () => {
     setMobileOpen(false);
     setServicesOpen(false);
     setPlatformsOpen(false);
+    setAssociateOpen(false);
+    setDigitalPlatformOpen(false);
     setPlatformRegion(null);
   };
 
@@ -194,13 +235,13 @@ export default function Navbar() {
           >
             Event
           </Link>
-          <Link
+          {/* <Link
             href="/videos"
             className={`nav-link ${pathname === '/videos' ? 'active' : ''}`}
             onClick={closeMobileMenu}
           >
             Video
-          </Link>
+          </Link> */}
 
           {/* <Link
             href="/register"
@@ -234,38 +275,31 @@ export default function Navbar() {
               />
             </button>
 
-            <div className="mega-panel" onMouseEnter={openPlatforms} onMouseLeave={closePlatforms}>
-              <div className="mega-column">
-                {!platformRegion ? (
-                  <div className="platform-region-options" aria-label="Platform region">
+            <div
+              className="mega-panel platform-mega-panel"
+              onMouseEnter={openPlatforms}
+              onMouseLeave={closePlatforms}
+            >
+              <div className="platform-menu-layout">
+                <div className="platform-region-options" aria-label="Platform region">
+                  {(['india', 'mea'] as const).map((region) => (
                     <button
+                      key={region}
                       type="button"
-                      className="platform-region-option"
-                      onClick={() => setPlatformRegion('india')}
+                      className={`platform-region-option${platformRegion === region ? ' active' : ''}`}
+                      aria-pressed={platformRegion === region}
+                      onMouseEnter={() => setPlatformRegion(region)}
+                      onFocus={() => setPlatformRegion(region)}
+                      onClick={() => setPlatformRegion(region)}
                     >
-                      India
-                      <ChevronDown size={15} />
+                      {region === 'india' ? 'India' : 'MEA'}
+                      <ChevronRight size={15} />
                     </button>
-                    <button
-                      type="button"
-                      className="platform-region-option"
-                      onClick={() => setPlatformRegion('mea')}
-                    >
-                      MEA
-                      <ChevronDown size={15} />
-                    </button>
-                  </div>
-                ) : (
-                  <>
-                    <button
-                      type="button"
-                      className="platform-region-back"
-                      onClick={() => setPlatformRegion(null)}
-                    >
-                      <ChevronDown size={15} />
-                      {platformRegion === 'india' ? 'India' : 'MEA'}
-                    </button>
+                  ))}
+                </div>
 
+                {platformRegion && (
+                  <div className="platform-items-panel">
                     <ul>
                       {platformGroups[platformRegion].map((platform) => (
                         <li key={platform.name}>
@@ -282,8 +316,94 @@ export default function Navbar() {
                         </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
                 )}
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`nav-dropdown ${digitalPlatformOpen ? 'open' : ''}`}
+            onMouseEnter={openDigitalPlatform}
+            onMouseLeave={closeDigitalPlatform}
+          >
+            <button
+              type="button"
+              className={`nav-link ${pathname === '/dialogues' ? 'active' : ''}`}
+              aria-expanded={digitalPlatformOpen}
+              onClick={() => setDigitalPlatformOpen((isOpen) => !isOpen)}
+            >
+              Digital Platform
+              <ChevronDown
+                size={16}
+                style={{
+                  transform: digitalPlatformOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: '0.3s ease',
+                }}
+              />
+            </button>
+
+            <div
+              className="mega-panel"
+              onMouseEnter={openDigitalPlatform}
+              onMouseLeave={closeDigitalPlatform}
+            >
+              <div className="mega-column">
+                <ul>
+                  <li>
+                    <a
+                      href="https://www.ciodialogues.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CIO DIALOGUES</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`nav-dropdown ${associateOpen ? 'open' : ''}`}
+            onMouseEnter={openAssociate}
+            onMouseLeave={closeAssociate}
+          >
+            <button
+              type="button"
+              className="nav-link"
+              aria-expanded={associateOpen}
+              onClick={() => setAssociateOpen((isOpen) => !isOpen)}
+            >
+              Associate
+              <ChevronDown
+                size={16}
+                style={{
+                  transform: associateOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: '0.3s ease',
+                }}
+              />
+            </button>
+
+            <div className="mega-panel" onMouseEnter={openAssociate} onMouseLeave={closeAssociate}>
+              <div className="mega-column">
+                <ul>
+                  <li>
+                    <a
+                      href="https://www.cxo-capital.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mega-item"
+                      onClick={closeMobileMenu}
+                    >
+                      <span className="mega-icon" aria-hidden />
+                      <span>CXO CAPITAL</span>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

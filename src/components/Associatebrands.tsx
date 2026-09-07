@@ -61,7 +61,7 @@ export default function AssociateBrandsPage() {
         </div>
       </section>
 
-      <section className="associate-brands-section">
+      <section id="associate-brands" className="associate-brands-section">
         <div className="associate-brands-container">
           <div className="associate-brands-grid">
             {associateBrands.map((brand, index) => (
