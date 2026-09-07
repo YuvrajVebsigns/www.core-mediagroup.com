@@ -18,7 +18,7 @@ export default function Navbar() {
 
   const platformGroups = {
     india: [
-      { name: 'CORE Media', href: 'https://www.core-mediagroup.com' },
+      { name: 'CORE Media', href: 'https://aui.core-mediagroup.com' },
       { name: 'CIO CROWN', href: 'https://www.ciocrown.com' },
       { name: 'CIO POWERLIST', href: 'https://www.ciopowerlist.com' },
       { name: 'CIO CHOICE', href: 'https://www.cio-choice.in' },

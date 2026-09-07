@@ -3472,6 +3472,42 @@ main {
   gap: 20px;
 }
 
+.events-filter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin: 0 0 24px;
+}
+
+.events-filter-button {
+  border: 1px solid rgba(142, 1, 1, 0.25);
+  border-radius: 999px;
+  padding: 9px 18px;
+  background: transparent;
+  color: #8e0101;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.events-filter-button:hover,
+.events-filter-button:focus-visible,
+.events-filter-button.active {
+  border-color: #8e0101;
+  background: #8e0101;
+  color: #fff;
+}
+
+.events-filter-button:focus-visible {
+  outline: 3px solid rgba(142, 1, 1, 0.2);
+  outline-offset: 2px;
+}
+
 .project-subtitle {
   font-size: 16px;
   letter-spacing: 0.16em;
