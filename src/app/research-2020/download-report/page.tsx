@@ -37,8 +37,10 @@ export default function DownloadReportPage() {
   }, [downloadUrl]);
 
   // Use API endpoint for direct download, only use external URL if valid
-  const finalUrl = urlStatus === 'valid' && downloadUrl ? downloadUrl : '/api/download-report';
-  const isExternalUrl = urlStatus === 'valid' && downloadUrl && downloadUrl.startsWith('http');
+  const finalUrl =
+    urlStatus === 'valid' && downloadUrl
+      ? `/api/download-report?url=${encodeURIComponent(downloadUrl)}`
+      : '/api/download-report';
 
   // Handle direct download with proper error handling and fallback
   const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -47,16 +49,6 @@ export default function DownloadReportPage() {
 
     try {
       const response = await fetch(finalUrl);
-
-      // If external URL fails, fall back to local endpoint
-      if (!response.ok && isExternalUrl) {
-        const fallbackResponse = await fetch('/api/download-report');
-        if (fallbackResponse.ok) {
-          const blob = await fallbackResponse.blob();
-          downloadBlob(blob, 'Business-Pulse-Report.pdf');
-          return;
-        }
-      }
 
       if (response.ok) {
         const blob = await response.blob();

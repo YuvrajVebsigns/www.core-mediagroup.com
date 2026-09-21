@@ -168,8 +168,10 @@ export default function DownloadReportPage() {
     setUrlStatus('invalid');
   }, [downloadUrl]);
 
-  const finalUrl = urlStatus === 'valid' && downloadUrl ? downloadUrl : '/api/download-report';
-  const isExternalUrl = urlStatus === 'valid' && downloadUrl && downloadUrl.startsWith('http');
+  const finalUrl =
+    urlStatus === 'valid' && downloadUrl
+      ? `/api/download-report?url=${encodeURIComponent(downloadUrl)}`
+      : '/api/download-report';
 
   const downloadBlob = (blob: Blob, filename: string) => {
     const url = window.URL.createObjectURL(blob);
@@ -191,16 +193,6 @@ export default function DownloadReportPage() {
 
     try {
       const response = await fetch(finalUrl);
-
-      if (!response.ok && isExternalUrl) {
-        const fallbackResponse = await fetch('/api/download-report');
-
-        if (fallbackResponse.ok) {
-          const blob = await fallbackResponse.blob();
-          downloadBlob(blob, 'Business-Pulse-Report.pdf');
-          return;
-        }
-      }
 
       if (response.ok) {
         const blob = await response.blob();
