@@ -6,6 +6,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { fetchWebsiteEvents, WebsiteEvent } from '@/services/events.service';
+import FallbackImage from '@/components/FallbackImage';
 
 function getStoredWebsiteId(): string | undefined {
   if (typeof window === 'undefined') return undefined;
@@ -25,6 +26,22 @@ function getStoredWebsiteId(): string | undefined {
   }
 
   return undefined;
+}
+
+function getEventImage(event: WebsiteEvent): string {
+  if (event.bannerImage?.medium) return event.bannerImage.medium;
+  if (event.bannerImage?.small) return event.bannerImage.small;
+  if (event.bannerImage?.original) return event.bannerImage.original;
+
+  if (event.bannerImageId?.urlVariants?.medium) return event.bannerImageId.urlVariants.medium;
+  if (event.bannerImageId?.urlVariants?.small) return event.bannerImageId.urlVariants.small;
+  if (event.bannerImageId?.url) return event.bannerImageId.url;
+
+  if (event.featureImage?.medium) return event.featureImage.medium;
+  if (event.featureImage?.small) return event.featureImage.small;
+  if (event.featureImage?.original) return event.featureImage.original;
+
+  return String(event.image ?? event.heroImage ?? event.banner ?? '/assets/blogs/blog-1.webp');
 }
 
 export default function ProjectsSection() {
@@ -127,9 +144,7 @@ export default function ProjectsSection() {
                       .replace(/\s+/g, '-')
                       .replace(/[^a-z0-9-]/g, '');
 
-              const imageSrc = String(
-                item.image ?? item.heroImage ?? item.banner ?? '/assets/blogs/blog-1.webp',
-              );
+              const imageSrc = getEventImage(item);
 
               const category = String(item.category ?? 'Events');
 
@@ -140,7 +155,13 @@ export default function ProjectsSection() {
                     ref={index === 0 ? customLeftRef : customRightRef}
                   >
                     <div className="project-image-wrap">
-                      <Image src={imageSrc} alt={title} fill className="project-image" />
+                      <FallbackImage
+                        src={imageSrc}
+                        alt={title}
+                        fill
+                        className="project-image"
+                        unoptimized={imageSrc.startsWith('http')}
+                      />
                     </div>
 
                     <div className="project-overlay">

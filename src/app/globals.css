@@ -3657,7 +3657,7 @@ main {
 
 .project-card.interactive:hover,
 .project-card.interactive:focus-visible {
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-4px);
   box-shadow:
     0 20px 50px rgba(137, 16, 16, 0.12),
     var(--shadow-lg);
@@ -3718,7 +3718,7 @@ main {
 }
 
 .project-card:hover .project-image {
-  transform: scale(1.08);
+  transform: scale(1.03);
 }
 
 /* stronger interactive transforms when card has interactive class */
@@ -3728,7 +3728,7 @@ main {
 }
 
 .project-card.interactive:hover .project-image {
-  transform: scale(1.14) rotateZ(-0.6deg) translateY(-6px);
+  transform: scale(1.03);
 }
 
 /* =========================================================
@@ -3761,7 +3761,7 @@ main {
 }
 
 .project-card.interactive:hover .project-video-wrap iframe {
-  transform: scale(1.14) rotateZ(-0.6deg) translateY(-6px);
+  transform: scale(1.03);
 }
 
 /* play button scale for interactive cards */

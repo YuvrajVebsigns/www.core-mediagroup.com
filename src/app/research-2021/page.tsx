@@ -584,21 +584,6 @@ export default function RegisterPage() {
             </label>
 
             <label className="registration-label">
-              Company Name *
-              <input
-                type="text"
-                placeholder="Company Name"
-                value={companyName}
-                disabled={loading}
-                onChange={(e) => {
-                  setCompanyName(e.target.value);
-                  if (errors.companyName) setErrors({ ...errors, companyName: undefined });
-                }}
-              />
-              {errors.companyName && <div className="registration-error">{errors.companyName}</div>}
-            </label>
-
-            <label className="registration-label">
               Last Name *
               <input
                 type="text"
@@ -614,6 +599,21 @@ export default function RegisterPage() {
                 }}
               />
               {errors.lastName && <div className="registration-error">{errors.lastName}</div>}
+            </label>
+
+            <label className="registration-label">
+              Company Name *
+              <input
+                type="text"
+                placeholder="Company Name"
+                value={companyName}
+                disabled={loading}
+                onChange={(e) => {
+                  setCompanyName(e.target.value);
+                  if (errors.companyName) setErrors({ ...errors, companyName: undefined });
+                }}
+              />
+              {errors.companyName && <div className="registration-error">{errors.companyName}</div>}
             </label>
 
             <label className="registration-label">

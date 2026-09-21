@@ -633,7 +633,7 @@ export default function ContactSection() {
 
             <span className="map-dot dot-1" aria-hidden="true" />
 
-            <span className="map-label label-1">India</span>
+            <span className="map-label label-1">Singapore</span>
 
             {/* DUBAI */}
 
@@ -645,7 +645,7 @@ export default function ContactSection() {
 
             <span className="map-dot dot-3" aria-hidden="true" />
 
-            <span className="map-label label-3">Singapore</span>
+            <span className="map-label label-3">India</span>
           </div>
         </div>
 
