@@ -216,7 +216,7 @@ export default function RegisterPage() {
               <input
                 type="tel"
                 name="phoneNumber"
-                placeholder="9876543210"
+                placeholder="9XXXXXXXX0"
                 value={phone}
                 inputMode="numeric"
                 maxLength={10}

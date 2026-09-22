@@ -137,12 +137,14 @@ export default function ProjectsSection() {
               );
 
               const slug =
-                item.id && typeof item.id === 'string'
-                  ? item.id
-                  : title
-                      .toLowerCase()
-                      .replace(/\s+/g, '-')
-                      .replace(/[^a-z0-9-]/g, '');
+                item.slug && typeof item.slug === 'string'
+                  ? item.slug
+                  : item.id && typeof item.id === 'string'
+                    ? item.id
+                    : title
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')
+                        .replace(/[^a-z0-9-]/g, '');
 
               const imageSrc = getEventImage(item);
 
