@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import type { Country } from 'react-phone-number-input';
 import CountryCodeSelect, { getDialCodeFromCountry } from '@/components/CountryCodeSelect';
 import { submitAttendeeRegistration } from '@/services/attendees.service';
@@ -8,14 +9,35 @@ import { fetchWebsiteEvents, WebsiteEvent } from '@/services/events.service';
 
 type EventItem = WebsiteEvent;
 
-export default function RegisterPage() {
+function RegisterForm() {
+  const searchParams = useSearchParams();
+
+  /**
+   * Offline QR registration flow:
+   * When a user scans the on-campus QR poster the URL will include
+   * `?offlineKey=<token>` (and optionally `mode=offline`).
+   * We extract these so the backend can auto-approve the registration.
+   */
+  const offlineKey =
+    searchParams.get('offlineKey') ||
+    searchParams.get('key') ||
+    searchParams.get('offline_key') ||
+    searchParams.get('token') ||
+    undefined;
+  const offlineMode = searchParams.get('mode') ?? undefined;
+  const isOffline = useMemo(
+    () => Boolean(offlineKey) || offlineMode === 'offline',
+    [offlineKey, offlineMode],
+  );
+
   const [events, setEvents] = useState<EventItem[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [country, setCountry] = useState<Country>('IN');
   const [phone, setPhone] = useState('');
   const [organization, setOrganization] = useState('');
-  const [selectedEvent, setSelectedEvent] = useState<string | ''>('');
+  const paramEvent = searchParams.get('eventId') || searchParams.get('event');
+  const [selectedEvent, setSelectedEvent] = useState<string | ''>(paramEvent || '');
   const [popupMessage, setPopupMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -30,9 +52,16 @@ export default function RegisterPage() {
 
   useEffect(() => {
     fetchWebsiteEvents()
-      .then((data: WebsiteEvent[]) => setEvents(data))
+      .then((data: WebsiteEvent[]) => {
+        setEvents(data);
+        if (paramEvent) {
+          const match = data.find((e) => e.id === paramEvent || e.slug === paramEvent);
+          if (match) setSelectedEvent(match.id);
+          else setSelectedEvent(paramEvent);
+        }
+      })
       .catch(() => setEvents([]));
-  }, []);
+  }, [paramEvent]);
 
   useEffect(() => {
     if (!popupMessage) return;
@@ -100,6 +129,13 @@ export default function RegisterPage() {
         phoneNumber: phone.trim(),
         countryCode: getDialCodeFromCountry(country),
         organization: organization.trim(),
+        // Offline QR registration fields — only sent when user scanned the on-campus QR code
+        ...(isOffline && {
+          isOffline: true,
+          offlineKey,
+          registrationSource: 'offline',
+          mode: offlineMode || 'offline',
+        }),
       });
 
       const apiMessage =
@@ -114,7 +150,7 @@ export default function RegisterPage() {
       setCountry('IN');
       setPhone('');
       setOrganization('');
-      setSelectedEvent('');
+      setSelectedEvent(paramEvent || '');
       setErrors({});
     } catch (err) {
       setPopupMessage(err instanceof Error ? err.message : 'Network error. Please try again.');
@@ -142,6 +178,42 @@ export default function RegisterPage() {
           ) : null}
 
           <h2 className="registration-title">Event Registration</h2>
+
+          {isOffline && (
+            <div
+              style={{
+                marginBottom: '20px',
+                padding: '12px 16px',
+                borderRadius: '10px',
+                background: 'rgba(126, 34, 206, 0.08)',
+                border: '1px solid rgba(126, 34, 206, 0.25)',
+                color: '#6b21a8',
+                fontSize: '13px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: 800,
+                  fontSize: '10px',
+                  letterSpacing: '0.5px',
+                  textTransform: 'uppercase',
+                  background: '#7e22ce',
+                  color: '#fff',
+                  padding: '2px 8px',
+                  borderRadius: '6px',
+                }}
+              >
+                Campus QR
+              </span>
+              <span>
+                <strong>Exclusive On-Campus Registration:</strong> Your event entry pass will be
+                automatically approved upon submission.
+              </span>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="registration-form">
             <label className="registration-label">
@@ -263,7 +335,19 @@ export default function RegisterPage() {
             </label>
 
             <label className="registration-label">
-              Select Event*
+              Select Event*{' '}
+              {paramEvent && (
+                <span
+                  style={{
+                    fontSize: '11px',
+                    color: '#4f46e5',
+                    fontWeight: 600,
+                    marginLeft: '6px',
+                  }}
+                >
+                  🔒 (Locked for this event)
+                </span>
+              )}
               <select
                 value={selectedEvent}
                 onChange={(e) => {
@@ -276,6 +360,17 @@ export default function RegisterPage() {
                     });
                   }
                 }}
+                disabled={Boolean(paramEvent)}
+                style={
+                  paramEvent
+                    ? {
+                        cursor: 'not-allowed',
+                        backgroundColor: '#f3f4f6',
+                        color: '#374151',
+                        opacity: 0.85,
+                      }
+                    : undefined
+                }
               >
                 <option value="">-- Select an event --</option>
 
@@ -284,6 +379,10 @@ export default function RegisterPage() {
                     {ev.title}
                   </option>
                 ))}
+
+                {Boolean(paramEvent) && !events.some((ev) => ev.id === selectedEvent) && (
+                  <option value={selectedEvent}>{selectedEvent}</option>
+                )}
               </select>
               {errors.selectedEvent && (
                 <div className="registration-error">{errors.selectedEvent}</div>
@@ -318,5 +417,26 @@ export default function RegisterPage() {
         </div>
       </div>
     </section>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            minHeight: '60vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          Loading registration...
+        </div>
+      }
+    >
+      <RegisterForm />
+    </Suspense>
   );
 }
