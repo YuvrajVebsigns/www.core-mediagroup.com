@@ -1,48 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
   <url>
-    <loc>https://www.core-mediagroup.com/</loc>
+       <loc>https://core-mediagroup.com/</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>1.0000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/about-us</loc>
+       <loc>https://core-mediagroup.com/about-us</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/Founder-Message</loc>
+       <loc>https://core-mediagroup.com/survey-study</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/bespoke-events</loc>
+       <loc>https://core-mediagroup.com/video</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/blog</loc>
+       <loc>https://core-mediagroup.com/bespoke-events</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/contact</loc>
+       <loc>https://core-mediagroup.com/digital-marketing</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/dialogues</loc>
+       <loc>https://core-mediagroup.com/blog</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/digital-marketing</loc>
+       <loc>https://core-mediagroup.com/events</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/events</loc>
+       <loc>https://core-mediagroup.com/contact</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/nominate</loc>
+       <loc>https://core-mediagroup.com/Founder-Message</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/research-2020</loc>
+       <loc>https://core-mediagroup.com/videos</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/research-2021</loc>
+       <loc>https://core-mediagroup.com/research-2021</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/survey-study</loc>
+       <loc>https://core-mediagroup.com/research-2020</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
   <url>
-    <loc>https://www.core-mediagroup.com/video</loc>
-  </url>
-  <url>
-    <loc>https://www.core-mediagroup.com/videos</loc>
+       <loc>https://core-mediagroup.com/dialogues</loc>
+       <lastmod>2026-10-21T10:38:08+00:00</lastmod>
+       <priority>0.8000</priority>
   </url>
 </urlset>
