@@ -57,8 +57,5 @@
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "engines": {
-    "node": ">=20.10.0"
   }
 }
