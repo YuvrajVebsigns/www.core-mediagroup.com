@@ -19,7 +19,10 @@ export const metadata: Metadata = {
   title: 'CORE Media',
   description: 'Core Media Administration Dashboard — Manage users, media, and system settings.',
   keywords: ['admin', 'dashboard', 'core media', 'management'],
-  robots: 'noindex, nofollow',
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
