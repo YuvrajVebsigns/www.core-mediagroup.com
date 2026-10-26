@@ -9,72 +9,66 @@ export default function DownloadReportPage() {
   const downloadUrl = searchParams.get('url');
   const [urlStatus, setUrlStatus] = useState<'valid' | 'invalid' | 'checking'>('checking');
   const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
 
-  // Validate the API URL if provided
   useEffect(() => {
     if (!downloadUrl) {
       setUrlStatus('invalid');
       return;
     }
 
-    // Check if URL contains error indicators
-    if (
-      downloadUrl.includes('NoSuchBucket') ||
-      downloadUrl.includes('error') ||
-      downloadUrl.includes('null')
-    ) {
+    try {
+      const reportUrl = new URL(downloadUrl);
+      setUrlStatus(
+        reportUrl.protocol === 'https:' &&
+          reportUrl.hostname === 'coremediagroup.sgp1.digitaloceanspaces.com'
+          ? 'valid'
+          : 'invalid',
+      );
+    } catch {
       setUrlStatus('invalid');
-      return;
     }
-
-    // Accept valid URLs from trusted domains or PDF files
-    if (downloadUrl.startsWith('http') && downloadUrl.includes('.pdf')) {
-      setUrlStatus('valid');
-      return;
-    }
-
-    setUrlStatus('invalid');
   }, [downloadUrl]);
 
-  // Use API endpoint for direct download, only use external URL if valid
   const finalUrl =
     urlStatus === 'valid' && downloadUrl
       ? `/api/download-report?url=${encodeURIComponent(downloadUrl)}`
-      : '/api/download-report';
+      : null;
 
-  // Handle direct download with proper error handling and fallback
   const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+
+    if (!finalUrl) {
+      setDownloadError(
+        'The 2020 report download link is unavailable. Please submit the form again.',
+      );
+      return;
+    }
+
     setIsDownloading(true);
+    setDownloadError(null);
 
     try {
       const response = await fetch(finalUrl);
 
-      if (response.ok) {
-        const blob = await response.blob();
-        downloadBlob(blob, 'Business-Pulse-Report.pdf');
-      } else {
-        alert('Download failed. Please try again.');
+      if (!response.ok) {
+        setDownloadError('The 2020 report could not be downloaded. Please try again later.');
+        return;
       }
-    } catch {
-      try {
-        const fallbackResponse = await fetch('/api/download-report');
 
-        if (fallbackResponse.ok) {
-          const blob = await fallbackResponse.blob();
-          downloadBlob(blob, 'Business-Pulse-Report.pdf');
-        } else {
-          alert('Download failed. Please try again.');
-        }
-      } catch {
-        alert('Download failed. Please try again.');
-      }
+      const blob = await response.blob();
+      downloadBlob(blob, 'Business-Pulse-Report-2020.pdf');
+    } catch (error) {
+      setDownloadError(
+        error instanceof Error
+          ? `Unable to fetch the 2020 report: ${error.message}`
+          : 'Unable to fetch the 2020 report. Please try again later.',
+      );
     } finally {
       setIsDownloading(false);
     }
   };
 
-  // Helper function to trigger download
   const downloadBlob = (blob: Blob, filename: string) => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -96,11 +90,17 @@ export default function DownloadReportPage() {
         <h1>Thank you for submitting your details!</h1>
 
         <p>Click the button below to download the Business Pulse Report.</p>
+        {downloadError && (
+          <p role="alert" aria-live="polite">
+            {downloadError}
+          </p>
+        )}
 
         <a
           href="#"
           onClick={handleDownload}
           className="download-report-btn"
+          aria-disabled={isDownloading || urlStatus !== 'valid'}
           style={{
             pointerEvents: isDownloading ? 'none' : 'auto',
             opacity: isDownloading ? 0.6 : 1,

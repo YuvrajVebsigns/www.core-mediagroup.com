@@ -366,7 +366,7 @@ import CountryCodeSelect, { getDialCodeFromCountry } from '@/components/CountryC
 import { submitReportDownload, getDownloadUrl } from '@/services/reports.service';
 
 // Report ID for CIO Outlook Survey 2020 Business Pulse Report
-const REPORT_ID_2020 = '6a2aa3ab06d86bdecfd21646';
+const REPORT_ID_2020 = '6adfc7239132c6df6351a420';
 
 const industries = [
   '',

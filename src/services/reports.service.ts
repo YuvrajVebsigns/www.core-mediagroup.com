@@ -79,17 +79,14 @@ export async function submitReportDownload(
 export function getDownloadUrl(response: ReportDownloadResponse): string | null {
   if (!response) return null;
 
-  // Try multiple possible response structures
-  if (typeof response.downloadUrl === 'string') return response.downloadUrl;
-  if (typeof response.reportUrl === 'string') return response.reportUrl;
-  if (typeof response.url === 'string') return response.url;
+  const urls = [
+    response.downloadUrl,
+    response.reportUrl,
+    response.url,
+    response.data?.downloadUrl,
+    response.data?.reportUrl,
+    response.data?.url,
+  ];
 
-  const data = response.data;
-  if (data) {
-    if (typeof data.downloadUrl === 'string') return data.downloadUrl;
-    if (typeof data.reportUrl === 'string') return data.reportUrl;
-    if (typeof data.url === 'string') return data.url;
-  }
-
-  return null;
+  return urls.find((url) => typeof url === 'string' && url.trim().length > 0)?.trim() ?? null;
 }
