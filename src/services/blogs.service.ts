@@ -71,7 +71,7 @@ export interface WebsiteBlogContentBlock {
     text?: string;
     level?: number;
     style?: string;
-    items?: string[];
+    items?: unknown[];
     file?: { url?: string };
     caption?: string;
     [key: string]: unknown;
@@ -99,8 +99,17 @@ export interface WebsiteBlogComment {
   name?: string;
   email?: string;
   message?: string;
+  status?: string;
   isApproved?: boolean;
   createdAt?: string;
+}
+
+export function isWebsiteBlogCommentApproved(comment: WebsiteBlogComment) {
+  if (typeof comment.status === 'string') {
+    return comment.status.trim().toLowerCase() === 'approved';
+  }
+
+  return comment.isApproved === true;
 }
 
 export type SubmitBlogCommentInput = {
@@ -878,6 +887,11 @@ export async function fetchWebsiteBlogComments(blogId: string) {
   } catch {
     return { success: true, message: 'No comments', data: [] } as WebsiteBlogCommentsResponse;
   }
+}
+
+export async function fetchApprovedWebsiteBlogComments(blogId: string) {
+  const response = await fetchWebsiteBlogComments(blogId);
+  return (response.data ?? []).filter(isWebsiteBlogCommentApproved);
 }
 
 export async function submitWebsiteBlogComment(blogId: string, payload: SubmitBlogCommentInput) {

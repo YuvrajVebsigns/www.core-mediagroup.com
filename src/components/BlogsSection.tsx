@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 // import BlogCommentsPanel from '@/components/BlogCommentsPanel';
 import {
+  fetchApprovedWebsiteBlogComments,
   fetchWebsiteBlogs,
   submitWebsiteBlogLike,
   type WebsiteBlogItem,
@@ -32,6 +33,7 @@ export default function BlogsSection() {
   const [blogs, setBlogs] = useState<WebsiteBlogItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [likedBlogs, setLikedBlogs] = useState<Set<string>>(new Set());
+  const [approvedCommentsCounts, setApprovedCommentsCounts] = useState<Record<string, number>>({});
 
   const LIKED_KEY = 'likedBlogs';
 
@@ -100,10 +102,6 @@ export default function BlogsSection() {
     return typeof blog.engagement?.likes === 'number' && blog.engagement.likes > 0
       ? blog.engagement.likes
       : 0;
-  }
-
-  function getCommentsCount(blog: WebsiteBlogItem) {
-    return typeof blog.engagement?.commentsCount === 'number' ? blog.engagement.commentsCount : 0;
   }
 
   async function handleLikeClick(e: React.MouseEvent<HTMLButtonElement>, blogId?: string) {
@@ -178,8 +176,19 @@ export default function BlogsSection() {
         const response = await fetchWebsiteBlogs(1, 3);
 
         if (isMounted) {
-          setBlogs(response.data?.data?.slice(0, 3) ?? []);
+          const items = response.data?.data?.slice(0, 3) ?? [];
+          setBlogs(items);
+          setApprovedCommentsCounts({});
           setIsLoading(false);
+
+          void Promise.all(
+            items.map(async (blog) => {
+              const comments = await fetchApprovedWebsiteBlogComments(blog.id);
+              return [String(blog.id), comments.length] as const;
+            }),
+          ).then((counts) => {
+            if (isMounted) setApprovedCommentsCounts(Object.fromEntries(counts));
+          });
         }
       } catch {
         if (isMounted) {
@@ -224,6 +233,7 @@ export default function BlogsSection() {
 
           {blogs.map((blog, index) => {
             const liked = likedBlogs.has(String(blog.id));
+            const approvedCommentsCount = approvedCommentsCounts[String(blog.id)];
 
             return (
               <div className="blog-card" key={String(blog.id)} ref={blogRefs[index]}>
@@ -281,13 +291,15 @@ export default function BlogsSection() {
                         <span>{getLikesCount(blog)}</span>
                       </button>
 
-                      <span
-                        className="blog-engagement-item"
-                        aria-label={`${getCommentsCount(blog)} comments`}
-                      >
-                        <MessageCircle size={14} />
-                        <span>{getCommentsCount(blog)}</span>
-                      </span>
+                      {approvedCommentsCount !== undefined ? (
+                        <span
+                          className="blog-engagement-item"
+                          aria-label={`${approvedCommentsCount} approved comments`}
+                        >
+                          <MessageCircle size={14} />
+                          <span>{approvedCommentsCount}</span>
+                        </span>
+                      ) : null}
                     </span>
                   </div>
                 </div>

@@ -14,6 +14,7 @@ type Dialogue = {
   author: string;
   role: string;
   avatar?: string;
+  websiteUrl?: string;
 };
 
 type DialogueRawItem = {
@@ -23,6 +24,7 @@ type DialogueRawItem = {
   author?: string;
   role?: string;
   avatar?: string;
+  websiteUrl?: string;
 };
 
 function FallbackAvatar({ src, alt }: { src?: string; alt?: string }) {
@@ -132,6 +134,7 @@ export default function OurDialogues() {
             author: item.author ?? 'Unknown',
             role: item.role ?? '',
             avatar: item.avatar ?? '',
+            websiteUrl: item.websiteUrl ?? '',
           }));
           setDialogues(mapped);
         } else {
@@ -153,10 +156,17 @@ export default function OurDialogues() {
     return match ? match[0] : null;
   };
 
-  const toggleExpanded = (id: number | string, quote: string) => {
-    const link = extractFirstLink(quote);
-    if (link) {
-      window.open(link, '_blank', 'noopener noreferrer');
+  const toggleExpanded = (websiteUrl: string | undefined, quote: string) => {
+    const link = websiteUrl || extractFirstLink(quote);
+    if (!link) return;
+
+    try {
+      const url = new URL(link);
+      if (url.protocol === 'http:' || url.protocol === 'https:') {
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
+      }
+    } catch {
+      return;
     }
   };
 
@@ -229,11 +239,11 @@ export default function OurDialogues() {
                     <div className="dialogue-text">
                       <p className="dialogue-description">{renderQuoteWithLinks(previewText)}</p>
 
-                      {dialogue.quote.length > 180 ? (
+                      {dialogue.quote.length > 180 || dialogue.websiteUrl ? (
                         <button
                           type="button"
                           className="dialogue-read-more"
-                          onClick={() => toggleExpanded(dialogue.id, dialogue.quote)}
+                          onClick={() => toggleExpanded(dialogue.websiteUrl, dialogue.quote)}
                         >
                           Read More
                         </button>

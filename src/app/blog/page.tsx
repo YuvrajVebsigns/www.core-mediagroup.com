@@ -6,6 +6,7 @@ import { ArrowUpRight, ChevronRight, ChevronLeft, Heart, MessageCircle } from 'l
 import { useEffect, useState } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import {
+  fetchApprovedWebsiteBlogComments,
   fetchWebsiteBlogs,
   submitWebsiteBlogLike,
   type WebsiteBlogItem,
@@ -82,16 +83,27 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
       ? blog.engagement.likes
       : 0;
 
-  const commentsCount =
-    typeof blog.engagement?.commentsCount === 'number' ? blog.engagement.commentsCount : 0;
-
   const [localLikes, setLocalLikes] = useState<number>(likesCount);
   const [liked, setLiked] = useState<boolean>(false);
+  const [approvedCommentsCount, setApprovedCommentsCount] = useState<number | null>(null);
 
   useEffect(() => {
     setLiked(isBlogLiked(blog.id));
     setLocalLikes(likesCount);
   }, [blog.id, likesCount]);
+
+  useEffect(() => {
+    let isActive = true;
+    setApprovedCommentsCount(null);
+
+    void fetchApprovedWebsiteBlogComments(blog.id).then((comments) => {
+      if (isActive) setApprovedCommentsCount(comments.length);
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [blog.id]);
 
   async function handleLikeClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
@@ -131,10 +143,11 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
     threshold: 0.12,
     once: false,
   });
+  const description = getBlogDescription(blog);
 
   return (
     <article ref={ref} className="blogpage-card" style={{ transitionDelay: `${index * 60}ms` }}>
-      <div className="blogpage-image-wrap">
+      <div>
         <Link href={`/blog/${blog.slug}`} aria-label={`Open blog ${blog.title}`}>
           <Image
             src={getBlogImage(blog)}
@@ -154,11 +167,13 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
       </div>
 
       <div className="blogpage-content">
-        <div className="blogpage-meta">
+        {/* <div className="blogpage-meta">
           <span className="blogpage-category">{getBlogCategory(blog)}</span>
-        </div>
+        </div> */}
 
         <h4 className="blogpage-heading blogpage-heading-fixed">{blog.title}</h4>
+
+        {description ? <p className="blogpage-description">{description}</p> : null}
 
         <div className="blogpage-footer">
           <Link href={`/blog/${blog.slug}`} className="blogpage-readmore">
@@ -179,10 +194,15 @@ function AnimatedBlogCard({ blog, index, variant = 'animate-fade-in' }: Animated
               <span>{localLikes}</span>
             </button>
 
-            <span className="blogpage-engagement-item" aria-label={`${commentsCount} comments`}>
-              <MessageCircle size={14} />
-              <span>{commentsCount}</span>
-            </span>
+            {approvedCommentsCount !== null ? (
+              <span
+                className="blogpage-engagement-item"
+                aria-label={`${approvedCommentsCount} approved comments`}
+              >
+                <MessageCircle size={14} />
+                <span>{approvedCommentsCount}</span>
+              </span>
+            ) : null}
           </span>
         </div>
       </div>

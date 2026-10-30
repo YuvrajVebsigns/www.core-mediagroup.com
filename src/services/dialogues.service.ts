@@ -947,13 +947,7 @@ export interface WebsiteDialoguesPageResponse {
     sections?: Array<{
       type?: string;
       data?: {
-        testimonials?: Array<{
-          author?: string;
-          role?: string;
-          quote?: string;
-          avatar?: string;
-          id?: string | number;
-        }>;
+        testimonials?: WebsiteDialogueTestimonial[];
       };
     }>;
     content?: {
@@ -963,6 +957,52 @@ export interface WebsiteDialoguesPageResponse {
       }>;
     };
   };
+}
+
+type WebsiteDialogueTestimonial = {
+  id?: string | number;
+  slug?: string;
+  author?: string;
+  role?: string;
+  quote?: string;
+  avatar?: string;
+  websiteUrl?: string;
+  website_url?: string;
+  url?: string;
+  website?: string | { url?: string };
+};
+
+function getHttpUrl(value?: string) {
+  if (!value) return '';
+
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
+function mapDialogueTestimonials(items: WebsiteDialogueTestimonial[]) {
+  return items.map((item) => {
+    const role = item.role?.trim() ?? '';
+    const websiteUrl =
+      getHttpUrl(item.websiteUrl) ||
+      getHttpUrl(item.website_url) ||
+      getHttpUrl(item.url) ||
+      getHttpUrl(typeof item.website === 'string' ? item.website : item.website?.url) ||
+      getHttpUrl(role);
+
+    return {
+      id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
+      slug: item.slug ?? '',
+      author: item.author ?? 'Unknown',
+      role: getHttpUrl(role) ? '' : role,
+      quote: item.quote ?? '',
+      avatar: item.avatar ?? '',
+      websiteUrl,
+    };
+  });
 }
 
 export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'coremediagroup.com') {
@@ -988,13 +1028,7 @@ export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'corem
       )?.data?.testimonials;
 
       if (Array.isArray(testimonials) && testimonials.length > 0) {
-        return testimonials.map((item) => ({
-          id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
-          author: item.author ?? 'Unknown',
-          role: item.role ?? '',
-          quote: item.quote ?? '',
-          avatar: item.avatar ?? '',
-        }));
+        return mapDialogueTestimonials(testimonials);
       }
 
       const blockTestimonials = response.data.content?.blocks?.find(
@@ -1003,13 +1037,7 @@ export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'corem
       )?.data?.testimonials;
 
       if (Array.isArray(blockTestimonials) && blockTestimonials.length > 0) {
-        return blockTestimonials.map((item) => ({
-          id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
-          author: item.author ?? 'Unknown',
-          role: item.role ?? '',
-          quote: item.quote ?? '',
-          avatar: item.avatar ?? '',
-        }));
+        return mapDialogueTestimonials(blockTestimonials as WebsiteDialogueTestimonial[]);
       }
     }
   } catch (error: unknown) {
@@ -1036,13 +1064,7 @@ export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'corem
           )?.data?.testimonials;
 
           if (Array.isArray(testimonials) && testimonials.length > 0) {
-            return testimonials.map((item) => ({
-              id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
-              author: item.author ?? 'Unknown',
-              role: item.role ?? '',
-              quote: item.quote ?? '',
-              avatar: item.avatar ?? '',
-            }));
+            return mapDialogueTestimonials(testimonials);
           }
 
           const blockTestimonials = retryResponse.data.content?.blocks?.find(
@@ -1051,13 +1073,7 @@ export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'corem
           )?.data?.testimonials;
 
           if (Array.isArray(blockTestimonials) && blockTestimonials.length > 0) {
-            return blockTestimonials.map((item) => ({
-              id: item.id ?? `${item.author ?? 'dialogue'}-${Math.random().toString(36).slice(2)}`,
-              author: item.author ?? 'Unknown',
-              role: item.role ?? '',
-              quote: item.quote ?? '',
-              avatar: item.avatar ?? '',
-            }));
+            return mapDialogueTestimonials(blockTestimonials as WebsiteDialogueTestimonial[]);
           }
         }
       }
@@ -1070,5 +1086,6 @@ export async function fetchDialoguesFromPage(slug = 'dialogues', domain = 'corem
     role: string;
     quote: string;
     avatar: string;
+    websiteUrl: string;
   }>;
 }

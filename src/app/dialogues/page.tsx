@@ -31,6 +31,7 @@ type DialoguePage = {
   author: string;
   role: string;
   avatar?: string;
+  websiteUrl?: string;
 };
 
 // type DialogueCard = {
@@ -47,6 +48,7 @@ type DialogueCard = {
   author: string;
   role: string;
   avatar?: string;
+  websiteUrl?: string;
 };
 
 type DialogueRawItem = {
@@ -56,6 +58,7 @@ type DialogueRawItem = {
   author?: string;
   role?: string;
   avatar?: string;
+  websiteUrl?: string;
 };
 
 async function getDialoguesPages(): Promise<DialoguePage[]> {
@@ -70,6 +73,7 @@ async function getDialoguesPages(): Promise<DialoguePage[]> {
       author: it.author ?? 'Unknown',
       role: it.role ?? '',
       avatar: it.avatar ?? '',
+      websiteUrl: it.websiteUrl ?? '',
     }));
   } catch {
     return [];
@@ -421,10 +425,17 @@ function AnimatedDialogueCard({
     return match ? match[0] : null;
   };
 
-  const handleReadMore = (quote: string) => {
-    const link = extractFirstLink(quote);
-    if (link) {
-      window.open(link, '_blank', 'noopener noreferrer');
+  const handleReadMore = (websiteUrl: string | undefined, quote: string) => {
+    const link = websiteUrl || extractFirstLink(quote);
+    if (!link) return;
+
+    try {
+      const url = new URL(link);
+      if (url.protocol === 'http:' || url.protocol === 'https:') {
+        window.open(url.toString(), '_blank', 'noopener,noreferrer');
+      }
+    } catch {
+      return;
     }
   };
 
@@ -464,11 +475,11 @@ function AnimatedDialogueCard({
       <div className="dialogue-text">
         <p className="dialogue-description">{renderQuoteWithLinks(previewText)}</p>
 
-        {dialogue.quote.length > 180 ? (
+        {dialogue.quote.length > 180 || dialogue.websiteUrl ? (
           <button
             type="button"
             className="dialogue-read-more"
-            onClick={() => handleReadMore(dialogue.quote)}
+            onClick={() => handleReadMore(dialogue.websiteUrl, dialogue.quote)}
           >
             Read More
           </button>

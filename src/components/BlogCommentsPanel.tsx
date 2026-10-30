@@ -160,7 +160,7 @@
 
 import { useEffect, useState } from 'react';
 import {
-  fetchWebsiteBlogComments,
+  fetchApprovedWebsiteBlogComments,
   submitWebsiteBlogComment,
   type WebsiteBlogComment,
 } from '@/services/blogs.service';
@@ -196,9 +196,7 @@ export default function BlogCommentsPanel({ blogId }: BlogCommentsPanelProps) {
     setErrorMessage('');
 
     try {
-      const response = await fetchWebsiteBlogComments(blogId);
-      const approved = (response.data ?? []).filter((comment) => comment.isApproved !== false);
-      setComments(approved);
+      setComments(await fetchApprovedWebsiteBlogComments(blogId));
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : 'Failed to load comments.');
     } finally {
